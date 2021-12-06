@@ -1,5 +1,4 @@
-import { Navbar, Container, Nav } from "react-bootstrap";
-import Button from "react-bootstrap/button";
+import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import "./Header.css";
 import { useWallet } from '@tezos-contrib/react-wallet-provider';
 
