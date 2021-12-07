@@ -1,6 +1,7 @@
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import "./Header.css";
 import { useWallet } from '@tezos-contrib/react-wallet-provider';
+import { NavLink } from "react-router-dom";
 
 function WalletManagement(props:any) {
     const { connected, connect, disconnect, activeAccount } = useWallet("CUSTOM", "https://rpc.hangzhounet.teztnets.xyz", "Hangzhounet");
@@ -19,8 +20,8 @@ function Header(props:any) {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
-                        <Nav.Link href="/">Home</Nav.Link>
-                        <Nav.Link href="/bets">My bets</Nav.Link>
+                        <NavLink className="nav-link" to="/">Home</NavLink>
+                        <NavLink className="nav-link" to="/dashboard">My bets</NavLink>
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">

@@ -2,8 +2,9 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Container, Row, Col } from 'react-bootstrap';
-import GameList from './GameList';
-import Header from './Header';
+import Header from './components/Header';
+import Footer from './components/Footer';
+import { Outlet } from "react-router-dom";
 
 
 function App() {
@@ -14,11 +15,12 @@ function App() {
                 <Row>
                     <Col></Col>
                     <Col xs={9}>
-                        <GameList />
+                        <Outlet />
                     </Col>
                     <Col></Col>
                 </Row>
             </Container>
+            <Footer />
         </div>
     );
 }
