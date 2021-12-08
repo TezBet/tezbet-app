@@ -14,7 +14,7 @@ function WalletManagement(props:any) {
 
 function Header(props:any) {
     return (
-        <Navbar bg="secondary" expand="lg" variant="dark" fixed="top">
+        <Navbar expand="lg" variant="dark" fixed="top">
             <Container>
                 <Navbar.Brand href="/">TezBet</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />

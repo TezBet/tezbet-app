@@ -6,7 +6,7 @@ function Footer() {
         <Container fluid className="footer">
             <Row>
                 <Col></Col>
-                <Col><p>Copyright TezBet</p></Col>
+                <Col><p className="footer-vertical-align" >Copyright TezBet</p></Col>
                 <Col></Col>
             </Row>
         </Container>

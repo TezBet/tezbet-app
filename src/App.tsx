@@ -2,14 +2,17 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Container, Row, Col } from 'react-bootstrap';
+import { Outlet } from "react-router-dom";
+
 import Header from './components/Header';
 import Footer from './components/Footer';
-import { Outlet } from "react-router-dom";
+import Balls from './components/Balls';
 
 
 function App() {
     return (
         <div>
+            <Balls />
             <Header />
             <Container className="main-container">
                 <Row>

@@ -1,6 +1,6 @@
 import './GameList.css';
 
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Placeholder } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 import TZKTLink from './TZKTLink';
@@ -19,7 +19,20 @@ function GameList() {
             <GameItem teamA="Ireland" teamB="Scotland" teamABets={300} teamBBets={500} tieBets={800} teamAScore={5} teamBScore={4} />
             <GameItem teamA="Croatia" teamB="Canada" teamABets={300} teamBBets={500} tieBets={800} teamAScore={0} teamBScore={3} />
             <GameItem teamA="England" teamB="Poland" teamABets={300} teamBBets={500} tieBets={800} teamAScore={0} teamBScore={1} />
+            <GameItemPlaceholder />
         </Row>
+    </Container>;
+}
+
+function GameItemPlaceholder() {
+    return <Container className="game-item game-item-placeholder" style={{textAlign:"left"}}>
+        <Row><Placeholder style={{textAlign: "center"}} as="span" animation="glow"><Placeholder xs={4} size="lg" /></Placeholder></Row>
+            {[...Array(3)].map((x, i) => <Row key={i}>{[...Array(6)].map((y, j) => 
+                <Col key={i + "-" + j} xs={2}>
+                    <Placeholder style={{textAlign: "center"}} as="span" animation="glow"><Placeholder xs={12} /></Placeholder>
+                </Col>
+            )} 
+        </Row>)}
     </Container>;
 }
 
@@ -29,7 +42,7 @@ function GameItem(props:any) {
     const oddTeamB  = (total / props.teamBBets).toPrecision(2);
     const oddTie    = (total / props.tieBets  ).toPrecision(2);
 
-    return <Container className="game-item">
+    return (<Container className="game-item">
             <TZKTLink title="View Contract on tzkt.io" id={props.id}>
                 <div className="game-corner-button">
                     <ContractIcon className="game-icon" />
@@ -41,22 +54,29 @@ function GameItem(props:any) {
                     <Row className="game-col-title"><p>{total}XTZ</p></Row>
                 </Col>
                 <Col xs={2} className="game-vertical-align">
-                    <Row><Col className="game-col-title game-vertical-align"><p>{props.teamA}</p></Col></Row>
+                    <Row><Col className="game-col-title"><p>{props.teamA}</p></Col></Row>
                     <Row><Col><p>{oddTeamA} ({props.teamABets}XTZ)</p></Col></Row>
                 </Col>
-                <Col xs={1} className="game-score game-vertical-align"><p>{props.teamAScore}</p></Col>
-                <Col xs={2} className="game-vertical-align">
-                    <Row><Col className="game-col-title">-</Col></Row>
-                    <Row><Col><p>{oddTie} ({props.tieBets}XTZ)</p></Col></Row>
+                <Col>
+                    <Container className="game-item-hero">
+                        <Row><Col><p className="game-item-title">Ligue des Champions</p></Col></Row>
+                        <Row>
+                            <Col xs={3} className="game-score game-vertical-align"><p>{props.teamAScore}</p></Col>
+                            <Col xs={6} className="game-vertical-align">
+                                <Row><Col className="game-col-title">-</Col></Row>
+                                <Row><Col><p>{oddTie} ({props.tieBets}XTZ)</p></Col></Row>
+                            </Col>
+                            <Col xs={3} className="game-score game-vertical-align"><p>{props.teamBScore}</p></Col>
+                        </Row>
+                    </Container>
                 </Col>
-                <Col xs={1} className="game-score game-vertical-align"><p>{props.teamBScore}</p></Col>
                 <Col xs={2} className="game-vertical-align">
                     <Row><Col className="game-col-title"><p>{props.teamB}</p></Col></Row>
-                    <Row><Col >{oddTeamB} ({props.teamBBets}XTZ)</Col></Row>
+                    <Row><Col><p>{oddTeamB} ({props.teamBBets}XTZ)</p></Col></Row>
                 </Col>
                 <Col xs={1} className="game-vertical-align">
-                    <Link to={`/game/${props.id}/bet`}><Button variant="outline-dark" as="span">
-                        <BetIcon width={30} height={30} className="game-icon" />
+                    <Link title="Bet on this game" to={`/game/${props.id}/bet`}><Button variant="dark" as="span">
+                        <BetIcon width={40} height={40} className="game-item-bet-icon" />
                     </Button></Link>
                 </Col>
                 <Col xs={1} className="game-vertical-align">
@@ -65,7 +85,7 @@ function GameItem(props:any) {
                     </Link>
                 </Col>
             </Row>
-        </Container>;
+        </Container>);
 }
 
 export default GameList;

@@ -1,4 +1,15 @@
 #root {
-  background: #41e124;
+  background-image: linear-gradient(to top, #99feff, #b983ff 95%);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-position: bottom;
   padding-top: 100px;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+p {
+  margin: 0!important;
 }
