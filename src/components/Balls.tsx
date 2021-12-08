@@ -9,7 +9,7 @@ function Balls() {
     const [balls, setBalls] = useState(Array<object>());
     let ballsToShow:Array<object>;
 
-    const missing = Math.floor(documentHeight/rowHeight) - balls.length;    
+    const missing = Math.floor(documentHeight/rowHeight) - balls.length - 1;
     if (missing <= 0) {
         ballsToShow = balls;
     } else {
@@ -18,7 +18,7 @@ function Balls() {
             return {
                 left: getRandomInt(-10, 110),
                 size: size,
-                top: getRandomInt(0, rowHeight-size) + (balls.length + i) * rowHeight,
+                top: getRandomInt(0, rowHeight-size) + (balls.length + i + 1) * rowHeight,
             };
         });
         console.log(newBalls);
