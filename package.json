@@ -53,6 +53,7 @@
   },
   "devDependencies": {
     "@taquito/taquito": "^10.1.0",
-    "@taquito/utils": "^10.1.0"
+    "@taquito/utils": "^10.1.0",
+    "eslint-plugin-react-hooks": "^4.3.0"
   }
 }
