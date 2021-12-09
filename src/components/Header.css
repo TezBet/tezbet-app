@@ -1,4 +1,20 @@
 .navbar {
-    background-color: #b983ff;
-    box-shadow: 0px 0px 10px 4px #b983ff;
+    background-color: #fd7232;
+    /* background-color: #ec787e; */
+    box-shadow: 0px 10px 20px 10px #fd7232; 
+    /*background-image: linear-gradient(-10deg, #2c0092, #d283ff 70%);
+    /* background-color: #b983ff; 
+
+    backdrop-filter: blur(5px);*/
 }
+/*.navbar::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: #ffffff;
+    background-image: linear-gradient(-10deg, #2c0092, #d283ff 70%);
+    background-repeat: no-repeat;
+}*/

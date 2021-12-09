@@ -16,7 +16,7 @@ function Header(props:any) {
     return (
         <Navbar expand="lg" variant="dark" fixed="top">
             <Container>
-                <Navbar.Brand href="/">TezBet</Navbar.Brand>
+                <Navbar.Brand className="fs-3" href="/">TezBet</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
