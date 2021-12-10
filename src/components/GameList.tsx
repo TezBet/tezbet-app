@@ -3,7 +3,7 @@ import './GameList.css';
 import { Container, Row, Col, Button, Placeholder, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
-import TZKTLink from './TZKTLink';
+import TZLink from './TZLink';
 import {ReactComponent as ContractIcon} from 'bootstrap-icons/icons/file-earmark-bar-graph.svg';
 import {ReactComponent as BetIcon} from 'bootstrap-icons/icons/cash-coin.svg';
 import {ReactComponent as MoreIcon} from 'bootstrap-icons/icons/three-dots-vertical.svg';
@@ -56,11 +56,11 @@ function Odd({team, odd}:any) {
 
 function CornerButton({contractId}:any) {
     return (
-        <TZKTLink title="View Contract on tzkt.io" id={contractId}>
+        <TZLink title="View Contract on tzkt.io" id={contractId}>
             <div className="game-corner-button">
                 <ContractIcon className="game-icon" />
             </div>
-        </TZKTLink>
+        </TZLink>
     );
 }
 

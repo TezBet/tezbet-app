@@ -3,15 +3,15 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Container, Row, Col } from 'react-bootstrap';
 import { Outlet } from "react-router-dom";
+import { Fragment } from 'react';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Balls from './components/Balls';
 
-
 function App() {
     return (
-        <div>
+        <Fragment>
             <Balls />
             <Header />
             <Container className="main-container">
@@ -24,7 +24,7 @@ function App() {
                 </Row>
             </Container>
             <Footer />
-        </div>
+        </Fragment>
     );
 }
 
