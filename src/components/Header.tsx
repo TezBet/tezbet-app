@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 
 function WalletManagement(props:any) {
     const { connected, connect, disconnect, activeAccount } = useWallet("CUSTOM", "https://rpc.hangzhounet.teztnets.xyz", "Hangzhounet");
-    if (!connected) {
+    if (connected) {
         return <Button className="blob-btn blob-colorwhitesecondary" onClick={disconnect}><span className="blob-colorprimary">{activeAccount?.address}</span>
             <span className="blob-btn__inner blob-bgsecondary">
                 <span className="blob-btn__blobs">

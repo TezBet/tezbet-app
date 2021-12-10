@@ -7,6 +7,7 @@ import TZKTLink from './TZKTLink';
 import {ReactComponent as ContractIcon} from 'bootstrap-icons/icons/file-earmark-bar-graph.svg';
 import {ReactComponent as BetIcon} from 'bootstrap-icons/icons/cash-coin.svg';
 import {ReactComponent as MoreIcon} from 'bootstrap-icons/icons/three-dots-vertical.svg';
+import BetButton from './BetButton';
 
 function GameList(props:any) {
     if (props.ongoing) {
@@ -105,9 +106,7 @@ function FutureGameItem(props:any) {
                     </Container>
                 </Col>
                 <Col xs={2} className="game-vertical-align">
-                    <Link title="Bet on this game" to={`/game/${props.id}/bet`}><Button variant="dark" as="span">
-                        <BetIcon width={40} height={40} className="game-item-bet-icon" />
-                    </Button></Link>
+                <BetButton id={props.id}/>
                 </Col>
             </Row>
         </Container>);
@@ -148,9 +147,7 @@ function OngoingGameItem(props:any) {
                     <Row><Col><p>{oddTeamB} ({props.teamBBets}XTZ)</p></Col></Row>
                 </Col>
                 <Col xs={1} className="game-vertical-align">
-                    <Link title="Bet on this game" to={`/game/${props.id}/bet`}><Button variant="dark" as="span">
-                        <BetIcon width={40} height={40} className="game-item-bet-icon" />
-                    </Button></Link>
+                    <BetButton id={props.id}/>
                 </Col>
                 <Col xs={1} className="game-vertical-align">
                     <Link to={`/game/${props.id}`} className="game-item-more">
