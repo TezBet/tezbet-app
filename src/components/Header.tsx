@@ -21,6 +21,7 @@ function Header(props:any) {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav>
                         <NavLink className="nav-link" to="/">Home</NavLink>
+                        <NavLink className="nav-link" to="/ongoing">Ongoing games</NavLink>
                         <NavLink className="nav-link" to="/dashboard">My bets</NavLink>
                     </Nav>
                 </Navbar.Collapse>
