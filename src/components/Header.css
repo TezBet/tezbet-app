@@ -13,16 +13,17 @@
 .blob-btn .blob-colorprimary {
     color: #fd7232;
 }
-.blob-btn .blob-colorsecondarywhite {
+.blob-btn.blob-colorsecondarywhite {
     color: #430069;
+    transition: color .4s ease-in-out,;
 }
-.blob-btn .blob-colorsecondarywhite:hover {
+.blob-btn.blob-colorsecondarywhite:hover {
     color: #ffffff;
 }
-.blob-btn .blob-colorwhitesecondary {
+.blob-btn.blob-colorwhitesecondary {
     color: #ffffff;
 }
-.blob-btn .blob-colorwhitesecondary:hover {
+.blob-btn.blob-colorwhitesecondary:hover {
     color: #430069;
 }
 
