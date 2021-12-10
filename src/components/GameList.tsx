@@ -1,11 +1,10 @@
 import './GameList.css';
 
-import { Container, Row, Col, Button, Placeholder, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col, Placeholder, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 import TZKTLink from './TZKTLink';
 import {ReactComponent as ContractIcon} from 'bootstrap-icons/icons/file-earmark-bar-graph.svg';
-import {ReactComponent as BetIcon} from 'bootstrap-icons/icons/cash-coin.svg';
 import {ReactComponent as MoreIcon} from 'bootstrap-icons/icons/three-dots-vertical.svg';
 import BetButton from './BetButton';
 
