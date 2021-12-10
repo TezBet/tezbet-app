@@ -8,7 +8,7 @@ import Faucet from './Faucet';
 
 function WalletManagement(props:any) {
     if (props.connected) {
-        return <Button className="blob-btn" onClick={props.disconnect}><span className="blob-colorprimary">{props.activeAccount?.address}</span>
+        return (<Button className="blob-btn" onClick={props.disconnect}><span className="blob-colorprimary">{props.activeAccount?.address}</span>
             <span className="blob-btn__inner blob-bgsecondary">
                 <span className="blob-btn__blobs">
                     <span className="blob-btn__blob blob-bgwhite"></span>
@@ -17,9 +17,9 @@ function WalletManagement(props:any) {
                     <span className="blob-btn__blob blob-bgwhite"></span>
                 </span>
             </span>
-        </Button>;
+        </Button>);
     } else {
-        return <Button variant="light" className="blob-btn blob-colorsecondarywhite" onClick={props.connect}>CONNECT WALLET
+        return (<Button variant="light" className="blob-btn blob-colorsecondarywhite" onClick={props.connect}>CONNECT WALLET
             <span className="blob-btn__inner blob-bgwhite">
                 <span className="blob-btn__blobs">
                     <span className="blob-btn__blob blob-bgsecondary"></span>
@@ -29,7 +29,7 @@ function WalletManagement(props:any) {
                 </span>
             </span>
         </Button>
-        ;
+        );
     }
 }
 
