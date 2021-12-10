@@ -19,7 +19,7 @@ function BetButton(props:any){
 }
 
 function Odd({bet, bets}:any) {
-    if(bet == 0){
+    if(bet === 0){
         return (
             <OverlayTrigger placement="bottom" overlay={<Tooltip>If you bet on this, you'll be the first to do so!</Tooltip>}>
                 <p><Badge bg="secondary" className="palette-0">No bet yet</Badge></p>
