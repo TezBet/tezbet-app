@@ -6,9 +6,28 @@ import { NavLink } from "react-router-dom";
 function WalletManagement(props:any) {
     const { connected, connect, disconnect, activeAccount } = useWallet("CUSTOM", "https://rpc.hangzhounet.teztnets.xyz", "Hangzhounet");
     if (connected) {
-        return <Button variant="outline-light" onClick={disconnect}>Connected with {activeAccount?.address}</Button>;
+        return <Button className="blob-btn bgsecondary colorwhitesecondary" onClick={disconnect}>Connected with <span className="colorprimary">aol imagner {activeAccount?.address}</span>
+            <span className="blob-btn__inner bgsecondary">
+                <span className="blob-btn__blobs">
+                    <span className="blob-btn__blob bgwhite"></span>
+                    <span className="blob-btn__blob bgwhite"></span>
+                    <span className="blob-btn__blob bgwhite"></span>
+                    <span className="blob-btn__blob bgwhite"></span>
+                </span>
+            </span>
+        </Button>;
     } else {
-        return <Button variant="light" onClick={connect}>Connect wallet</Button>;
+        return <Button variant="light" className="blob-btn bgwhite colorsecondarywhite" onClick={connect}>CONNECT WALLET
+            <span className="blob-btn__inner bgwhite">
+                <span className="blob-btn__blobs">
+                    <span className="blob-btn__blob bgsecondary"></span>
+                    <span className="blob-btn__blob bgsecondary"></span>
+                    <span className="blob-btn__blob bgsecondary"></span>
+                    <span className="blob-btn__blob bgsecondary"></span>
+                </span>
+            </span>
+        </Button>
+        ;
     }
 }
 
