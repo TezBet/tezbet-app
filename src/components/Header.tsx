@@ -6,24 +6,24 @@ import { NavLink } from "react-router-dom";
 function WalletManagement(props:any) {
     const { connected, connect, disconnect, activeAccount } = useWallet("CUSTOM", "https://rpc.hangzhounet.teztnets.xyz", "Hangzhounet");
     if (connected) {
-        return <Button className="blob-btn bgsecondary colorwhitesecondary" onClick={disconnect}>Connected with <span className="colorprimary">aol imagner {activeAccount?.address}</span>
-            <span className="blob-btn__inner bgsecondary">
+        return <Button className="blob-btn" onClick={disconnect}><span className="blob-colorprimary">{activeAccount?.address}</span>
+            <span className="blob-btn__inner blob-bgsecondary">
                 <span className="blob-btn__blobs">
-                    <span className="blob-btn__blob bgwhite"></span>
-                    <span className="blob-btn__blob bgwhite"></span>
-                    <span className="blob-btn__blob bgwhite"></span>
-                    <span className="blob-btn__blob bgwhite"></span>
+                    <span className="blob-btn__blob blob-bgwhite"></span>
+                    <span className="blob-btn__blob blob-bgwhite"></span>
+                    <span className="blob-btn__blob blob-bgwhite"></span>
+                    <span className="blob-btn__blob blob-bgwhite"></span>
                 </span>
             </span>
         </Button>;
     } else {
-        return <Button variant="light" className="blob-btn bgwhite colorsecondarywhite" onClick={connect}>CONNECT WALLET
-            <span className="blob-btn__inner bgwhite">
+        return <Button variant="light" className="blob-btn" onClick={connect}>CONNECT WALLET
+            <span className="blob-btn__inner blob-bgwhite">
                 <span className="blob-btn__blobs">
-                    <span className="blob-btn__blob bgsecondary"></span>
-                    <span className="blob-btn__blob bgsecondary"></span>
-                    <span className="blob-btn__blob bgsecondary"></span>
-                    <span className="blob-btn__blob bgsecondary"></span>
+                    <span className="blob-btn__blob blob-bgsecondary"></span>
+                    <span className="blob-btn__blob blob-bgsecondary"></span>
+                    <span className="blob-btn__blob blob-bgsecondary"></span>
+                    <span className="blob-btn__blob blob-bgsecondary"></span>
                 </span>
             </span>
         </Button>
