@@ -17,7 +17,7 @@ function WalletManagement(props:any) {
             </span>
         </Button>;
     } else {
-        return <Button variant="light" className="blob-btn" onClick={connect}>CONNECT WALLET
+        return <Button variant="light" className="blob-btn blob-colorsecondarywhite" onClick={connect}>CONNECT WALLET
             <span className="blob-btn__inner blob-bgwhite">
                 <span className="blob-btn__blobs">
                     <span className="blob-btn__blob blob-bgsecondary"></span>
