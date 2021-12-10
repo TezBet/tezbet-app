@@ -1,12 +1,10 @@
 import './GameList.css';
 
-import { Container, Row, Col, Placeholder, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col, Placeholder } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
-import TZKTLink from './TZKTLink';
-import {ReactComponent as ContractIcon} from 'bootstrap-icons/icons/file-earmark-bar-graph.svg';
 import {ReactComponent as MoreIcon} from 'bootstrap-icons/icons/three-dots-vertical.svg';
-import BetButton from './BetButton';
+import {BetButton, Odd, CornerButton} from './GameButtons';
 
 function GameList(props:any) {
     if (props.ongoing) {
@@ -27,9 +25,12 @@ function GameList(props:any) {
 
     return <Container>
         <Row>
-            <FutureGameItem teamA="Italy" teamB="Germany" teamABets={300} teamBBets={345} tieBets={754} id="gjfdhsjghjfdbg" />
-            <FutureGameItem teamA="Ireland" teamB="Scotland" teamABets={300} teamBBets={500} tieBets={800} id="fsdfgdsqgqs" />
-            <FutureGameItem teamA="Croatia" teamB="Canada" teamABets={300} teamBBets={500} tieBets={800} id="hfjdsjfjkds" />
+            <FutureGameItem teamA="Italy" teamB="Germany" teamABets={3000} teamBBets={3045} tieBets={754} id="gjfdhsjghjfdbg" />
+            <FutureGameItem teamA="Ireland" teamB="Scotland" teamABets={3000} teamBBets={5000} tieBets={800} id="fsdfgdsqgqs" />
+            <FutureGameItem teamA="Croatia" teamB="Canada" teamABets={4000} teamBBets={3500} tieBets={800} id="hfjdsjfjkds" />
+            <FutureGameItem teamA="Suisse" teamB="Helvétie" teamABets={0} teamBBets={200} tieBets={10000} id="zzzzzzzzzzz" />
+            <FutureGameItem teamA="IMTBS" teamB="TSP" teamABets={0} teamBBets={0} tieBets={0} id="fffffffffff" />
+            <FutureGameItem teamA="Croatia" teamB="Canada" teamABets={50} teamBBets={75} tieBets={25} id="aaaaaaaaaaa" />
         </Row>
     </Container>;
 }
@@ -46,36 +47,16 @@ function GameItemPlaceholder() {
     </Container>;
 }
 
-function Odd({team, odd}:any) {
-    return (
-        <OverlayTrigger placement="bottom" overlay={<Tooltip>Total bet on {team}</Tooltip>}>
-            <p><Badge bg="secondary">x{odd}</Badge></p>
-        </OverlayTrigger>
-    );
-}
 
-function CornerButton({contractId}:any) {
-    return (
-        <TZKTLink title="View Contract on tzkt.io" id={contractId}>
-            <div className="game-corner-button">
-                <ContractIcon className="game-icon" />
-            </div>
-        </TZKTLink>
-    );
-}
 
 function FutureGameItem(props:any) {
     const total = props.teamABets + props.teamBBets + props.tieBets;
-    const oddTeamA  = (total / props.teamABets).toPrecision(2);
-    const oddTeamB  = (total / props.teamBBets).toPrecision(2);
-    const oddTie    = (total / props.tieBets  ).toPrecision(2);
-
     return (<Container className="game-item">
             <CornerButton contractId={props.id} />
             <Row>
-                <Col xs={2} className="game-vertical-align">
+                <Col xs={2} className="game-vertical-align colorsecondary">
                     <Row><p>Total</p></Row>
-                    <Row className="game-col-title"><p>{total}XTZ</p></Row>
+                    <Row className="game-col-title"><p><span className="colorprimary">{total}</span>XTZ</p></Row>
                 </Col>
                 <Col xs={8}>
                     <Container className="game-item-hero">
@@ -93,13 +74,13 @@ function FutureGameItem(props:any) {
                         </Row>
                         <Row>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd team={props.teamA} odd={oddTeamA} />
+                                <Odd bets={total} bet={props.teamABets} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd team="tie" odd={oddTie} />
+                                <Odd bets={total} bet={props.tieBets} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd team={props.teamA} odd={oddTeamB} />
+                                <Odd bets={total} bet={props.teamBBets} />
                             </Col>
                         </Row>
                     </Container>
