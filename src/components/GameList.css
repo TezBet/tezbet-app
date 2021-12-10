@@ -6,11 +6,11 @@
     background-color: white;
     position:relative;
     transition: all .20s ease-in-out;
-    box-shadow: 0px 0px 5px 1px black;
+    box-shadow: 4px 4px 5px 1px black;
 }
 
 .game-item:hover {
-    box-shadow: 0px 0px 20px 5px black;
+    box-shadow: 4px 4px 20px 5px black;
     transform: scale(1.01, 1.01);
 }
 

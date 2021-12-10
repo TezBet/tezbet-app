@@ -137,7 +137,7 @@ function OngoingGameItem(props:any) {
                             <Col xs={3} className="game-score game-vertical-align"><p>{props.teamAScore}</p></Col>
                             <Col xs={6} className="game-vertical-align">
                                 <Row><Col className="game-col-title">-</Col></Row>
-                                <Row><Col><p>{props.oddTie} ({props.tieBets}XTZ)</p></Col></Row>
+                                <Row><Col><p>{oddTie} ({props.tieBets}XTZ)</p></Col></Row>
                             </Col>
                         <Col xs={3} className="game-score game-vertical-align"><p>{props.teamBScore}</p></Col>
                         </Row>
