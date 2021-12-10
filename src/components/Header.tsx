@@ -5,8 +5,8 @@ import { NavLink } from "react-router-dom";
 
 function WalletManagement(props:any) {
     const { connected, connect, disconnect, activeAccount } = useWallet("CUSTOM", "https://rpc.hangzhounet.teztnets.xyz", "Hangzhounet");
-    if (connected) {
-        return <Button className="blob-btn" onClick={disconnect}><span className="blob-colorprimary">{activeAccount?.address}</span>
+    if (!connected) {
+        return <Button className="blob-btn blob-colorwhitesecondary" onClick={disconnect}><span className="blob-colorprimary">{activeAccount?.address}</span>
             <span className="blob-btn__inner blob-bgsecondary">
                 <span className="blob-btn__blobs">
                     <span className="blob-btn__blob blob-bgwhite"></span>
@@ -17,7 +17,7 @@ function WalletManagement(props:any) {
             </span>
         </Button>;
     } else {
-        return <Button variant="light" className="blob-btn blob-colorsecondarywhite" onClick={connect}>CONNECT WALLET
+        return <Button className="blob-btn blob-colorsecondarywhite" onClick={connect}>CONNECT WALLET
             <span className="blob-btn__inner blob-bgwhite">
                 <span className="blob-btn__blobs">
                     <span className="blob-btn__blob blob-bgsecondary"></span>
