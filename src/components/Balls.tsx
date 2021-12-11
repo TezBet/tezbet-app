@@ -21,7 +21,6 @@ function Balls() {
                 top: getRandomInt(0, rowHeight-size) + (balls.length + i + 1) * rowHeight,
             };
         });
-        console.log(newBalls);
 
         ballsToShow = balls.slice().concat(newBalls);
         setBalls(ballsToShow);
@@ -35,7 +34,6 @@ function Balls() {
 function Ball(props:any) {
     const documentHeight = useDocumentHeight();
     const height = Math.max(0, Math.min(documentHeight - props.top, props.size));
-    console.log(height);
 
     return <div className="soccer-ball" style={{
         width: props.size + "px",
