@@ -1,20 +1,16 @@
 import './GameButtons.css';
 
-
 import TZKTLink from './TZLink';
 import {ReactComponent as ContractIcon} from 'bootstrap-icons/icons/file-earmark-bar-graph.svg';
 import {ReactComponent as ClickIcon} from 'bootstrap-icons/icons/arrow-right-circle.svg';
 import { Badge, Button, OverlayTrigger, Tooltip } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-
 
 function BetButton(props:any){
     return (
-        <Link title="Bet on this game" to={`/game/${props.id}/bet`}>
         <Button variant="light" as="span" className="bet-button">
             <span className="bet-text">BET</span>
             <ClickIcon className="arrow-icon" />
-        </Button></Link>
+        </Button>
         )
 }
 
