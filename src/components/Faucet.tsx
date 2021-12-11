@@ -2,6 +2,7 @@ import { useState, Fragment } from 'react';
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner } from '@taquito/signer';
 import { Button, Modal } from 'react-bootstrap';
+import {ReactComponent as BankIcon} from 'bootstrap-icons/icons/bank.svg';
 
 function Faucet(props:any) {
     const [transactionHash, setTransactionHash] = useState("");
@@ -32,9 +33,14 @@ function Faucet(props:any) {
         .catch((err) => setError(JSON.stringify(err, null, 2)));
     }
 
+    if (props.address == null) {
+        return <Fragment />
+    } else {
     return (
         <Fragment>
-            <Button disabled={props.address == null} onClick={() => setShow(true)} variant="outline-dark" style={{ marginRight: "10px" }}>FAUCET</Button>
+            <Button onClick={() => setShow(true)} variant="outline-dark" style={{ marginRight: "10px" }}>
+                <BankIcon width="18px" height="18px" style={{ top: "-3px", position: "relative"}} /> FAUCET
+            </Button>
 
             <Modal contentClassName="faucet-modal" show={show} onHide={handleClose} onShow={drip} size="lg">
                 <Modal.Header closeButton>
@@ -59,6 +65,7 @@ function Faucet(props:any) {
                 </Modal.Footer>
             </Modal>
         </Fragment>);
+    }
 }
 
 export default Faucet;
