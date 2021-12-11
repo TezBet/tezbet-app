@@ -38,7 +38,7 @@ function Faucet(props:any) {
     } else {
     return (
         <Fragment>
-            <Button onClick={() => setShow(true)} variant="outline-dark" style={{ marginRight: "10px" }}>
+            <Button onClick={() => setShow(true)} variant="outline-dark" style={{ marginRight: "10px"}}>
                 <BankIcon width="18px" height="18px" style={{ top: "-3px", position: "relative"}} /> FAUCET
             </Button>
 
