@@ -1,12 +1,10 @@
 import './GameList.css';
 
-import { Container, Row, Col, Button, Placeholder, Badge, OverlayTrigger, Tooltip } from 'react-bootstrap';
+import { Container, Row, Col, Placeholder } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
-import TZLink from './TZLink';
-import {ReactComponent as ContractIcon} from 'bootstrap-icons/icons/file-earmark-bar-graph.svg';
-import {ReactComponent as BetIcon} from 'bootstrap-icons/icons/cash-coin.svg';
 import {ReactComponent as MoreIcon} from 'bootstrap-icons/icons/three-dots-vertical.svg';
+import {BetButton, Odd, CornerButton, CountDown} from './GameButtons';
 
 function GameList(props:any) {
     if (props.ongoing) {
@@ -24,12 +22,15 @@ function GameList(props:any) {
             </Row>
         </Container>
     }
-
+    const cheatDate = new Date();
     return <Container>
         <Row>
-            <FutureGameItem teamA="Italy" teamB="Germany" teamABets={300} teamBBets={345} tieBets={754} id="gjfdhsjghjfdbg" />
-            <FutureGameItem teamA="Ireland" teamB="Scotland" teamABets={300} teamBBets={500} tieBets={800} id="fsdfgdsqgqs" />
-            <FutureGameItem teamA="Croatia" teamB="Canada" teamABets={300} teamBBets={500} tieBets={800} id="hfjdsjfjkds" />
+            <FutureGameItem date={(new Date()).setMinutes(cheatDate.getMinutes()+20).toLocaleString()} teamA="Italy" teamB="Germany" context="Champions' league" teamABets={3000} teamBBets={3045} tieBets={754} id="gjfdhsjghjfdbg" />
+            <FutureGameItem date={(new Date()).setMinutes(cheatDate.getMinutes()+45).toLocaleString()} teamA="Ireland" teamB="Scotland" context="Champions' league" teamABets={3000} teamBBets={5000} tieBets={800} id="fsdfgdsqgqs" />
+            <FutureGameItem date={(new Date()).setHours(cheatDate.getHours()+1).toLocaleString()} teamA="Croatia" teamB="Canada" context="Match amical" teamABets={4000} teamBBets={3500} tieBets={800} id="hfjdsjfjkds" />
+            <FutureGameItem date={(new Date()).setHours(cheatDate.getHours()+1).toLocaleString()} teamA="Suisse" teamB="Helvétie" teamABets={0} teamBBets={200} tieBets={10000} id="zzzzzzzzzzz" />
+            <FutureGameItem date={(new Date()).setHours(cheatDate.getHours()+1).toLocaleString()} context="Taupin Divin" teamA="IMTBS" teamB="TSP" teamABets={0} teamBBets={0} tieBets={0} id="fffffffffff" />
+            <FutureGameItem date={cheatDate.toLocaleString()} context="CotCodINT" teamA="Poule" teamB="Renard" teamABets={50} teamBBets={75} tieBets={25} id="aaaaaaaaaaa" />
         </Row>
     </Container>;
 }
@@ -46,46 +47,29 @@ function GameItemPlaceholder() {
     </Container>;
 }
 
-function Odd({team, odd}:any) {
-    return (
-        <OverlayTrigger placement="bottom" overlay={<Tooltip>Total bet on {team}</Tooltip>}>
-            <p><Badge bg="secondary">x{odd}</Badge></p>
-        </OverlayTrigger>
-    );
-}
 
-function CornerButton({contractId}:any) {
-    return (
-        <TZLink title="View Contract on tzkt.io" id={contractId}>
-            <div className="game-corner-button">
-                <ContractIcon className="game-icon" />
-            </div>
-        </TZLink>
-    );
-}
 
 function FutureGameItem(props:any) {
     const total = props.teamABets + props.teamBBets + props.tieBets;
-    const oddTeamA  = (total / props.teamABets).toPrecision(2);
-    const oddTeamB  = (total / props.teamBBets).toPrecision(2);
-    const oddTie    = (total / props.tieBets  ).toPrecision(2);
-
     return (<Container className="game-item">
             <CornerButton contractId={props.id} />
             <Row>
-                <Col xs={2} className="game-vertical-align">
-                    <Row><p>Total</p></Row>
-                    <Row className="game-col-title"><p>{total}XTZ</p></Row>
+                <Col xs={2} className="game-vertical-align colorsecondary">
+                    <Row><p className="game-title-bold">Total bet</p></Row>
+                    <Row><p> <span className="colorprimary game-title game-title-bold">{total}</span> <span className="xtz">ꜩ</span></p></Row>
                 </Col>
                 <Col xs={8}>
                     <Container className="game-item-hero">
-                        <Row><Col><p className="game-item-title">Ligue des Champions</p></Col></Row>
+                        <Row>
+                            <Col xs={3}><p className="game-item-title">{props.context ? props.context : "Match"}</p></Col>
+                            <Col xs={6}><CountDown targetDate={props.date} /></Col>
+                        </Row>
                         <Row>
                             <Col xs={4} className="game-vertical-align game-col-title">
                                 <p>{props.teamA}</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-subtitle">
-                                <p>-</p>
+                                <p>TIE</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-title">
                                 <p>{props.teamB}</p>
@@ -93,21 +77,19 @@ function FutureGameItem(props:any) {
                         </Row>
                         <Row>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd team={props.teamA} odd={oddTeamA} />
+                                <Odd bets={total} bet={props.teamABets} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd team="tie" odd={oddTie} />
+                                <Odd bets={total} bet={props.tieBets} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd team={props.teamA} odd={oddTeamB} />
+                                <Odd bets={total} bet={props.teamBBets} />
                             </Col>
                         </Row>
                     </Container>
                 </Col>
                 <Col xs={2} className="game-vertical-align">
-                    <Link title="Bet on this game" to={`/game/${props.id}/bet`}><Button variant="dark" as="span">
-                        <BetIcon width={40} height={40} className="game-item-bet-icon" />
-                    </Button></Link>
+                <BetButton id={props.id}/>
                 </Col>
             </Row>
         </Container>);
@@ -148,9 +130,7 @@ function OngoingGameItem(props:any) {
                     <Row><Col><p>{oddTeamB} ({props.teamBBets}XTZ)</p></Col></Row>
                 </Col>
                 <Col xs={1} className="game-vertical-align">
-                    <Link title="Bet on this game" to={`/game/${props.id}/bet`}><Button variant="dark" as="span">
-                        <BetIcon width={40} height={40} className="game-item-bet-icon" />
-                    </Button></Link>
+                    <BetButton id={props.id}/>
                 </Col>
                 <Col xs={1} className="game-vertical-align">
                     <Link to={`/game/${props.id}`} className="game-item-more">

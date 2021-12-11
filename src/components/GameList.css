@@ -6,11 +6,11 @@
     background-color: white;
     position:relative;
     transition: all .20s ease-in-out;
-    box-shadow: 4px 4px 5px 1px black;
+    box-shadow: 4px 4px 5px 1px #430069;
 }
 
 .game-item:hover {
-    box-shadow: 4px 4px 20px 5px black;
+    box-shadow: 4px 4px 20px 5px #430069;
     transform: scale(1.01, 1.01);
 }
 
@@ -42,7 +42,7 @@
     font-size: 3em;
 }
 
-.game-col-title {
+.game-title {
     font-size: 1.5em;
 }
 
@@ -52,6 +52,10 @@
 
 .game-item-title {
     margin: 0;
+    font-style: italic;
+    font-size: 0.88em;
+    color: grey;
+    text-align: left;
 }
 
 .game-item-hero h6 {
@@ -68,37 +72,6 @@
     color: white;
 }
 
-.game-corner-button {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    padding: 3px;
-
-    text-align:center;
-    border: 2px solid transparent;
-    border-right-color: black;
-    border-bottom-color: black;
-    border-bottom-right-radius: 5px;
-    border-top-left-radius: 10px;
-
-    background-color: transparent;
-    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-}
-
-.game-corner-button:hover {
-    background-color: #212529;
-    border-color: #212529;
-}
-
-.game-corner-button svg {
-    transition: color .15s ease-in-out;
-    color: black;
-}
-
-.game-corner-button:hover svg {
-    color: white;
-}
-
 .game-item-more {
     color: black;
     text-decoration: none;
@@ -106,4 +79,20 @@
 
 .game-item-placeholder .row:first-child {
     margin-bottom: 10px;
+}
+
+.colorprimary {
+    color: #fd7232; 
+}
+
+.colorsecondary {
+    color: #430069; 
+}
+
+.xtz {
+    font-size: 0.9em;
+}
+
+.game-title-bold {
+    font-weight: bold;
 }
