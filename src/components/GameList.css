@@ -1,7 +1,7 @@
 .game-item {
     text-align:center;
     border-radius: 10px;
-    padding: 10px;
+    padding: 20px 10px;
     margin: 15px 0px;
     background-color: white;
     position:relative;
@@ -95,4 +95,10 @@
 
 .game-title-bold {
     font-weight: bold;
+}
+
+.game-tie {
+    font-size: 0.7em;
+    font-weight: bold;
+    color: gray;
 }

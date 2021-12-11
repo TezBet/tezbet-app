@@ -61,15 +61,15 @@ function FutureGameItem(props:any) {
                 <Col xs={8}>
                     <Container className="game-item-hero">
                         <Row>
-                            <Col xs={3}><p className="game-item-title">{props.context ? props.context : "Match"}</p></Col>
-                            <Col xs={6}><CountDown targetDate={props.date} /></Col>
+                            <Col xs={10}><p className="game-item-title">{props.context ? props.context : "Match"}</p></Col>
+                            <Col xs={2}><CountDown targetDate={props.date} /></Col>
                         </Row>
                         <Row>
                             <Col xs={4} className="game-vertical-align game-col-title">
                                 <p>{props.teamA}</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-subtitle">
-                                <p>TIE</p>
+                                <p className="game-tie">TIE</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-title">
                                 <p>{props.teamB}</p>
