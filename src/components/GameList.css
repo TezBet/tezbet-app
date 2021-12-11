@@ -56,6 +56,14 @@
   font-style: italic;
   font-size: 0.88em;
   color: grey;
+}
+
+.game-item-title-left {
+  margin: 0;
+  padding-left: 1.2em;
+  font-style: italic;
+  font-size: 0.88em;
+  color: grey;
   text-align: left;
 }
 
@@ -95,7 +103,7 @@
 }
 
 .game-title-bold {
-  font-weight: bold;
+  font-weight: 900;
 }
 
 .game-tie {
