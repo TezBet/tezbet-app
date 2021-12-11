@@ -53,7 +53,7 @@ function FutureGameItem(props:any) {
     const total = props.teamABets + props.teamBBets + props.tieBets;
     return (<Container className="game-item">
             <CornerButton contractId={props.id} />
-            <Row>
+            <Row className="g-0">
                 <Col xs={2} className="game-vertical-align colorsecondary">
                     <Row><p className="game-title-bold">Total bet</p></Row>
                     <Row><p> <span className="colorprimary game-title game-title-bold">{total}</span> <span className="xtz">ꜩ</span></p></Row>
@@ -89,7 +89,7 @@ function FutureGameItem(props:any) {
                     </Container>
                 </Col>
                 <Col xs={2} className="game-vertical-align">
-                <BetButton id={props.id}/>
+                    <p><BetButton id={props.id} /></p>
                 </Col>
             </Row>
         </Container>);

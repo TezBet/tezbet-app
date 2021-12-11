@@ -27,29 +27,30 @@ function Odd({bet, bets}:any) {
         if(odd<=1){
             colorPalette="palette-0";
         }
-        if(odd <2){
-            colorPalette="palette-1";
-        }
-        else if(odd <2.5){
-            colorPalette="palette-2";
-        }
-        else if(odd <3){
-            colorPalette="palette-3";
-        }
-        else if(odd <5){
-            colorPalette="palette-4";
-        }
-        else if(odd <8){
-            colorPalette="palette-5";
-        }
-        else if(odd <10){
-            colorPalette="palette-6";
-        }
-        else if(odd <50){
-            colorPalette="palette-7";
-        }
+        // if(odd <2){
+        //     colorPalette="palette-1";
+        // }
+        // else if(odd <2.5){
+        //     colorPalette="palette-2";
+        // }
+        // else if(odd <3){
+        //     colorPalette="palette-3";
+        // }
+        // else if(odd <5){
+        //     colorPalette="palette-4";
+        // }
+        // else if(odd <8){
+        //     colorPalette="palette-5";
+        // }
+        // else if(odd <10){
+        //     colorPalette="palette-6";
+        // }
+        // else if(odd <50){
+        //     colorPalette="palette-7";
+        // }
         else {
-            colorPalette="palette-8";
+            colorPalette = "palette-main";
+            // colorPalette="palette-8";
         }
         return (
             <OverlayTrigger placement="bottom" overlay={<Tooltip>Potential gain for this pool: {bets-bet} XTZ</Tooltip>}>
