@@ -4,7 +4,7 @@ import { Container, Row, Col, Placeholder } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 
 import {ReactComponent as MoreIcon} from 'bootstrap-icons/icons/three-dots-vertical.svg';
-import {BetButton, Odd, CornerButton} from './GameButtons';
+import {BetButton, Odd, CornerButton, CountDown} from './GameButtons';
 
 function GameList(props:any) {
     if (props.ongoing) {
@@ -22,15 +22,15 @@ function GameList(props:any) {
             </Row>
         </Container>
     }
-
+    const cheatDate = new Date();
     return <Container>
         <Row>
-            <FutureGameItem teamA="Italy" teamB="Germany" teamABets={3000} teamBBets={3045} tieBets={754} id="gjfdhsjghjfdbg" />
-            <FutureGameItem teamA="Ireland" teamB="Scotland" teamABets={3000} teamBBets={5000} tieBets={800} id="fsdfgdsqgqs" />
-            <FutureGameItem teamA="Croatia" teamB="Canada" teamABets={4000} teamBBets={3500} tieBets={800} id="hfjdsjfjkds" />
-            <FutureGameItem teamA="Suisse" teamB="Helvétie" teamABets={0} teamBBets={200} tieBets={10000} id="zzzzzzzzzzz" />
-            <FutureGameItem teamA="IMTBS" teamB="TSP" teamABets={0} teamBBets={0} tieBets={0} id="fffffffffff" />
-            <FutureGameItem teamA="Croatia" teamB="Canada" teamABets={50} teamBBets={75} tieBets={25} id="aaaaaaaaaaa" />
+            <FutureGameItem date={(new Date()).setMinutes(cheatDate.getMinutes()+20).toLocaleString()} teamA="Italy" teamB="Germany" context="Champions' league" teamABets={3000} teamBBets={3045} tieBets={754} id="gjfdhsjghjfdbg" />
+            <FutureGameItem date={(new Date()).setMinutes(cheatDate.getMinutes()+45).toLocaleString()} teamA="Ireland" teamB="Scotland" context="Champions' league" teamABets={3000} teamBBets={5000} tieBets={800} id="fsdfgdsqgqs" />
+            <FutureGameItem date={(new Date()).setHours(cheatDate.getHours()+1).toLocaleString()} teamA="Croatia" teamB="Canada" context="Match amical" teamABets={4000} teamBBets={3500} tieBets={800} id="hfjdsjfjkds" />
+            <FutureGameItem date={(new Date()).setHours(cheatDate.getHours()+1).toLocaleString()} teamA="Suisse" teamB="Helvétie" teamABets={0} teamBBets={200} tieBets={10000} id="zzzzzzzzzzz" />
+            <FutureGameItem date={(new Date()).setHours(cheatDate.getHours()+1).toLocaleString()} context="Taupin Divin" teamA="IMTBS" teamB="TSP" teamABets={0} teamBBets={0} tieBets={0} id="fffffffffff" />
+            <FutureGameItem date={cheatDate.toLocaleString()} context="CotCodINT" teamA="Poule" teamB="Renard" teamABets={50} teamBBets={75} tieBets={25} id="aaaaaaaaaaa" />
         </Row>
     </Container>;
 }
@@ -55,18 +55,21 @@ function FutureGameItem(props:any) {
             <CornerButton contractId={props.id} />
             <Row>
                 <Col xs={2} className="game-vertical-align colorsecondary">
-                    <Row><p>Total</p></Row>
-                    <Row className="game-col-title"><p><span className="colorprimary">{total}</span>XTZ</p></Row>
+                    <Row><p className="game-title-bold">Total bet</p></Row>
+                    <Row><p> <span className="colorprimary game-title game-title-bold">{total}</span> <span className="xtz">ꜩ</span></p></Row>
                 </Col>
                 <Col xs={8}>
                     <Container className="game-item-hero">
-                        <Row><Col><p className="game-item-title">Ligue des Champions</p></Col></Row>
+                        <Row>
+                            <Col xs={3}><p className="game-item-title">{props.context ? props.context : "Match"}</p></Col>
+                            <Col xs={6}><CountDown targetDate={props.date} /></Col>
+                        </Row>
                         <Row>
                             <Col xs={4} className="game-vertical-align game-col-title">
                                 <p>{props.teamA}</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-subtitle">
-                                <p>-</p>
+                                <p>TIE</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-title">
                                 <p>{props.teamB}</p>

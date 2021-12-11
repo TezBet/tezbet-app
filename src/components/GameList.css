@@ -42,7 +42,7 @@
     font-size: 3em;
 }
 
-.game-col-title {
+.game-title {
     font-size: 1.5em;
 }
 
@@ -52,6 +52,10 @@
 
 .game-item-title {
     margin: 0;
+    font-style: italic;
+    font-size: 0.88em;
+    color: grey;
+    text-align: left;
 }
 
 .game-item-hero h6 {
@@ -83,4 +87,12 @@
 
 .colorsecondary {
     color: #430069; 
+}
+
+.xtz {
+    font-size: 0.9em;
+}
+
+.game-title-bold {
+    font-weight: bold;
 }

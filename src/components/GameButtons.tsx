@@ -73,4 +73,8 @@ function CornerButton({contractId}:any) {
     );
 }
 
-export {BetButton, Odd, CornerButton};
+function CountDown(props:any){
+    return <p>{new Date().toLocaleTimeString()}</p>;
+}
+
+export {BetButton, Odd, CornerButton, CountDown};
