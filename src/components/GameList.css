@@ -47,6 +47,11 @@
   font-size: 1.5em;
 }
 
+.game-col-title {
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
 .game-col-subtitle {
   font-size: 1.1em;
 }
