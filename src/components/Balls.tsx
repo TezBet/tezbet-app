@@ -1,5 +1,5 @@
 import "./Balls.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useDocumentHeight from "../utils/useDocumentHeight";
 
 const rowHeight = 150;
@@ -7,32 +7,30 @@ const rowHeight = 150;
 function Balls() {
     const documentHeight = useDocumentHeight();
     const [balls, setBalls] = useState(Array<object>());
-    let ballsToShow: Array<object>;
-
     const missing = Math.floor(documentHeight / rowHeight) - balls.length - 1;
-    if (missing <= 0) {
-        ballsToShow = balls;
-    } else {
-        const newBalls = Array<object>(missing)
-            .fill({})
-            .map((x, i) => {
-                const size = getRandomInt(70, 200);
-                return {
-                    left: getRandomInt(-10, 110),
-                    size: size,
-                    top:
-                        getRandomInt(0, rowHeight - size) +
-                        (balls.length + i + 1) * rowHeight,
-                };
-            });
 
-        ballsToShow = balls.slice().concat(newBalls);
-        setBalls(ballsToShow);
-    }
+    useEffect(() => {
+        let ballsToShow: Array<object>;
+
+        if (missing > 0) {
+            const newBalls = Array<object>(missing).fill({})
+                .map((x, i) => {
+                    const size = getRandomInt(70, 200);
+                    return {
+                        left: getRandomInt(-10, 110),
+                        size: size,
+                        top: getRandomInt(0, rowHeight - size) + (balls.length + i + 1) * rowHeight,
+                    };
+                });
+
+            ballsToShow = balls.slice().concat(newBalls);
+            setBalls(ballsToShow);
+        }
+    }, [missing, balls]);
 
     return (
         <div className="soccer-balls">
-            {ballsToShow.map((ballProps, i) => (
+            {balls.map((ballProps, i) => (
                 <Ball {...ballProps} key={i} />
             ))}
         </div>
@@ -41,14 +39,10 @@ function Balls() {
 
 function Ball(props: any) {
     const documentHeight = useDocumentHeight();
-    const height = Math.max(
-        0,
-        Math.min(documentHeight - props.top, props.size)
-    );
+    const height = Math.max(0, Math.min(documentHeight - props.top, props.size));
 
     return (
-        <div
-            className="soccer-ball"
+        <div className="soccer-ball"
             style={{
                 width: props.size + "px",
                 height: height + "px",
