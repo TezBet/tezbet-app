@@ -205,7 +205,7 @@ interface FutureGameItemProps {
   tieBets: number;
 }
 
-function FutureGameItem(props: FutureGameItemProps) {
+function FutureGameItem(props: any) {
   const total = props.teamABets + props.teamBBets + props.tieBets;
   console.log(typeof total);
   return (
