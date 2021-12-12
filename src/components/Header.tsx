@@ -19,9 +19,10 @@ function WalletManagement() {
                 className="blob-btn blob-colorwhitesecondary"
                 onClick={disconnect}
             >
+                {balance.decimalPlaces(3).toNumber()} XTZ
                 <span className="blob-colorprimary">
-                    {balance.decimalPlaces(3).toNumber()}XTZ (
-                    {shortenString(account!.address)})
+                    {" "}
+                    ({shortenString(account!.address)})
                 </span>
                 <span className="blob-btn__inner blob-bgsecondary">
                     <span className="blob-btn__blobs">
