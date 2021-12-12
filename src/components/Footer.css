@@ -12,7 +12,7 @@
 }
 
 .footer::before {
-    content: '';
+    content: "";
     border: solid 1px transparent;
     position: absolute;
     top: 5%;
@@ -22,5 +22,5 @@
 }
 
 .footer p {
-    margin: 20px 20px!important;
+    margin: 20px 20px !important;
 }

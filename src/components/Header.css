@@ -1,8 +1,7 @@
 .navbar {
     background-color: #fd7232;
-    box-shadow: 0px 10px 20px 10px #fd7232; 
+    box-shadow: 0px 10px 20px 10px #fd7232;
 }
-
 
 .blob-btn .blob-bgsecondary {
     background: #430069;
@@ -15,7 +14,7 @@
 }
 .blob-btn.blob-colorsecondarywhite {
     color: #430069;
-    transition: color .4s ease-in-out,;
+    transition: color 0.4s ease-in-out;
 }
 .blob-btn.blob-colorsecondarywhite:hover {
     color: #ffffff;

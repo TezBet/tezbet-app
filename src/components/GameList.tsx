@@ -87,7 +87,11 @@ function GameItemPlaceholder() {
     return (
         <Container className="game-item game-item-placeholder" style={{ textAlign: "left" }}>
             <Row>
-                <Placeholder style={{ textAlign: "center" }} as="span" animation="glow">
+                <Placeholder
+                    style={{ textAlign: "center" }}
+                    as="span"
+                    animation="glow"
+                >
                     <Placeholder xs={4} size="lg" />
                 </Placeholder>
             </Row>
@@ -143,7 +147,10 @@ function FutureGameItem(game: Game) {
                             <Col xs={4} className="game-vertical-align game-col-title">
                                 <p>{game.teamA}</p>
                             </Col>
-                            <Col xs={4} className="game-vertical-align game-col-subtitle">
+                            <Col
+                                xs={4}
+                                className="game-vertical-align game-col-subtitle"
+                            >
                                 <p className="game-tie">TIE</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-title">
@@ -209,11 +216,16 @@ function OngoingGameItem(props: any) {
                     <Container className="game-item-hero">
                         <Row>
                             <Col>
-                                <p className="game-item-title">Ligue des Champions</p>
+                                <p className="game-item-title">
+                                    Ligue des Champions
+                                </p>
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={3} className="game-score game-vertical-align">
+                            <Col
+                                xs={3}
+                                className="game-score game-vertical-align"
+                            >
                                 <p>{props.teamAScore}</p>
                             </Col>
                             <Col xs={6} className="game-vertical-align">
@@ -228,7 +240,10 @@ function OngoingGameItem(props: any) {
                                     </Col>
                                 </Row>
                             </Col>
-                            <Col xs={3} className="game-score game-vertical-align">
+                            <Col
+                                xs={3}
+                                className="game-score game-vertical-align"
+                            >
                                 <p>{props.teamBScore}</p>
                             </Col>
                         </Row>
@@ -253,7 +268,11 @@ function OngoingGameItem(props: any) {
                 </Col>
                 <Col xs={1} className="game-vertical-align">
                     <Link to={`/game/${props.id}`} className="game-item-more">
-                        <MoreIcon width={20} height={20} className="game-icon" />
+                        <MoreIcon
+                            width={20}
+                            height={20}
+                            className="game-icon"
+                        />
                     </Link>
                 </Col>
             </Row>
