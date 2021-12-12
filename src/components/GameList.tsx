@@ -3,15 +3,22 @@ import "./GameList.css";
 import { Container, Row, Col, Placeholder } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ReactComponent as MoreIcon } from "bootstrap-icons/icons/three-dots-vertical.svg";
-import { useContext, useState, useEffect, useCallback } from 'react';
+import { useContext, useState, useEffect, useCallback } from "react";
 
-import { BetButton, Odd, CornerButton, DateSpan } from "./GameButtons";
-import { WalletContext } from '../utils/WalletContextProvider';
-import BigNumber from 'bignumber.js';
+import {
+    BetButton,
+    Odd,
+    CornerButton,
+    DateSpan,
+    CountDown,
+} from "./GameButtons";
+import { WalletContext } from "../utils/WalletContextProvider";
+import BigNumber from "bignumber.js";
 
 type Game = {
     id: string;
-    date: Date;
+    startDate: Date;
+    currentDate?: Date;
     description?: string;
 
     teamA: string;
@@ -25,7 +32,7 @@ type Game = {
     betCountTeamB: number;
     betCountTie: number;
 
-    status: number,
+    status: number;
 };
 
 function GameList(props: any) {
@@ -34,21 +41,25 @@ function GameList(props: any) {
 
     const refreshGames = useCallback(() => {
         const d = new Date();
-        Tezos.wallet.at(process.env.REACT_APP_TEZBET_CONTRACT!)
+        d.setUTCSeconds(d.getSeconds() + 30);
+        Tezos.wallet
+            .at(process.env.REACT_APP_TEZBET_CONTRACT!)
             .then((contract) => contract.storage())
             .then((s: any) => {
                 const g = Array<Game>();
                 s.games.valueMap.forEach((x: any, i: any) => {
                     g.push({
                         id: i,
-                        date: d,
+                        startDate: d,
                         description: "test",
 
                         teamA: x.team_a,
                         teamB: x.team_b,
 
-                        betAmountTeamA: x.bet_amount_on.team_a.dividedBy(1000000),
-                        betAmountTeamB: x.bet_amount_on.team_b.dividedBy(1000000),
+                        betAmountTeamA:
+                            x.bet_amount_on.team_a.dividedBy(1000000),
+                        betAmountTeamB:
+                            x.bet_amount_on.team_b.dividedBy(1000000),
                         betAmountTie: x.bet_amount_on.tie.dividedBy(1000000),
 
                         betCountTeamA: x.bets_by_choice.team_a.toNumber(),
@@ -57,11 +68,10 @@ function GameList(props: any) {
 
                         status: x.status.toNumber(),
                     });
-                })
+                });
 
                 setGames(g);
             });
-
     }, [Tezos]);
     useEffect(() => refreshGames(), [refreshGames]);
     useEffect(() => {
@@ -72,12 +82,35 @@ function GameList(props: any) {
         return () => clearTimeout(timer);
     });
 
+    const [date, setDate] = useState(new Date());
+    useEffect(() => {
+        const x = setTimeout(function () {
+            setDate(new Date());
+        }, 1000);
+        return () => clearTimeout(x);
+    });
+
     return (
         <Container>
             <Row>
                 {games.length <= 0 && <GameItemPlaceholder />}
-                {games.filter((game) => (props.ongoing && game.status === 1) || (!props.ongoing && game.status === 0))
-                    .map((game) => props.ongoing ? <OngoingGameItem {...game} key={game.id} /> : <FutureGameItem {...game} key={game.id} />)}
+                {games
+                    .filter(
+                        (game) =>
+                            (props.ongoing && game.status === 1) ||
+                            (!props.ongoing && game.status === 0)
+                    )
+                    .map((game) =>
+                        props.ongoing ? (
+                            <OngoingGameItem {...game} key={game.id} />
+                        ) : (
+                            <FutureGameItem
+                                currentDate={date}
+                                {...game}
+                                key={game.id}
+                            />
+                        )
+                    )}
             </Row>
         </Container>
     );
@@ -85,7 +118,10 @@ function GameList(props: any) {
 
 function GameItemPlaceholder() {
     return (
-        <Container className="game-item game-item-placeholder" style={{ textAlign: "left" }}>
+        <Container
+            className="game-item game-item-placeholder"
+            style={{ textAlign: "left" }}
+        >
             <Row>
                 <Placeholder
                     style={{ textAlign: "center" }}
@@ -99,7 +135,11 @@ function GameItemPlaceholder() {
                 <Row key={i}>
                     {[...Array(6)].map((y, j) => (
                         <Col key={i + "-" + j} xs={2}>
-                            <Placeholder style={{ textAlign: "center" }} as="span" animation="glow">
+                            <Placeholder
+                                style={{ textAlign: "center" }}
+                                as="span"
+                                animation="glow"
+                            >
                                 <Placeholder xs={12} />
                             </Placeholder>
                         </Col>
@@ -111,10 +151,21 @@ function GameItemPlaceholder() {
 }
 
 function FutureGameItem(game: Game) {
-    const total = game.betAmountTeamA.plus(game.betAmountTeamA).plus(game.betAmountTeamA);
+    const total = game.betAmountTeamA
+        .plus(game.betAmountTeamA)
+        .plus(game.betAmountTeamA);
+    const distance = game.startDate.getTime() - game.currentDate!.getTime();
+    console.log(distance);
 
     return (
-        <Container className="game-item">
+        <Container
+            className="game-item"
+            style={
+                distance < 0
+                    ? { display: "none", backgroundColor: "red !important" }
+                    : { backgroundColor: "green !important" }
+            }
+        >
             <CornerButton contractId={game.id} />
             <Row className="g-0">
                 <Col xs={2} className="game-vertical-align colorsecondary">
@@ -134,17 +185,25 @@ function FutureGameItem(game: Game) {
                 <Col xs={8}>
                     <Container className="game-item-hero">
                         <Row>
-                            <Col xs={6}>
+                            <Col xs={4}>
                                 <p className="game-item-title-left">
-                                    {game.description ? game.description : "Match"}
+                                    {game.description
+                                        ? game.description
+                                        : "Match"}
                                 </p>
                             </Col>
-                            <Col xs={6}>
-                                <DateSpan targetDate={game.date} />
+                            <Col xs={4}>
+                                <CountDown distance={distance} />
+                            </Col>
+                            <Col xs={4}>
+                                <DateSpan targetDate={game.startDate} />
                             </Col>
                         </Row>
                         <Row>
-                            <Col xs={4} className="game-vertical-align game-col-title">
+                            <Col
+                                xs={4}
+                                className="game-vertical-align game-col-title"
+                            >
                                 <p>{game.teamA}</p>
                             </Col>
                             <Col
@@ -153,7 +212,10 @@ function FutureGameItem(game: Game) {
                             >
                                 <p className="game-tie">TIE</p>
                             </Col>
-                            <Col xs={4} className="game-vertical-align game-col-title">
+                            <Col
+                                xs={4}
+                                className="game-vertical-align game-col-title"
+                            >
                                 <p>{game.teamB}</p>
                             </Col>
                         </Row>

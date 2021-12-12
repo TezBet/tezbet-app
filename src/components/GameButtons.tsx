@@ -79,20 +79,41 @@ function CornerButton({ contractId }: any) {
 }
 
 interface CountDownProps {
+    distance: number;
+}
+
+interface DateSpanProps {
     targetDate: Date;
 }
 
-function DateSpan(props: CountDownProps) {
+function DateSpan(props: DateSpanProps) {
     return (
-        <p className="countDown">
+        <p className="dateSpan">
+            <span>{props.targetDate.toLocaleDateString()}</span>
+            {"-"}
             {props.targetDate.getHours()}
             {"h"}
-            {props.targetDate.getMinutes()}{" "}
-            <span style={{ fontWeight: "bold" }}>
-                {props.targetDate.toLocaleDateString()}
-            </span>
+            {props.targetDate.getMinutes()}
         </p>
     );
 }
 
-export { BetButton, Odd, CornerButton, DateSpan };
+function CountDown({ distance }: CountDownProps) {
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+    if (distance < 0) {
+        return <Badge bg="dark">Timer placeholder</Badge>;
+    }
+
+    return (
+        <Badge bg="dark">
+            {days}d {hours}:{minutes}:{seconds}
+        </Badge>
+    );
+}
+
+export { BetButton, Odd, CornerButton, DateSpan, CountDown };
