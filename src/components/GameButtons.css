@@ -103,6 +103,10 @@
   background: #4e0c17 !important;
 }
 
+.palette-main {
+  background: #430069 !important;
+}
+
 /* Used in CornerButton */
 
 .corner-button {
@@ -136,4 +140,13 @@
 
 .corner-button:hover .icon {
   color: white;
+}
+
+.countDown {
+  text-align: right;
+  margin: 0;
+  padding-right: 1.2em;
+  font-style: italic;
+  font-size: 0.88em;
+  color: grey;
 }
