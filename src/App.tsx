@@ -3,15 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Container, Row, Col } from 'react-bootstrap';
 import { Outlet } from "react-router-dom";
-import { Fragment } from 'react';
+import { NetworkType } from '@airgap/beacon-sdk';
 
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Balls from './components/Balls';
+import { WalletContextProvider } from './utils/WalletContextProvider';
 
 function App() {
     return (
-        <Fragment>
+        <WalletContextProvider network={NetworkType.HANGZHOUNET} rpc={process.env.REACT_APP_TEZOS_RPC!} name="TezBet" >
             <Balls />
             <Header />
             <Container className="main-container">
@@ -24,7 +25,7 @@ function App() {
                 </Row>
             </Container>
             <Footer />
-        </Fragment>
+        </WalletContextProvider>
     );
 }
 

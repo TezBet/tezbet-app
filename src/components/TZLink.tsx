@@ -1,6 +1,8 @@
+import { getExplorerLink } from '../utils/utils';
+
 function TZLink(props:any) {
     return (
-        <a title={props.title} href={"https://hangzhou.tzstats.com/" + props.id}>{props.children}</a>
+        <a title={props.title} href={getExplorerLink(props.id)}>{props.children}</a>
     );
 }
 

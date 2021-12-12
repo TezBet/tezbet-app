@@ -2,14 +2,19 @@ import "./Header.css";
 
 import { Navbar, Container, Nav, Button } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
-import { useWallet } from '@tezos-contrib/react-wallet-provider';
+import { useContext, } from 'react';
+
 import TezBetLogo from '../img/icon.svg';
-
 import Faucet from './Faucet';
+import { WalletContext } from '../utils/WalletContextProvider';
+import { shortenString } from '../utils/utils';
 
-function WalletManagement(props:any) {
-    if (props.connected) {
-        return (<Button className="blob-btn blob-colorwhitesecondary" onClick={props.disconnect}><span className="blob-colorprimary">{props.activeAccount?.address}</span>
+function WalletManagement() {
+    const { connected, account, connect, disconnect, balance } = useContext(WalletContext)!;
+
+    if (connected) {
+        return (<Button className="blob-btn blob-colorwhitesecondary" onClick={disconnect}>
+            <span className="blob-colorprimary">{balance.decimalPlaces(3).toNumber()}XTZ ({shortenString(account!.address)})</span>
             <span className="blob-btn__inner blob-bgsecondary">
                 <span className="blob-btn__blobs">
                     <span className="blob-btn__blob blob-bgwhite"></span>
@@ -20,7 +25,7 @@ function WalletManagement(props:any) {
             </span>
         </Button>);
     } else {
-        return (<Button className="blob-btn blob-colorsecondarywhite" onClick={props.connect}>CONNECT WALLET
+        return (<Button className="blob-btn blob-colorsecondarywhite" onClick={connect}>CONNECT WALLET
             <span className="blob-btn__inner blob-bgwhite">
                 <span className="blob-btn__blobs">
                     <span className="blob-btn__blob blob-bgsecondary"></span>
@@ -35,8 +40,6 @@ function WalletManagement(props:any) {
 }
 
 function Header(props:any) {
-    const { connected, connect, disconnect, activeAccount } = useWallet("CUSTOM", "https://rpc.hangzhounet.teztnets.xyz", "Hangzhounet");
-
     return (
         <Navbar expand="lg" variant="dark" fixed="top">
             <Container>
@@ -50,8 +53,8 @@ function Header(props:any) {
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
-                    <Faucet address={activeAccount?.address} />
-                    <WalletManagement connected={connected} connect={connect} disconnect={disconnect} activeAccount={activeAccount} />
+                    <Faucet />
+                    <WalletManagement />
                 </Navbar.Collapse>
             </Container>
         </Navbar>

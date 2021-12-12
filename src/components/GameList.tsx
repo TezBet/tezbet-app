@@ -104,7 +104,7 @@ function GameList(props: any) {
           date={date1}
           teamA="Italy"
           teamB="Germany"
-          context="Champions' league"
+          description="Champions' league"
           teamABets={3000}
           teamBBets={3045}
           tieBets={754}
@@ -114,7 +114,7 @@ function GameList(props: any) {
           date={date2}
           teamA="Ireland"
           teamB="Scotland"
-          context="Champions' league"
+          description="Champions' league"
           teamABets={3000}
           teamBBets={5000}
           tieBets={800}
@@ -124,7 +124,7 @@ function GameList(props: any) {
           date={date3}
           teamA="Croatia"
           teamB="Canada"
-          context="Match amical"
+          description="Match amical"
           teamABets={4000}
           teamBBets={3500}
           tieBets={800}
@@ -141,7 +141,7 @@ function GameList(props: any) {
         />
         <FutureGameItem
           date={date3}
-          context="Taupin Divin"
+          description="Taupin Divin"
           teamA="IMTBS"
           teamB="TSP"
           teamABets={0}
@@ -151,7 +151,7 @@ function GameList(props: any) {
         />
         <FutureGameItem
           date={cheatDate}
-          context="CotCodINT"
+          description="CotCodINT"
           teamA="Poule"
           teamB="Renard"
           teamABets={50}
@@ -196,7 +196,7 @@ function GameItemPlaceholder() {
 
 interface FutureGameItemProps {
   date: Date;
-  context: undefined | string;
+  description?: string;
   teamA: string;
   teamB: string;
   id: string;
@@ -231,7 +231,7 @@ function FutureGameItem(props: any) {
             <Row>
               <Col xs={6}>
                 <p className="game-item-title-left">
-                  {props.context ? props.context : "Match"}
+                  {props.description ? props.description : "Match"}
                 </p>
               </Col>
               <Col xs={6}>
