@@ -196,7 +196,7 @@ function GameItemPlaceholder() {
 
 interface FutureGameItemProps {
   date: Date;
-  context: string | undefined;
+  context: undefined | string;
   teamA: string;
   teamB: string;
   id: string;
