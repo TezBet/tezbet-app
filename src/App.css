@@ -5,6 +5,7 @@
     background-attachment: fixed;
     background-position: bottom;
     padding-top: 100px;
+    min-height: 100vh;
 }
 
 body {
@@ -13,4 +14,8 @@ body {
 
 p {
     margin: 0!important;
+}
+
+.main-container {
+    min-height: 100vh;
 }
