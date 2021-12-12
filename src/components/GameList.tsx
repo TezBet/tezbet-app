@@ -3,6 +3,7 @@ import "./GameList.css";
 import { Container, Row, Col, Placeholder } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ReactComponent as MoreIcon } from "bootstrap-icons/icons/three-dots-vertical.svg";
+import { useContext, useState, useEffect, useCallback } from "react";
 
 import {
     BetButton,
@@ -11,9 +12,76 @@ import {
     DateSpan,
     CountDown,
 } from "./GameButtons";
-import { useState, useEffect } from "react";
+import { WalletContext } from "../utils/WalletContextProvider";
+import BigNumber from "bignumber.js";
+
+type Game = {
+    id: string;
+    startDate: Date;
+    currentDate?: Date;
+    description?: string;
+
+    teamA: string;
+    teamB: string;
+
+    betAmountTeamA: BigNumber;
+    betAmountTeamB: BigNumber;
+    betAmountTie: BigNumber;
+
+    betCountTeamA: number;
+    betCountTeamB: number;
+    betCountTie: number;
+
+    status: number;
+};
 
 function GameList(props: any) {
+    const { Tezos } = useContext(WalletContext)!;
+    const [games, setGames] = useState<Array<Game>>([]);
+
+    const refreshGames = useCallback(() => {
+        const d = new Date();
+        d.setUTCSeconds(d.getSeconds() + 30);
+        Tezos.wallet
+            .at(process.env.REACT_APP_TEZBET_CONTRACT!)
+            .then((contract) => contract.storage())
+            .then((s: any) => {
+                const g = Array<Game>();
+                s.games.valueMap.forEach((x: any, i: any) => {
+                    g.push({
+                        id: i,
+                        startDate: d,
+                        description: "test",
+
+                        teamA: x.team_a,
+                        teamB: x.team_b,
+
+                        betAmountTeamA:
+                            x.bet_amount_on.team_a.dividedBy(1000000),
+                        betAmountTeamB:
+                            x.bet_amount_on.team_b.dividedBy(1000000),
+                        betAmountTie: x.bet_amount_on.tie.dividedBy(1000000),
+
+                        betCountTeamA: x.bets_by_choice.team_a.toNumber(),
+                        betCountTeamB: x.bets_by_choice.team_b.toNumber(),
+                        betCountTie: x.bets_by_choice.tie.toNumber(),
+
+                        status: x.status.toNumber(),
+                    });
+                });
+
+                setGames(g);
+            });
+    }, [Tezos]);
+    useEffect(() => refreshGames(), [refreshGames]);
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            refreshGames();
+        }, 10000);
+
+        return () => clearTimeout(timer);
+    });
+
     const [date, setDate] = useState(new Date());
     useEffect(() => {
         const x = setTimeout(function () {
@@ -21,163 +89,31 @@ function GameList(props: any) {
         }, 1000);
         return () => clearTimeout(x);
     });
-    if (props.ongoing) {
-        return (
-            <Container>
-                <Row>
-                    <OngoingGameItem
-                        teamA="Italy"
-                        teamB="Germany"
-                        teamABets={300}
-                        teamBBets={345}
-                        tieBets={754}
-                        teamAScore={2}
-                        teamBScore={1}
-                        id="tz1VQnqCCqX4K5sP3FNkVSNKTdCAMJDd3E1n"
-                    />
-                    <OngoingGameItem
-                        teamA="Spain"
-                        teamB="France"
-                        teamABets={2455}
-                        teamBBets={2342}
-                        tieBets={234}
-                        teamAScore={0}
-                        teamBScore={0}
-                    />
-                    <OngoingGameItem
-                        teamA="France"
-                        teamB="England"
-                        teamABets={300}
-                        teamBBets={500}
-                        tieBets={844}
-                        teamAScore={4}
-                        teamBScore={4}
-                    />
-                    <OngoingGameItem
-                        teamA="Germany"
-                        teamB="Poland"
-                        teamABets={300}
-                        teamBBets={500}
-                        tieBets={235}
-                        teamAScore={1}
-                        teamBScore={3}
-                    />
-                    <OngoingGameItem
-                        teamA="Belgium"
-                        teamB="Switzerland"
-                        teamABets={253}
-                        teamBBets={253}
-                        tieBets={674}
-                        teamAScore={3}
-                        teamBScore={2}
-                    />
-                    <OngoingGameItem
-                        teamA="Ireland"
-                        teamB="Scotland"
-                        teamABets={300}
-                        teamBBets={500}
-                        tieBets={800}
-                        teamAScore={5}
-                        teamBScore={4}
-                    />
-                    <OngoingGameItem
-                        teamA="Croatia"
-                        teamB="Canada"
-                        teamABets={300}
-                        teamBBets={500}
-                        tieBets={800}
-                        teamAScore={0}
-                        teamBScore={3}
-                    />
-                    <OngoingGameItem
-                        teamA="England"
-                        teamB="Poland"
-                        teamABets={300}
-                        teamBBets={500}
-                        tieBets={800}
-                        teamAScore={0}
-                        teamBScore={1}
-                    />
-                    <GameItemPlaceholder />
-                </Row>
-            </Container>
-        );
-    } else {
-        let cheatDate = new Date();
-        cheatDate.setTime(Date.parse("12 Dec 2021 22:55:00 GMT"));
 
-        return (
-            <Container>
-                <Row>
-                    <FutureGameItem
-                        startDate={cheatDate}
-                        currentDate={date}
-                        teamA="Italy"
-                        teamB="Germany"
-                        description="Champions' league"
-                        teamABets={3000}
-                        teamBBets={3045}
-                        tieBets={754}
-                        id="gjfdhsjghjfdbg"
-                    />
-                    <FutureGameItem
-                        startDate={cheatDate}
-                        currentDate={date}
-                        teamA="Ireland"
-                        teamB="Scotland"
-                        description="Champions' league"
-                        teamABets={3000}
-                        teamBBets={5000}
-                        tieBets={800}
-                        id="fsdfgdsqgqs"
-                    />
-                    <FutureGameItem
-                        startDate={cheatDate}
-                        currentDate={date}
-                        teamA="Croatia"
-                        teamB="Canada"
-                        description="Match amical"
-                        teamABets={4000}
-                        teamBBets={3500}
-                        tieBets={800}
-                        id="hfjdsjfjkds"
-                    />
-                    <FutureGameItem
-                        startDate={cheatDate}
-                        currentDate={date}
-                        teamA="Suisse"
-                        teamB="Helvétie"
-                        teamABets={0}
-                        teamBBets={200}
-                        tieBets={10000}
-                        id="zzzzzzzzzzz"
-                    />
-                    <FutureGameItem
-                        startDate={cheatDate}
-                        currentDate={date}
-                        description="Taupin Divin"
-                        teamA="IMTBS"
-                        teamB="TSP"
-                        teamABets={0}
-                        teamBBets={0}
-                        tieBets={0}
-                        id="fffffffffff"
-                    />
-                    <FutureGameItem
-                        startDate={cheatDate}
-                        currentDate={date}
-                        description="CotCodINT"
-                        teamA="Poule"
-                        teamB="Renard"
-                        teamABets={50}
-                        teamBBets={75}
-                        tieBets={25}
-                        id="aaaaaaaaaaa"
-                    />
-                </Row>
-            </Container>
-        );
-    }
+    return (
+        <Container>
+            <Row>
+                {games.length <= 0 && <GameItemPlaceholder />}
+                {games
+                    .filter(
+                        (game) =>
+                            (props.ongoing && game.status === 1) ||
+                            (!props.ongoing && game.status === 0)
+                    )
+                    .map((game) =>
+                        props.ongoing ? (
+                            <OngoingGameItem {...game} key={game.id} />
+                        ) : (
+                            <FutureGameItem
+                                currentDate={date}
+                                {...game}
+                                key={game.id}
+                            />
+                        )
+                    )}
+            </Row>
+        </Container>
+    );
 }
 
 function GameItemPlaceholder() {
@@ -214,27 +150,23 @@ function GameItemPlaceholder() {
     );
 }
 
-interface FutureGameItemProps {
-    startDate: Date;
-    currentDate: Date;
-    description?: string;
-    teamA: string;
-    teamB: string;
-    id: string;
-    teamABets: number;
-    teamBBets: number;
-    tieBets: number;
-}
+function FutureGameItem(game: Game) {
+    const total = game.betAmountTeamA
+        .plus(game.betAmountTeamA)
+        .plus(game.betAmountTeamA);
+    const distance = game.startDate.getTime() - game.currentDate!.getTime();
+    console.log(distance);
 
-function FutureGameItem(props: FutureGameItemProps) {
-    const total = props.teamABets + props.teamBBets + props.tieBets;
-    const distance = props.startDate.getTime() - props.currentDate.getTime();
     return (
         <Container
             className="game-item"
-            style={distance < 0 ? { display: "none" } : {}}
+            style={
+                distance < 0
+                    ? { display: "none", backgroundColor: "red !important" }
+                    : { backgroundColor: "green !important" }
+            }
         >
-            <CornerButton contractId={props.id} />
+            <CornerButton contractId={game.id} />
             <Row className="g-0">
                 <Col xs={2} className="game-vertical-align colorsecondary">
                     <Row>
@@ -244,7 +176,7 @@ function FutureGameItem(props: FutureGameItemProps) {
                         <p>
                             {" "}
                             <span className="colorprimary game-title game-title-bold">
-                                {total}
+                                {total.decimalPlaces(1).toString()}
                             </span>{" "}
                             <span className="xtz">ꜩ</span>
                         </p>
@@ -255,8 +187,8 @@ function FutureGameItem(props: FutureGameItemProps) {
                         <Row>
                             <Col xs={4}>
                                 <p className="game-item-title-left">
-                                    {props.description
-                                        ? props.description
+                                    {game.description
+                                        ? game.description
                                         : "Match"}
                                 </p>
                             </Col>
@@ -264,7 +196,7 @@ function FutureGameItem(props: FutureGameItemProps) {
                                 <CountDown distance={distance} />
                             </Col>
                             <Col xs={4}>
-                                <DateSpan targetDate={props.startDate} />
+                                <DateSpan targetDate={game.startDate} />
                             </Col>
                         </Row>
                         <Row>
@@ -272,7 +204,7 @@ function FutureGameItem(props: FutureGameItemProps) {
                                 xs={4}
                                 className="game-vertical-align game-col-title"
                             >
-                                <p>{props.teamA}</p>
+                                <p>{game.teamA}</p>
                             </Col>
                             <Col
                                 xs={4}
@@ -284,25 +216,25 @@ function FutureGameItem(props: FutureGameItemProps) {
                                 xs={4}
                                 className="game-vertical-align game-col-title"
                             >
-                                <p>{props.teamB}</p>
+                                <p>{game.teamB}</p>
                             </Col>
                         </Row>
                         <Row>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd bets={total} bet={props.teamABets} />
+                                <Odd bets={total} bet={game.betAmountTeamA} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd bets={total} bet={props.tieBets} />
+                                <Odd bets={total} bet={game.betAmountTeamA} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd bets={total} bet={props.teamBBets} />
+                                <Odd bets={total} bet={game.betAmountTeamA} />
                             </Col>
                         </Row>
                     </Container>
                 </Col>
                 <Col xs={2} className="game-vertical-align">
                     <p>
-                        <BetButton id={props.id} />
+                        <BetButton id={game.id} />
                     </p>
                 </Col>
             </Row>

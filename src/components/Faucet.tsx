@@ -53,11 +53,7 @@ function Faucet(props: any) {
 
     return (
         <Fragment>
-            <Button
-                onClick={() => setShow(true)}
-                variant="dark"
-                style={{ marginRight: "10px" }}
-            >
+            <Button onClick={() => setShow(true)} variant="dark" style={{ marginRight: "10px" }} >
                 <BankIcon
                     width="18px"
                     height="18px"
@@ -66,13 +62,7 @@ function Faucet(props: any) {
                 FAUCET
             </Button>
 
-            <Modal
-                contentClassName="faucet-modal"
-                show={show}
-                onHide={handleClose}
-                onShow={drip}
-                size="lg"
-            >
+            <Modal contentClassName="faucet-modal" show={show} onHide={handleClose} onShow={drip} size="lg">
                 <Modal.Header closeButton>
                     <Modal.Title>Hangzhounet XTZ Faucet</Modal.Title>
                 </Modal.Header>

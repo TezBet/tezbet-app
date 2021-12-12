@@ -15,16 +15,9 @@ function BetButton(props: any) {
 }
 
 function Odd({ bet, bets }: any) {
-    if (bet === 0) {
+    if (bet.comparedTo(0) === 0) {
         return (
-            <OverlayTrigger
-                placement="bottom"
-                overlay={
-                    <Tooltip>
-                        If you bet on this, you'll be the first to do so!
-                    </Tooltip>
-                }
-            >
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>If you bet on this, you'll be the first to do so!</Tooltip>}>
                 <p>
                     <Badge bg="secondary" className="palette-0">
                         No bet yet
@@ -34,7 +27,7 @@ function Odd({ bet, bets }: any) {
         );
     } else {
         let colorPalette;
-        const odd = bets / bet;
+        const odd = bets.dividedBy(bet);
         if (odd <= 1) {
             colorPalette = "palette-0";
         }
@@ -64,17 +57,10 @@ function Odd({ bet, bets }: any) {
             // colorPalette="palette-8";
         }
         return (
-            <OverlayTrigger
-                placement="bottom"
-                overlay={
-                    <Tooltip>
-                        Potential gain for this pool: {bets - bet} XTZ
-                    </Tooltip>
-                }
-            >
+            <OverlayTrigger placement="bottom" overlay={<Tooltip>{bet.decimalPlaces(1).toString()} XTZ bet on this pool</Tooltip>}>
                 <p>
                     <Badge bg="secondary" className={colorPalette}>
-                        x{odd.toPrecision(2)}
+                        x{odd.decimalPlaces(1).toString()}
                     </Badge>
                 </p>
             </OverlayTrigger>
