@@ -39,7 +39,7 @@ function WalletManagement() {
     }
 }
 
-function Header(props:any) {
+function Header(props: any) {
     return (
         <Navbar expand="lg" variant="dark" fixed="top">
             <Container>

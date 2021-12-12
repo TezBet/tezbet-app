@@ -24,7 +24,7 @@ interface WalletProviderProps {
     children: any;
 }
 
-function WalletContextProvider(props:WalletProviderProps) {
+function WalletContextProvider(props: WalletProviderProps) {
     const [wallet, setWallet] = useState<BeaconWallet | undefined>(undefined);
     const [account, setAccount] = useState<AccountInfo | undefined>(undefined);
     const [connected, setConnected] = useState(false);
@@ -34,21 +34,21 @@ function WalletContextProvider(props:WalletProviderProps) {
         name: props.name,
         preferredNetwork: props.network,
     }), [props.network, props.name]);
-    useEffect(() => {if (typeof wallet == 'undefined') setWallet(new BeaconWallet(options))}, [wallet, options]);
+    useEffect(() => { if (typeof wallet == 'undefined') setWallet(new BeaconWallet(options)) }, [wallet, options]);
 
     const refreshAccount = useCallback(() => {
         wallet?.client.getActiveAccount()
-        .then((a) => {
-            setAccount(a);
-            setConnected(typeof a != 'undefined');
-        });
+            .then((a) => {
+                setAccount(a);
+                setConnected(typeof a != 'undefined');
+            });
     }, [wallet]);
     useEffect(() => refreshAccount(), [refreshAccount, wallet]);
 
     const connect = useCallback(() => {
         wallet!.requestPermissions({ network: { type: props.network } })
-        .then((_) => refreshAccount())
-        .catch((err) => console.log(JSON.stringify(err, null, 2)));
+            .then((_) => refreshAccount())
+            .catch((err) => console.log(JSON.stringify(err, null, 2)));
     }, [wallet, refreshAccount, props.network]);
 
     const disconnect = useCallback(() => {

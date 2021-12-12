@@ -7,9 +7,9 @@ const rowHeight = 150;
 function Balls() {
     const documentHeight = useDocumentHeight();
     const [balls, setBalls] = useState(Array<object>());
-    let ballsToShow:Array<object>;
+    let ballsToShow: Array<object>;
 
-    const missing = Math.floor(documentHeight/rowHeight) - balls.length - 1;
+    const missing = Math.floor(documentHeight / rowHeight) - balls.length - 1;
     if (missing <= 0) {
         ballsToShow = balls;
     } else {
@@ -18,7 +18,7 @@ function Balls() {
             return {
                 left: getRandomInt(-10, 110),
                 size: size,
-                top: getRandomInt(0, rowHeight-size) + (balls.length + i + 1) * rowHeight,
+                top: getRandomInt(0, rowHeight - size) + (balls.length + i + 1) * rowHeight,
             };
         });
 
@@ -27,11 +27,11 @@ function Balls() {
     }
 
     return <div className="soccer-balls">
-        {ballsToShow.map((ballProps, i) => <Ball {...ballProps} key={i} /> )}
+        {ballsToShow.map((ballProps, i) => <Ball {...ballProps} key={i} />)}
     </div>;
 }
 
-function Ball(props:any) {
+function Ball(props: any) {
     const documentHeight = useDocumentHeight();
     const height = Math.max(0, Math.min(documentHeight - props.top, props.size));
 
@@ -44,9 +44,9 @@ function Ball(props:any) {
     }} />;
 }
 
-function getRandomInt(min:number, max:number) {
+function getRandomInt(min: number, max: number) {
     if (min >= max) return min;
-    return Math.floor(Math.random() * (max-min+1) + min)
+    return Math.floor(Math.random() * (max - min + 1) + min)
 }
 
 export default Balls;
