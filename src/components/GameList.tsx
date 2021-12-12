@@ -2,8 +2,8 @@ import "./GameList.css";
 
 import { Container, Row, Col, Placeholder } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
 import { ReactComponent as MoreIcon } from "bootstrap-icons/icons/three-dots-vertical.svg";
+
 import { BetButton, Odd, CornerButton, DateSpan } from "./GameButtons";
 
 function GameList(props: any) {
@@ -209,7 +209,7 @@ interface FutureGameItemProps {
     tieBets: number;
 }
 
-function FutureGameItem(props: any) {
+function FutureGameItem(props: FutureGameItemProps) {
     const total = props.teamABets + props.teamBBets + props.tieBets;
     console.log(typeof total);
     return (
