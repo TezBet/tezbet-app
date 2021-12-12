@@ -1,8 +1,11 @@
-import { useState, Fragment } from 'react';
+import { useState, Fragment, useContext } from 'react';
 import { TezosToolkit } from '@taquito/taquito';
 import { InMemorySigner } from '@taquito/signer';
 import { Button, Modal } from 'react-bootstrap';
-import {ReactComponent as BankIcon} from 'bootstrap-icons/icons/bank.svg';
+import { ReactComponent as BankIcon } from 'bootstrap-icons/icons/bank.svg';
+
+import { WalletContext } from '../utils/WalletContextProvider';
+import { getExplorerLink, shortenString } from '../utils/utils';
 
 function Faucet(props:any) {
     const [transactionHash, setTransactionHash] = useState("");
@@ -10,9 +13,13 @@ function Faucet(props:any) {
     const [step, setStep] = useState(0);
     const [show, setShow] = useState(false);
 
+    const { connected, account, refreshBalance } = useContext(WalletContext)!;
+    if (!connected) return <Fragment />;
+
+    const address = account!.address;
     const amount = 10;
-    const tzlink = transactionHash ? `https://hangzhou.tzstats.com/${transactionHash}` : "";
-    const tezos = new TezosToolkit('https://rpc.hangzhounet.teztnets.xyz');
+    const tzlink = transactionHash ? getExplorerLink(transactionHash) : "";
+    const Tezos = new TezosToolkit(process.env.REACT_APP_TEZOS_RPC!);
 
     const handleClose = () => {
         if (step === 3) setStep(0);
@@ -20,22 +27,26 @@ function Faucet(props:any) {
     }
 
     const drip = () => {
-        if (props.address == null) return;
+        if (address == null) return;
         setShow(true);
         if (step !== 0) return;
         setStep(1);
         
         InMemorySigner.fromSecretKey(process.env.REACT_APP_FAUCET_PRIVATE_KEY!)
         .then((signer) => {
-            tezos.setProvider({ signer: signer });
-        }).then(() => tezos.contract.transfer({ to: props.address, amount: amount }))
-        .then((op) => { setStep(2); setTransactionHash(op.hash); op.confirmation(1).then(() => setStep(3)); })
+            Tezos.setProvider({ signer: signer });
+        }).then(() => Tezos.contract.transfer({ to: address, amount: amount }))
+        .then((op) => {
+            setStep(2);
+            setTransactionHash(op.hash);
+            return op.confirmation(1);
+        }).then(() => {
+            setStep(3);
+            refreshBalance();
+        })
         .catch((err) => setError(JSON.stringify(err, null, 2)));
     }
 
-    if (props.address == null) {
-        return <Fragment />
-    } else {
     return (
         <Fragment>
             <Button onClick={() => setShow(true)} variant="outline-dark" style={{ marginRight: "10px"}}>
@@ -47,10 +58,12 @@ function Faucet(props:any) {
                     <Modal.Title>Hangzhounet XTZ Faucet</Modal.Title>
                 </Modal.Header>
                 <Modal.Body id="faucet-modal-body">
-                    <p>Transfering {amount} ꜩ to {props.address}.</p>
+                    <p>Transfering {amount} ꜩ to {shortenString(address, 8)}.</p>
                     { step >= 2 &&
-                        <Fragment>  
-                            <p>Waiting for <a rel="noreferrer" target="_blank" href={tzlink}>{transactionHash}</a> to be confirmed.</p>
+                        <Fragment>
+                            <p>Waiting for 
+                                <a rel="noreferrer" target="_blank" href={tzlink}> {shortenString(transactionHash, 8)} </a> 
+                                to be confirmed.</p>
                             <p>You can close this window. The transaction will be processed in the background.</p>
                         </Fragment>
                     }
@@ -65,7 +78,6 @@ function Faucet(props:any) {
                 </Modal.Footer>
             </Modal>
         </Fragment>);
-    }
 }
 
 export default Faucet;
