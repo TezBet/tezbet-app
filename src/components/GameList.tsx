@@ -4,7 +4,13 @@ import { Container, Row, Col, Placeholder } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ReactComponent as MoreIcon } from "bootstrap-icons/icons/three-dots-vertical.svg";
 
-import { BetButton, Odd, CornerButton, DateSpan } from "./GameButtons";
+import {
+    BetButton,
+    Odd,
+    CornerButton,
+    DateSpan,
+    CountDown,
+} from "./GameButtons";
 
 function GameList(props: any) {
     if (props.ongoing) {
@@ -233,14 +239,17 @@ function FutureGameItem(props: FutureGameItemProps) {
                 <Col xs={8}>
                     <Container className="game-item-hero">
                         <Row>
-                            <Col xs={6}>
+                            <Col xs={4}>
                                 <p className="game-item-title-left">
                                     {props.description
                                         ? props.description
                                         : "Match"}
                                 </p>
                             </Col>
-                            <Col xs={6}>
+                            <Col xs={4}>
+                                <CountDown />
+                            </Col>
+                            <Col xs={4}>
                                 <DateSpan targetDate={props.date} />
                             </Col>
                         </Row>

@@ -98,15 +98,18 @@ interface CountDownProps {
 
 function DateSpan(props: CountDownProps) {
     return (
-        <p className="countDown">
+        <p className="dateSpan">
+            <span>{props.targetDate.toLocaleDateString()}</span>
+            {"-"}
             {props.targetDate.getHours()}
             {"h"}
-            {props.targetDate.getMinutes()}{" "}
-            <span style={{ fontWeight: "bold" }}>
-                {props.targetDate.toLocaleDateString()}
-            </span>
+            {props.targetDate.getMinutes()}
         </p>
     );
 }
 
-export { BetButton, Odd, CornerButton, DateSpan };
+function CountDown() {
+    return <Badge bg="dark">Timer placeholder</Badge>;
+}
+
+export { BetButton, Odd, CornerButton, DateSpan, CountDown };

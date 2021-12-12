@@ -142,7 +142,9 @@
     color: white;
 }
 
-.countDown {
+/* DateSpan */
+
+.dateSpan {
     text-align: right;
     margin: 0;
     padding-right: 1.2em;
