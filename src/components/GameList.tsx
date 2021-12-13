@@ -112,20 +112,19 @@ function GameList(props: any) {
             <Container>
                 <Row>
                     {games.length <= 0 && <GameItemPlaceholder />}
-                    {games
-                        .filter((game) => (props.ongoing && game.status === 1) || (!props.ongoing && game.status === 0))
-                        .map((game) =>
-                            props.ongoing ? (
-                                <OngoingGameItem {...game} key={game.id} />
-                            ) : (
-                                <FutureGameItem
-                                    currentDate={date}
-                                    game={game}
-                                    key={game.id}
-                                    onBetClick={() => onBetClick(game)}
-                                />
-                            )
-                        )}
+                    {props.ongoing &&
+                        games.filter((game) => game.status === 1)
+                            .map((game) => <OngoingGameItem {...game} key={game.id} />)
+                    }
+                    {!props.ongoing &&
+                        games.filter((game) => game.status === 0)
+                            .map((game) => <FutureGameItem
+                                currentDate={date}
+                                game={game}
+                                key={game.id}
+                                onBetClick={() => onBetClick(game)}
+                            />)
+                    }
                 </Row>
             </Container>
         </Fragment>
