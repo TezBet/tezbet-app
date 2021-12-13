@@ -36,9 +36,7 @@ function Faucet(props: any) {
             .then((signer) => {
                 Tezos.setProvider({ signer: signer });
             })
-            .then(() =>
-                Tezos.contract.transfer({ to: address, amount: amount })
-            )
+            .then(() => Tezos.contract.transfer({ to: address, amount: amount }))
             .then((op) => {
                 setStep(2);
                 setTransactionHash(op.hash);
@@ -53,13 +51,8 @@ function Faucet(props: any) {
 
     return (
         <Fragment>
-            <Button onClick={() => setShow(true)} variant="dark" style={{ marginRight: "10px" }} >
-                <BankIcon
-                    width="18px"
-                    height="18px"
-                    style={{ top: "-3px", position: "relative" }}
-                />{" "}
-                FAUCET
+            <Button onClick={() => setShow(true)} variant="dark" style={{ marginRight: "10px" }}>
+                <BankIcon width="18px" height="18px" style={{ top: "-3px", position: "relative" }} /> FAUCET
             </Button>
 
             <Modal contentClassName="faucet-modal" show={show} onHide={handleClose} onShow={drip} size="lg">
@@ -74,20 +67,13 @@ function Faucet(props: any) {
                         <Fragment>
                             <p>
                                 Waiting for
-                                <a
-                                    rel="noreferrer"
-                                    target="_blank"
-                                    href={tzlink}
-                                >
+                                <a rel="noreferrer" target="_blank" href={tzlink}>
                                     {" "}
                                     {shortenString(transactionHash, 8)}{" "}
                                 </a>
                                 to be confirmed.
                             </p>
-                            <p>
-                                You can close this window. The transaction will
-                                be processed in the background.
-                            </p>
+                            <p>You can close this window. The transaction will be processed in the background.</p>
                         </Fragment>
                     )}
                     {step >= 3 && <p>Operation successful.</p>}

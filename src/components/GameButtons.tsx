@@ -5,7 +5,7 @@ import { ReactComponent as ContractIcon } from "bootstrap-icons/icons/file-earma
 import { ReactComponent as ClickIcon } from "bootstrap-icons/icons/arrow-right-circle.svg";
 import { Badge, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-function BetButton({onBetClick}:{onBetClick:() => void}) {
+function BetButton({ onBetClick }: { onBetClick: () => void }) {
     return (
         <Button variant="light" as="span" className="bet-button" onClick={onBetClick}>
             <span className="bet-text">BET</span>
@@ -57,7 +57,10 @@ function Odd({ bet, bets }: any) {
             // colorPalette="palette-8";
         }
         return (
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>{bet.decimalPlaces(1).toString()} XTZ bet on this pool</Tooltip>}>
+            <OverlayTrigger
+                placement="bottom"
+                overlay={<Tooltip>{bet.decimalPlaces(1).toString()} XTZ bet on this pool</Tooltip>}
+            >
                 <p>
                     <Badge bg="secondary" className={colorPalette}>
                         x{odd.decimalPlaces(1).toString()}
@@ -100,9 +103,7 @@ function DateSpan(props: DateSpanProps) {
 
 function CountDown({ distance }: CountDownProps) {
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor(
-        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-    );
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
     if (distance < 0) {

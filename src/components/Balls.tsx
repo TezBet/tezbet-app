@@ -13,7 +13,8 @@ function Balls() {
         let ballsToShow: Array<object>;
 
         if (missing > 0) {
-            const newBalls = Array<object>(missing).fill({})
+            const newBalls = Array<object>(missing)
+                .fill({})
                 .map((x, i) => {
                     const size = getRandomInt(70, 200);
                     return {
@@ -42,7 +43,8 @@ function Ball(props: any) {
     const height = Math.max(0, Math.min(documentHeight - props.top, props.size));
 
     return (
-        <div className="soccer-ball"
+        <div
+            className="soccer-ball"
             style={{
                 width: props.size + "px",
                 height: height + "px",

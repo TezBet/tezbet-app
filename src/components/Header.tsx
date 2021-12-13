@@ -10,20 +10,13 @@ import { WalletContext } from "../utils/WalletContextProvider";
 import { shortenString } from "../utils/utils";
 
 function WalletManagement() {
-    const { connected, account, connect, disconnect, balance } =
-        useContext(WalletContext)!;
+    const { connected, account, connect, disconnect, balance } = useContext(WalletContext)!;
 
     if (connected) {
         return (
-            <Button
-                className="blob-btn blob-colorwhitesecondary"
-                onClick={disconnect}
-            >
+            <Button className="blob-btn blob-colorwhitesecondary" onClick={disconnect}>
                 {balance.decimalPlaces(3).toNumber()} XTZ
-                <span className="blob-colorprimary">
-                    {" "}
-                    ({shortenString(account!.address)})
-                </span>
+                <span className="blob-colorprimary"> ({shortenString(account!.address)})</span>
                 <span className="blob-btn__inner blob-bgsecondary">
                     <span className="blob-btn__blobs">
                         <span className="blob-btn__blob blob-bgwhite"></span>
@@ -36,10 +29,7 @@ function WalletManagement() {
         );
     } else {
         return (
-            <Button
-                className="blob-btn blob-colorsecondarywhite"
-                onClick={connect}
-            >
+            <Button className="blob-btn blob-colorsecondarywhite" onClick={connect}>
                 CONNECT WALLET
                 <span className="blob-btn__inner blob-bgwhite">
                     <span className="blob-btn__blobs">
@@ -59,12 +49,7 @@ function Header(props: any) {
         <Navbar expand="lg" variant="dark" fixed="top">
             <Container>
                 <Navbar.Brand className="fs-3" href="/">
-                    <img
-                        height="40px"
-                        width="40px"
-                        alt="Phoenician bet letter"
-                        src={TezBetLogo}
-                    ></img>
+                    <img height="40px" width="40px" alt="Phoenician bet letter" src={TezBetLogo}></img>
                     TezBet
                 </Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
