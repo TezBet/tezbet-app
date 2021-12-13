@@ -1,9 +1,9 @@
 import "./GameList.css";
 
-import { Container, Row, Col, Placeholder } from "react-bootstrap";
+import { Container, Row, Col, Placeholder, Modal, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { ReactComponent as MoreIcon } from "bootstrap-icons/icons/three-dots-vertical.svg";
-import { useContext, useState, useEffect, useCallback } from "react";
+import { useContext, useState, useEffect, useCallback, Fragment } from "react";
 
 import {
     BetButton,
@@ -38,6 +38,8 @@ type Game = {
 function GameList(props: any) {
     const { Tezos } = useContext(WalletContext)!;
     const [games, setGames] = useState<Array<Game>>([]);
+    const [date, setDate] = useState(new Date());
+    const [currentGame, setCurrentGame] = useState<Game | undefined>();
 
     const refreshGames = useCallback(() => {
         const d = new Date();
@@ -56,10 +58,8 @@ function GameList(props: any) {
                         teamA: x.team_a,
                         teamB: x.team_b,
 
-                        betAmountTeamA:
-                            x.bet_amount_on.team_a.dividedBy(1000000),
-                        betAmountTeamB:
-                            x.bet_amount_on.team_b.dividedBy(1000000),
+                        betAmountTeamA: x.bet_amount_on.team_a.dividedBy(1000000),
+                        betAmountTeamB: x.bet_amount_on.team_b.dividedBy(1000000),
                         betAmountTie: x.bet_amount_on.tie.dividedBy(1000000),
 
                         betCountTeamA: x.bets_by_choice.team_a.toNumber(),
@@ -82,7 +82,6 @@ function GameList(props: any) {
         return () => clearTimeout(timer);
     });
 
-    const [date, setDate] = useState(new Date());
     useEffect(() => {
         const x = setTimeout(function () {
             setDate(new Date());
@@ -90,29 +89,56 @@ function GameList(props: any) {
         return () => clearTimeout(x);
     });
 
+    const onBetClick = useCallback((game: Game) => {
+        setCurrentGame(game);
+        console.log("test");
+    }, []);
+
+    const betClose = useCallback(() => {
+        setCurrentGame(undefined);
+    }, []);
+
     return (
-        <Container>
-            <Row>
-                {games.length <= 0 && <GameItemPlaceholder />}
-                {games
-                    .filter(
-                        (game) =>
-                            (props.ongoing && game.status === 1) ||
-                            (!props.ongoing && game.status === 0)
-                    )
-                    .map((game) =>
-                        props.ongoing ? (
-                            <OngoingGameItem {...game} key={game.id} />
-                        ) : (
-                            <FutureGameItem
-                                currentDate={date}
-                                {...game}
-                                key={game.id}
-                            />
+        <Fragment>
+            {!props.ongoing &&
+                <Modal size="lg" show={typeof currentGame != 'undefined'} onHide={betClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Bet on {currentGame?.description}: {currentGame?.teamA} - {currentGame?.teamB}</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={betClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            }
+            <Container>
+                <Row>
+                    {games.length <= 0 && <GameItemPlaceholder />}
+                    {games
+                        .filter(
+                            (game) =>
+                                (props.ongoing && game.status === 1) ||
+                                (!props.ongoing && game.status === 0)
                         )
-                    )}
-            </Row>
-        </Container>
+                        .map((game) =>
+                            props.ongoing ? (
+                                <OngoingGameItem {...game} key={game.id} />
+                            ) : (
+                                <FutureGameItem
+                                    currentDate={date}
+                                    game={game}
+                                    key={game.id}
+                                    onBetClick={() => onBetClick(game)}
+                                />
+                            )
+                        )}
+                </Row>
+            </Container>
+        </Fragment>
     );
 }
 
@@ -150,19 +176,16 @@ function GameItemPlaceholder() {
     );
 }
 
-function FutureGameItem(game: Game) {
-    const total = game.betAmountTeamA
-        .plus(game.betAmountTeamA)
-        .plus(game.betAmountTeamA);
-    const distance = game.startDate.getTime() - game.currentDate!.getTime();
-    console.log(distance);
+function FutureGameItem({ game, onBetClick, currentDate }: { game: Game, onBetClick: () => void, currentDate: Date }) {
+    const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
+    const distance = game.startDate.getTime() - currentDate!.getTime();
 
     return (
         <Container
             className="game-item"
             style={
                 distance < 0
-                    ? { display: "none", backgroundColor: "red !important" }
+                    ? { display: "block", backgroundColor: "red !important" }
                     : { backgroundColor: "green !important" }
             }
         >
@@ -224,17 +247,17 @@ function FutureGameItem(game: Game) {
                                 <Odd bets={total} bet={game.betAmountTeamA} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd bets={total} bet={game.betAmountTeamA} />
+                                <Odd bets={total} bet={game.betAmountTeamB} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd bets={total} bet={game.betAmountTeamA} />
+                                <Odd bets={total} bet={game.betAmountTie} />
                             </Col>
                         </Row>
                     </Container>
                 </Col>
                 <Col xs={2} className="game-vertical-align">
                     <p>
-                        <BetButton id={game.id} />
+                        <BetButton onBetClick={onBetClick} />
                     </p>
                 </Col>
             </Row>
@@ -326,7 +349,6 @@ function OngoingGameItem(props: any) {
                     </Row>
                 </Col>
                 <Col xs={1} className="game-vertical-align">
-                    <BetButton id={props.id} />
                 </Col>
                 <Col xs={1} className="game-vertical-align">
                     <Link to={`/game/${props.id}`} className="game-item-more">

@@ -5,9 +5,9 @@ import { ReactComponent as ContractIcon } from "bootstrap-icons/icons/file-earma
 import { ReactComponent as ClickIcon } from "bootstrap-icons/icons/arrow-right-circle.svg";
 import { Badge, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
 
-function BetButton(props: any) {
+function BetButton({onBetClick}:{onBetClick:() => void}) {
     return (
-        <Button variant="light" as="span" className="bet-button">
+        <Button variant="light" as="span" className="bet-button" onClick={onBetClick}>
             <span className="bet-text">BET</span>
             <ClickIcon className="arrow-icon" />
         </Button>
