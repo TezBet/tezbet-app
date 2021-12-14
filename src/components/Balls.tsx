@@ -1,6 +1,6 @@
-import "./Balls.css";
 import { useEffect, useState } from "react";
 import useDocumentHeight from "../utils/useDocumentHeight";
+import "./Balls.css";
 
 const rowHeight = 150;
 
@@ -15,7 +15,7 @@ function Balls() {
         if (missing > 0) {
             const newBalls = Array<object>(missing)
                 .fill({})
-                .map((x, i) => {
+                .map((_x, i) => {
                     const size = getRandomInt(70, 200);
                     return {
                         left: getRandomInt(-10, 110),

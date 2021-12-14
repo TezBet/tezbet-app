@@ -1,8 +1,8 @@
-import { useState, useCallback, useEffect, createContext, useMemo } from 'react';
+import { AccountInfo, NetworkType } from '@airgap/beacon-sdk';
 import { BeaconWallet } from '@taquito/beacon-wallet';
-import { NetworkType, AccountInfo } from '@airgap/beacon-sdk';
 import { TezosToolkit } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
+import { createContext, useCallback, useEffect, useMemo, useState } from 'react';
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
 
@@ -87,3 +87,4 @@ function WalletContextProvider(props: WalletProviderProps) {
 
 export { WalletContextProvider, WalletContext };
 export type { WalletContextType };
+

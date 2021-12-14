@@ -1,13 +1,11 @@
-import "./Header.css";
-
-import { Navbar, Container, Nav, Button } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
 import { useContext } from "react";
-
+import { Button, Container, Nav, Navbar } from "react-bootstrap";
+import { NavLink } from "react-router-dom";
 import TezBetLogo from "../img/icon.svg";
-import Faucet from "./Faucet";
-import { WalletContext } from "../utils/WalletContextProvider";
 import { shortenString } from "../utils/utils";
+import { WalletContext } from "../utils/WalletContextProvider";
+import Faucet from "./Faucet";
+import "./Header.css";
 
 function WalletManagement() {
     const { connected, account, connect, disconnect, balance } = useContext(WalletContext)!;

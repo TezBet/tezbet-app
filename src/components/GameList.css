@@ -95,15 +95,15 @@
     margin-bottom: 10px;
 }
 
-.colorprimary {
+.game-item-colorprimary {
     color: #fd7232;
 }
 
-.colorsecondary {
+.game-item-colorsecondary {
     color: #430069;
 }
 
-.xtz {
+.game-item-xtz {
     font-size: 0.9em;
 }
 
@@ -111,7 +111,7 @@
     font-weight: 900;
 }
 
-.game-tie {
+.game-item-tie {
     font-size: 0.7em;
     font-weight: bold;
     color: gray;

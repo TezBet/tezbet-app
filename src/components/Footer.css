@@ -5,22 +5,6 @@
     color: white;
 }
 
-.footer .footer-vertical-align {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-}
-
-.footer::before {
-    content: "";
-    border: solid 1px transparent;
-    position: absolute;
-    top: 5%;
-    width: 90%;
-    border-radius: 1px;
-    left: 5%;
-}
-
 .footer p {
     margin: 20px 20px !important;
 }

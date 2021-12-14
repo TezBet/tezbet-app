@@ -93,9 +93,9 @@ function GameItemPlaceholder() {
                     <Placeholder xs={4} size="lg" />
                 </Placeholder>
             </Row>
-            {[...Array(3)].map((x, i) => (
+            {[...Array(3)].map((_x, i) => (
                 <Row key={i}>
-                    {[...Array(6)].map((y, j) => (
+                    {[...Array(6)].map((_y, j) => (
                         <Col key={i + "-" + j} xs={2}>
                             <Placeholder style={{ textAlign: "center" }} as="span" animation="glow">
                                 <Placeholder xs={12} />
@@ -121,17 +121,17 @@ function FutureGameItem({ game, onBetClick, currentDate }: { game: Game; onBetCl
         >
             <CornerButton contractId={game.id} />
             <Row className="g-0">
-                <Col xs={2} className="game-vertical-align colorsecondary">
+                <Col xs={2} className="game-vertical-align game-item-colorsecondary">
                     <Row>
                         <p className="game-title-bold">Total bet</p>
                     </Row>
                     <Row>
                         <p>
                             {" "}
-                            <span className="colorprimary game-title game-title-bold">
+                            <span className="game-item-colorprimary game-title game-title-bold">
                                 {total.decimalPlaces(1).toString()}
                             </span>{" "}
-                            <span className="xtz">ꜩ</span>
+                            <span className="game-item-xtz">ꜩ</span>
                         </p>
                     </Row>
                 </Col>
@@ -153,7 +153,7 @@ function FutureGameItem({ game, onBetClick, currentDate }: { game: Game; onBetCl
                                 <p>{game.teamA}</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-subtitle">
-                                <p className="game-tie">TIE</p>
+                                <p className="game-item-tie">TIE</p>
                             </Col>
                             <Col xs={4} className="game-vertical-align game-col-title">
                                 <p>{game.teamB}</p>

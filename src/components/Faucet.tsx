@@ -1,13 +1,12 @@
-import { useState, Fragment, useContext } from "react";
-import { TezosToolkit } from "@taquito/taquito";
 import { InMemorySigner } from "@taquito/signer";
-import { Button, Modal } from "react-bootstrap";
+import { TezosToolkit } from "@taquito/taquito";
 import { ReactComponent as BankIcon } from "bootstrap-icons/icons/bank.svg";
-
-import { WalletContext } from "../utils/WalletContextProvider";
+import { Fragment, useContext, useState } from "react";
+import { Button, Modal } from "react-bootstrap";
 import { getExplorerLink, shortenString } from "../utils/utils";
+import { WalletContext } from "../utils/WalletContextProvider";
 
-function Faucet(props: any) {
+function Faucet() {
     const [transactionHash, setTransactionHash] = useState("");
     const [error, setError] = useState("");
     const [step, setStep] = useState(0);

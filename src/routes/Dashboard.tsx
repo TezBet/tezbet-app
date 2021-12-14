@@ -1,5 +1,4 @@
-
-function Dashboard(props: any) {
+function Dashboard() {
     return <div style={{ height: "100vh" }}></div>;
 }
 

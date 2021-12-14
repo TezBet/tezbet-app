@@ -65,45 +65,7 @@
     left: 150px;
 }
 
-/* Used in Odd */
-
-.palette-0 {
-    background: #707070 !important;
-}
-
-.palette-1 {
-    background: #1f4601 !important;
-}
-
-.palette-2 {
-    background: #568009 !important;
-}
-
-.palette-3 {
-    background: #92b902 !important;
-}
-
-.palette-4 {
-    background: #ffae00 !important;
-}
-
-.palette-5 {
-    background: #ff9100 !important;
-}
-
-.palette-6 {
-    background: #df4d34 !important;
-}
-
-.palette-7 {
-    background: #a01418 !important;
-}
-
-.palette-8 {
-    background: #4e0c17 !important;
-}
-
-.palette-main {
+.bet-multiplier-purple {
     background: #430069 !important;
 }
 
@@ -144,7 +106,7 @@
 
 /* DateSpan */
 
-.dateSpan {
+.date-span {
     text-align: right;
     margin: 0;
     padding-right: 1.2em;

@@ -1,5 +1,5 @@
+import { Col, Container, Row } from "react-bootstrap";
 import "./Footer.css";
-import { Container, Row, Col } from "react-bootstrap";
 
 function Footer() {
     return (
@@ -7,7 +7,7 @@ function Footer() {
             <Row>
                 <Col></Col>
                 <Col>
-                    <p className="footer-vertical-align">Copyright TezBet</p>
+                    <p>Copyright TezBet</p>
                 </Col>
                 <Col></Col>
             </Row>
