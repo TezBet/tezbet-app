@@ -17,7 +17,7 @@ function BetButton({ onBetClick }: { onBetClick: () => void }) {
 
 function Multiplier(props: { className?: string, total: BigNumber, betAmount: BigNumber }) {
     const odd = useMemo(() => props.total.dividedBy(props.betAmount), [props.total, props.betAmount]);
-    const palette = useMemo(() => props.betAmount.comparedTo(0) === 0 ? "" : "palette-main", [props.betAmount]);
+    const palette = useMemo(() => props.betAmount.comparedTo(0) === 0 ? "" : "bet-multiplier-purple", [props.betAmount]);
 
     const [tooltipText, badgeText] = useMemo(() => {
         if (props.betAmount.comparedTo(0) === 0) {
@@ -68,7 +68,7 @@ interface DateSpanProps {
 
 function DateSpan(props: DateSpanProps) {
     return (
-        <p className="dateSpan">
+        <p className="date-span">
             <span>{props.targetDate.toLocaleDateString()}</span>
             {"-"}
             {props.targetDate.getHours()}
