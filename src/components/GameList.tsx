@@ -87,17 +87,17 @@ function GameList(props: any) {
 
 function GameItemPlaceholder() {
     return (
-        <Container className="game-item game-item-placeholder" style={{ textAlign: "left" }}>
+        <Container className="game-item">
             <Row>
-                <Placeholder style={{ textAlign: "center" }} as="span" animation="glow">
-                    <Placeholder xs={4} size="lg" />
+                <Placeholder as="span" animation="glow">
+                    <Placeholder xs={4} />
                 </Placeholder>
             </Row>
-            {[...Array(3)].map((_x, i) => (
+            {[...Array(2)].map((_x, i) => (
                 <Row key={i}>
                     {[...Array(6)].map((_y, j) => (
                         <Col key={i + "-" + j} xs={2}>
-                            <Placeholder style={{ textAlign: "center" }} as="span" animation="glow">
+                            <Placeholder as="span" animation="glow">
                                 <Placeholder xs={12} />
                             </Placeholder>
                         </Col>

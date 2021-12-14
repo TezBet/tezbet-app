@@ -91,10 +91,6 @@
     text-decoration: none;
 }
 
-.game-item-placeholder .row:first-child {
-    margin-bottom: 10px;
-}
-
 .game-item-colorprimary {
     color: #fd7232;
 }
