@@ -1,9 +1,10 @@
-import "./GameButtons.css";
-
-import TZKTLink from "./TZLink";
-import { ReactComponent as ContractIcon } from "bootstrap-icons/icons/file-earmark-bar-graph.svg";
+import BigNumber from "bignumber.js";
 import { ReactComponent as ClickIcon } from "bootstrap-icons/icons/arrow-right-circle.svg";
+import { ReactComponent as ContractIcon } from "bootstrap-icons/icons/file-earmark-bar-graph.svg";
+import { useMemo } from 'react';
 import { Badge, Button, OverlayTrigger, Tooltip } from "react-bootstrap";
+import "./GameButtons.css";
+import TZKTLink from "./TZLink";
 
 function BetButton({ onBetClick }: { onBetClick: () => void }) {
     return (
@@ -14,61 +15,37 @@ function BetButton({ onBetClick }: { onBetClick: () => void }) {
     );
 }
 
-function Odd({ bet, bets }: any) {
-    if (bet.comparedTo(0) === 0) {
-        return (
-            <OverlayTrigger placement="bottom" overlay={<Tooltip>If you bet on this, you'll be the first to do so!</Tooltip>}>
-                <p>
-                    <Badge bg="secondary" className="palette-0">
-                        No bet yet
-                    </Badge>
-                </p>
-            </OverlayTrigger>
-        );
-    } else {
-        let colorPalette;
-        const odd = bets.dividedBy(bet);
-        if (odd <= 1) {
-            colorPalette = "palette-0";
+function Multiplier(props: { className?: string, total: BigNumber, betAmount: BigNumber }) {
+    const odd = useMemo(() => props.total.dividedBy(props.betAmount), [props.total, props.betAmount]);
+    const palette = useMemo(() => props.betAmount.comparedTo(0) === 0 ? "" : "palette-main", [props.betAmount]);
+
+    const [tooltipText, badgeText] = useMemo(() => {
+        if (props.betAmount.comparedTo(0) === 0) {
+            return [
+                "If you bet on this, you'll be the first to do so!",
+                "No bet yet"
+            ];
         }
-        // if(odd <2){
-        //     colorPalette="palette-1";
-        // }
-        // else if(odd <2.5){
-        //     colorPalette="palette-2";
-        // }
-        // else if(odd <3){
-        //     colorPalette="palette-3";
-        // }
-        // else if(odd <5){
-        //     colorPalette="palette-4";
-        // }
-        // else if(odd <8){
-        //     colorPalette="palette-5";
-        // }
-        // else if(odd <10){
-        //     colorPalette="palette-6";
-        // }
-        // else if(odd <50){
-        //     colorPalette="palette-7";
-        // }
-        else {
-            colorPalette = "palette-main";
-            // colorPalette="palette-8";
-        }
-        return (
-            <OverlayTrigger
-                placement="bottom"
-                overlay={<Tooltip>{bet.decimalPlaces(1).toString()} XTZ bet on this pool</Tooltip>}
-            >
-                <p>
-                    <Badge bg="secondary" className={colorPalette}>
-                        x{odd.decimalPlaces(1).toString()}
-                    </Badge>
-                </p>
-            </OverlayTrigger>
-        );
-    }
+        return [
+            `${props.betAmount.decimalPlaces(1).toString()} XTZ bet on this pool`,
+            `x${odd.decimalPlaces(1).toString()}`
+        ];
+    }, [props.betAmount, odd]);
+
+
+    return (<TooltippedBadge tooltipText={tooltipText} badgeText={badgeText} className={props.className} badgeClassName={palette} />);
+}
+
+function TooltippedBadge(props: { tooltipText: string, badgeText: string, className?: string, badgeClassName?: string }) {
+    return (
+        <OverlayTrigger placement="bottom" overlay={<Tooltip>{props.tooltipText}</Tooltip>}>
+            <p className={props.className}>
+                <Badge bg="secondary" className={props.badgeClassName}>
+                    {props.badgeText}
+                </Badge>
+            </p>
+        </OverlayTrigger>
+    );
 }
 
 function CornerButton({ contractId }: any) {
@@ -117,4 +94,4 @@ function CountDown({ distance }: CountDownProps) {
     );
 }
 
-export { BetButton, Odd, CornerButton, DateSpan, CountDown };
+export { BetButton, Multiplier, CornerButton, DateSpan, CountDown, TooltippedBadge };

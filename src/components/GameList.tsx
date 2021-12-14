@@ -1,33 +1,12 @@
-import "./GameList.css";
-
-import { Container, Row, Col, Placeholder, Modal, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import { ReactComponent as MoreIcon } from "bootstrap-icons/icons/three-dots-vertical.svg";
-import { useContext, useState, useEffect, useCallback, Fragment } from "react";
-
-import { BetButton, Odd, CornerButton, DateSpan, CountDown } from "./GameButtons";
+import { Fragment, useCallback, useContext, useEffect, useState } from "react";
+import { Col, Container, Placeholder, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import Game from '../utils/Game';
 import { WalletContext } from "../utils/WalletContextProvider";
-import BigNumber from "bignumber.js";
-
-type Game = {
-    id: string;
-    startDate: Date;
-    currentDate?: Date;
-    description?: string;
-
-    teamA: string;
-    teamB: string;
-
-    betAmountTeamA: BigNumber;
-    betAmountTeamB: BigNumber;
-    betAmountTie: BigNumber;
-
-    betCountTeamA: number;
-    betCountTeamB: number;
-    betCountTie: number;
-
-    status: number;
-};
+import { BetModal } from './BetModal';
+import { BetButton, CornerButton, CountDown, DateSpan, Multiplier } from "./GameButtons";
+import "./GameList.css";
 
 function GameList(props: any) {
     const { Tezos } = useContext(WalletContext)!;
@@ -45,7 +24,7 @@ function GameList(props: any) {
                 const g = Array<Game>();
                 s.games.valueMap.forEach((x: any, i: any) => {
                     g.push({
-                        id: i,
+                        id: s.games.keyMap.get(i),
                         startDate: d,
                         description: "test",
 
@@ -67,48 +46,23 @@ function GameList(props: any) {
                 setGames(g);
             });
     }, [Tezos]);
+
     useEffect(() => refreshGames(), [refreshGames]);
     useEffect(() => {
-        const timer = setTimeout(() => {
-            refreshGames();
-        }, 10000);
+        const refreshTimer = setTimeout(() => refreshGames(), 10000);
+        const countdownTimer = setTimeout(() => setDate(new Date()), 1000);
 
-        return () => clearTimeout(timer);
+        return () => { clearTimeout(refreshTimer); clearTimeout(countdownTimer); };
     });
 
-    useEffect(() => {
-        const x = setTimeout(function () {
-            setDate(new Date());
-        }, 1000);
-        return () => clearTimeout(x);
-    });
-
-    const onBetClick = useCallback((game: Game) => {
-        setCurrentGame(game);
-        console.log("test");
-    }, []);
-
-    const betClose = useCallback(() => {
-        setCurrentGame(undefined);
-    }, []);
+    const onBetClick = useCallback((game: Game) => setCurrentGame(game), [setCurrentGame]);
+    const onBetClose = useCallback(() => setCurrentGame(undefined), [setCurrentGame]);
 
     return (
         <Fragment>
-            {!props.ongoing && (
-                <Modal size="lg" show={typeof currentGame != "undefined"} onHide={betClose}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>
-                            Bet on {currentGame?.description}: {currentGame?.teamA} - {currentGame?.teamB}
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body></Modal.Body>
-                    <Modal.Footer>
-                        <Button variant="secondary" onClick={betClose}>
-                            Close
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
-            )}
+            {!props.ongoing && typeof currentGame != "undefined" &&
+                <BetModal show={true} currentGame={currentGame} onBetClose={onBetClose} />
+            }
             <Container>
                 <Row>
                     {games.length <= 0 && <GameItemPlaceholder />}
@@ -207,13 +161,13 @@ function FutureGameItem({ game, onBetClick, currentDate }: { game: Game; onBetCl
                         </Row>
                         <Row>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd bets={total} bet={game.betAmountTeamA} />
+                                <Multiplier total={total} betAmount={game.betAmountTeamA} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd bets={total} bet={game.betAmountTeamB} />
+                                <Multiplier total={total} betAmount={game.betAmountTie} />
                             </Col>
                             <Col xs={4} className="game-vertical-align">
-                                <Odd bets={total} bet={game.betAmountTie} />
+                                <Multiplier total={total} betAmount={game.betAmountTeamB} />
                             </Col>
                         </Row>
                     </Container>
@@ -230,9 +184,9 @@ function FutureGameItem({ game, onBetClick, currentDate }: { game: Game; onBetCl
 
 function OngoingGameItem(props: any) {
     const total = props.teamABets + props.teamBBets + props.tieBets;
-    const oddTeamA = (total / props.teamABets).toPrecision(2);
-    const oddTeamB = (total / props.teamBBets).toPrecision(2);
-    const oddTie = (total / props.tieBets).toPrecision(2);
+    const multiplierTeamA = (total / props.teamABets).toPrecision(2);
+    const multiplierTeamB = (total / props.teamBBets).toPrecision(2);
+    const multiplierTie = (total / props.tieBets).toPrecision(2);
 
     return (
         <Container className="game-item">
@@ -255,7 +209,7 @@ function OngoingGameItem(props: any) {
                     <Row>
                         <Col>
                             <p>
-                                {oddTeamA} ({props.teamABets}XTZ)
+                                {multiplierTeamA} ({props.teamABets}XTZ)
                             </p>
                         </Col>
                     </Row>
@@ -278,7 +232,7 @@ function OngoingGameItem(props: any) {
                                 <Row>
                                     <Col>
                                         <p>
-                                            {oddTie} ({props.tieBets}XTZ)
+                                            {multiplierTie} ({props.tieBets}XTZ)
                                         </p>
                                     </Col>
                                 </Row>
@@ -298,7 +252,7 @@ function OngoingGameItem(props: any) {
                     <Row>
                         <Col>
                             <p>
-                                {oddTeamB} ({props.teamBBets}XTZ)
+                                {multiplierTeamB} ({props.teamBBets}XTZ)
                             </p>
                         </Col>
                     </Row>
