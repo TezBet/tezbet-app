@@ -88,7 +88,7 @@ function BetModal({ show, currentGame, onBetClose }: { show: boolean, currentGam
                     </Form.Group>
 
                     {choice === 0 ?
-                        <TooltippedBadge className="betmodal-odds" badgeText="N/A" tooltipText="Please make a choice" />
+                        <TooltippedBadge className="betmodal-odds" badgeText="?" tooltipText="Please make a choice" />
                         :
                         <Multiplier className="betmodal-odds" total={total} betAmount={choiceAmout} />
                     }
