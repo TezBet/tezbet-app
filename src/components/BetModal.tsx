@@ -8,7 +8,7 @@ import './BetModal.css';
 import { Multiplier, TooltippedBadge } from './GameButtons';
 
 function BetModal({ show, currentGame, onBetClose }: { show: boolean, currentGame: Game, onBetClose: () => void }) {
-    const { balance, Tezos, refreshBalance } = useContext(WalletContext)!;
+    const { connected, balance, Tezos, refreshBalance, connect } = useContext(WalletContext)!;
     const [choice, setChoice] = useState(0);
     const [amount, setAmount] = useState(1);
     const [submitLoading, setSubmitLoading] = useState(false);
@@ -63,6 +63,8 @@ function BetModal({ show, currentGame, onBetClose }: { show: boolean, currentGam
                 }
             });
     }, [onBetClose, Tezos, currentGame, amount, refreshBalance, choice, setError, isValid]);
+
+    if (!connected) connect();
 
     return (
         <Modal show={show} onHide={onBetClose}>
