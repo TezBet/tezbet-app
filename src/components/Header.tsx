@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { Fragment, useContext } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import TezBetLogo from "../img/icon.svg";
@@ -12,18 +12,20 @@ function WalletManagement() {
 
     if (connected) {
         return (
-            <Button className="blob-btn blob-colorwhitesecondary" onClick={disconnect}>
-                {balance.decimalPlaces(3).toNumber()} XTZ
-                <span className="blob-colorprimary"> ({shortenString(account!.address)})</span>
-                <span className="blob-btn__inner blob-bgsecondary">
-                    <span className="blob-btn__blobs">
-                        <span className="blob-btn__blob blob-bgwhite"></span>
-                        <span className="blob-btn__blob blob-bgwhite"></span>
-                        <span className="blob-btn__blob blob-bgwhite"></span>
-                        <span className="blob-btn__blob blob-bgwhite"></span>
+            <div>
+                <Button className="blob-btn blob-colorwhitesecondary" onClick={disconnect}>
+                    {balance.decimalPlaces(3).toNumber()} XTZ
+                    <span className="blob-colorprimary"> ({shortenString(account!.address)})</span>
+                    <span className="blob-btn__inner blob-bgsecondary">
+                        <span className="blob-btn__blobs">
+                            <span className="blob-btn__blob blob-bgwhite"></span>
+                            <span className="blob-btn__blob blob-bgwhite"></span>
+                            <span className="blob-btn__blob blob-bgwhite"></span>
+                            <span className="blob-btn__blob blob-bgwhite"></span>
+                        </span>
                     </span>
-                </span>
-            </Button>
+                </Button>
+            </div>
         );
     } else {
         return (
@@ -39,6 +41,24 @@ function WalletManagement() {
                 </span>
             </Button>
         );
+    }
+}
+
+function DashboardButton() {
+    const { connected } = useContext(WalletContext)!;
+
+    if (connected) {
+        return (
+            <Fragment>
+                <Nav>
+                    <NavLink className="nav-link" to="/dashboard">
+                        My bets
+                    </NavLink>
+                </Nav>
+            </Fragment>
+        );
+    } else {
+        return <Fragment />;
     }
 }
 
@@ -59,15 +79,13 @@ function Header(props: any) {
                         <NavLink className="nav-link" to="/ongoing">
                             Ongoing games
                         </NavLink>
-                        <NavLink className="nav-link" to="/dashboard">
-                            My bets
-                        </NavLink>
                         <Nav.Link href="https://github.com/TezBet/tezbet-whitepaper/blob/main/TezBet_whitepaper.pdf">
                             Whitepaper
                         </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
-                <Navbar.Collapse className="justify-content-end">
+                <Navbar.Collapse className="justify-content-end basic-navbar-nav">
+                    <DashboardButton />
                     <Faucet />
                     <WalletManagement />
                 </Navbar.Collapse>

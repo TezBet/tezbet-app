@@ -8,7 +8,7 @@ import { FutureGameItem, GameItemPlaceholder, OngoingGameItem, PlayedGameItem } 
 import "./GameList.css";
 
 function GameList(props: any) {
-    const { Tezos } = useContext(WalletContext)!;
+    const { Tezos, connected, account } = useContext(WalletContext)!;
     const [games, setGames] = useState<Array<Game>>([]);
     const [currentGame, setCurrentGame] = useState<Game | undefined>();
 
@@ -36,12 +36,14 @@ function GameList(props: any) {
                         betCountTie: x.bets_by_choice.tie.toNumber(),
 
                         status: x.status.toNumber(),
+
+                        userbet: connected && x.bet_amount_by_user.valueMap.has('"' + account!.address + '"'),
                     });
                 });
 
                 setGames(g);
             });
-    }, [Tezos]);
+    }, [Tezos, connected, account]);
 
     useEffect(() => refreshGames(), [refreshGames]);
     useEffect(() => {
