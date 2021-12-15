@@ -62,6 +62,9 @@ function Header(props: any) {
                         <NavLink className="nav-link" to="/dashboard">
                             My bets
                         </NavLink>
+                        <Nav.Link href="https://github.com/TezBet/tezbet-whitepaper/blob/main/TezBet_whitepaper.pdf">
+                            Whitepaper
+                        </Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
