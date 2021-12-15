@@ -2,10 +2,10 @@ import { ContractMethod, Wallet } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { Button, Form, InputGroup, Modal, OverlayTrigger, ToggleButton, ToggleButtonGroup, Tooltip } from 'react-bootstrap';
-import Game from '../utils/Game';
-import { WalletContext } from '../utils/WalletContextProvider';
+import Game from '../../utils/Game';
+import { WalletContext } from '../../utils/WalletContextProvider';
 import './BetModal.css';
-import { Multiplier, TooltippedBadge } from './GameButtons';
+import { Multiplier, TooltippedBadge } from './GameItemCommon';
 
 function BetModal({ show, currentGame, onBetClose }: { show: boolean, currentGame: Game, onBetClose: () => void }) {
     const { connected, balance, Tezos, refreshBalance, connect } = useContext(WalletContext)!;
