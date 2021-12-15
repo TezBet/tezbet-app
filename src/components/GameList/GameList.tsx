@@ -1,9 +1,9 @@
 import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import { Container, Row } from "react-bootstrap";
-import Game from '../../utils/Game';
+import Game from "../../utils/Game";
 import { WalletContext } from "../../utils/WalletContextProvider";
-import { BetModal } from './BetModal';
-import { CurrentDateContextProvider } from './Countdown';
+import { BetModal } from "./BetModal";
+import { CurrentDateContextProvider } from "./Counter";
 import { FutureGameItem, GameItemPlaceholder, OngoingGameItem } from "./GameItem";
 import "./GameList.css";
 
@@ -54,25 +54,21 @@ function GameList(props: any) {
 
     return (
         <Fragment>
-            {!props.ongoing && typeof currentGame != "undefined" &&
+            {!props.ongoing && typeof currentGame != "undefined" && (
                 <BetModal show={true} currentGame={currentGame} onBetClose={onBetClose} />
-            }
+            )}
             <Container>
                 <Row>
                     <CurrentDateContextProvider>
                         {games.length <= 0 && <GameItemPlaceholder />}
                         {props.ongoing &&
-                            games.filter((game) => game.status === 1)
-                                .map((game) => <OngoingGameItem game={game} key={game.id} />)
-                        }
+                            games
+                                .filter((game) => game.status === 1)
+                                .map((game) => <OngoingGameItem game={game} key={game.id} />)}
                         {!props.ongoing &&
-                            games.filter((game) => game.status === 0)
-                                .map((game) => <FutureGameItem
-                                    game={game}
-                                    key={game.id}
-                                    onBetClick={() => onBetClick(game)}
-                                />)
-                        }
+                            games
+                                .filter((game) => game.status === 0)
+                                .map((game) => <FutureGameItem game={game} key={game.id} onBetClick={() => onBetClick(game)} />)}
                     </CurrentDateContextProvider>
                 </Row>
             </Container>
