@@ -39,6 +39,23 @@ function OngoingGameItem({ game }: { game: Game }) {
     );
 }
 
+function PlayedGameItem({ game }: { game: Game }) {
+    const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
+
+    return (
+        <Container className="game-item">
+            <CornerButton contractId={game.id} />
+            <Row className="g-0">
+                <TotalBet total={total} />
+                <BetInfoHero total={total} game={game} counterUp={true} />
+                <Col xs={2} className="game-vertical-align">
+                    <p className="game-item-score">0 - 4</p>
+                </Col>
+            </Row>
+        </Container>
+    );
+}
+
 function GameItemPlaceholder() {
     return (
         <Container className="game-item">
@@ -62,4 +79,4 @@ function GameItemPlaceholder() {
     );
 }
 
-export { FutureGameItem, OngoingGameItem, GameItemPlaceholder };
+export { FutureGameItem, OngoingGameItem, GameItemPlaceholder, PlayedGameItem };

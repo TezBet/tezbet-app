@@ -4,7 +4,7 @@ import Game from "../../utils/Game";
 import { WalletContext } from "../../utils/WalletContextProvider";
 import { BetModal } from "./BetModal";
 import { CurrentDateContextProvider } from "./Counter";
-import { FutureGameItem, GameItemPlaceholder, OngoingGameItem } from "./GameItem";
+import { FutureGameItem, GameItemPlaceholder, OngoingGameItem, PlayedGameItem } from "./GameItem";
 import "./GameList.css";
 
 function GameList(props: any) {
@@ -54,7 +54,7 @@ function GameList(props: any) {
 
     return (
         <Fragment>
-            {!props.ongoing && typeof currentGame != "undefined" && (
+            {props.future && typeof currentGame != "undefined" && (
                 <BetModal show={true} currentGame={currentGame} onBetClose={onBetClose} />
             )}
             <Container>
@@ -65,10 +65,12 @@ function GameList(props: any) {
                             games
                                 .filter((game) => game.status === 1)
                                 .map((game) => <OngoingGameItem game={game} key={game.id} />)}
-                        {!props.ongoing &&
+                        {props.future &&
                             games
                                 .filter((game) => game.status === 0)
                                 .map((game) => <FutureGameItem game={game} key={game.id} onBetClick={() => onBetClick(game)} />)}
+                        {props.played &&
+                            games.filter((game) => game.status === 2).map((game) => <PlayedGameItem game={game} key={game.id} />)}
                     </CurrentDateContextProvider>
                 </Row>
             </Container>
