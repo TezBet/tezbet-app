@@ -15,12 +15,14 @@ function TotalBet(props: { total: BigNumber }) {
                 <p className="game-title-bold">Total bet</p>
             </Row>
             <Row>
-                <p>
-                    <span className="game-item-colorprimary game-title game-title-bold">
-                        {props.total.decimalPlaces(1).toString()}
-                    </span>
-                    <span className="game-item-xtz"> ꜩ</span>
-                </p>
+                <OverlayTrigger placement="bottom" overlay={<Tooltip>{props.total.toNumber()} XTZ</Tooltip>}>
+                    <p>
+                        <span className="game-item-colorprimary game-title game-title-bold">
+                            {props.total.decimalPlaces(1).toString()}
+                        </span>
+                        <span className="game-item-xtz"> XTZ</span>
+                    </p>
+                </OverlayTrigger>
             </Row>
         </Col>
     );
