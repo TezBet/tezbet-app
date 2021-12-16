@@ -8,7 +8,7 @@ import { FutureGameItem, GameItemPlaceholder, OngoingGameItem, PlayedGameItem } 
 import "./GameList.css";
 
 function GameList(props: any) {
-    const { Tezos, connected, account } = useContext(WalletContext)!;
+    const { Tezos, connected, account, refreshBalance } = useContext(WalletContext)!;
     const [games, setGames] = useState<Array<Game>>([]);
     const [currentGame, setCurrentGame] = useState<Game | undefined>();
 
@@ -53,7 +53,26 @@ function GameList(props: any) {
 
     const onBetClick = useCallback((game: Game) => setCurrentGame(game), [setCurrentGame]);
     const onBetClose = useCallback(() => setCurrentGame(undefined), [setCurrentGame]);
-    const onRedeem = () => alert("Redeem!");
+    const onRedeem = useCallback(
+        (game: Game) => {
+            if (!game.userbet) {
+                alert("There is no bet to redeem here for you!");
+            } else {
+                Tezos.wallet
+                    .at(process.env.REACT_APP_TEZBET_CONTRACT!)
+                    .then((contract) => contract.methods.redeem_tez(game.id).send())
+                    .then((op) => op.confirmation())
+                    .then((result) => {
+                        if (result.completed) {
+                            refreshBalance();
+                        } else {
+                            alert("Fail to redeem");
+                        }
+                    });
+            }
+        },
+        [Tezos.wallet, refreshBalance]
+    );
 
     return (
         <Fragment>
@@ -75,7 +94,7 @@ function GameList(props: any) {
                         {props.played &&
                             games
                                 .filter((game) => game.status === 2)
-                                .map((game) => <PlayedGameItem onRedeem={onRedeem} game={game} key={game.id} />)}
+                                .map((game) => <PlayedGameItem onRedeem={() => onRedeem(game)} game={game} key={game.id} />)}
                     </CurrentDateContextProvider>
                 </Row>
             </Container>
