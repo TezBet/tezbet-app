@@ -123,9 +123,9 @@ function CornerButton({ contractId }: any) {
     );
 }
 
-function RedeemButton() {
+function RedeemButton({ onRedeem }: { onRedeem: () => void }) {
     return (
-        <Button variant="light" as="span" className="btn-redeem" onClick={(e) => alert("redeem")}>
+        <Button variant="light" as="span" className="btn-redeem" onClick={onRedeem}>
             <span className="redeem-text">REDEEM</span>
         </Button>
     );

@@ -39,7 +39,7 @@ function OngoingGameItem({ game }: { game: Game }) {
     );
 }
 
-function PlayedGameItem({ game }: { game: Game }) {
+function PlayedGameItem({ game, onRedeem }: { game: Game; onRedeem: () => void }) {
     const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
 
     if (!game.userbet) {
@@ -52,7 +52,7 @@ function PlayedGameItem({ game }: { game: Game }) {
                     <BetInfoHero total={total} game={game} counterUp={true} />
                     <Col xs={2} className="game-vertical-align">
                         <p>
-                            <RedeemButton />
+                            <RedeemButton onRedeem={onRedeem} />
                         </p>
                     </Col>
                 </Row>

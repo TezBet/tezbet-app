@@ -53,6 +53,7 @@ function GameList(props: any) {
 
     const onBetClick = useCallback((game: Game) => setCurrentGame(game), [setCurrentGame]);
     const onBetClose = useCallback(() => setCurrentGame(undefined), [setCurrentGame]);
+    const onRedeem = () => alert("Redeem!");
 
     return (
         <Fragment>
@@ -72,7 +73,9 @@ function GameList(props: any) {
                                 .filter((game) => game.status === 0)
                                 .map((game) => <FutureGameItem game={game} key={game.id} onBetClick={() => onBetClick(game)} />)}
                         {props.played &&
-                            games.filter((game) => game.status === 2).map((game) => <PlayedGameItem game={game} key={game.id} />)}
+                            games
+                                .filter((game) => game.status === 2)
+                                .map((game) => <PlayedGameItem onRedeem={onRedeem} game={game} key={game.id} />)}
                     </CurrentDateContextProvider>
                 </Row>
             </Container>
