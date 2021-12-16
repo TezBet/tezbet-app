@@ -11,7 +11,7 @@ function FutureGameItem({ game, onBetClick }: { game: Game; onBetClick: () => vo
             <CornerButton contractId={game.id} />
             <Row className="g-0">
                 <TotalBet total={total} />
-                <BetInfoHero total={total} game={game} counterUp={false} />
+                <BetInfoHero total={total} game={game} />
                 <Col xs={2} className="game-vertical-align">
                     <p>
                         <BetButton onBetClick={onBetClick} />
@@ -30,7 +30,7 @@ function OngoingGameItem({ game }: { game: Game }) {
             <CornerButton contractId={game.id} />
             <Row className="g-0">
                 <TotalBet total={total} />
-                <BetInfoHero total={total} game={game} counterUp={true} />
+                <BetInfoHero total={total} game={game} />
                 <Col xs={2} className="game-vertical-align">
                     <p className="game-item-score">0 - 4</p>
                 </Col>
@@ -49,7 +49,7 @@ function PlayedGameItem({ game, onRedeem }: { game: Game; onRedeem: () => void }
                 <CornerButton contractId={game.id} />
                 <Row className="g-0">
                     <TotalBet total={total} />
-                    <BetInfoHero total={total} game={game} counterUp={true} />
+                    <BetInfoHero total={total} game={game} />
                     <Col xs={2} className="game-vertical-align">
                         <p>
                             <RedeemButton onRedeem={onRedeem} />
@@ -64,7 +64,7 @@ function PlayedGameItem({ game, onRedeem }: { game: Game; onRedeem: () => void }
                 <CornerButton contractId={game.id} />
                 <Row className="g-0">
                     <TotalBet total={total} />
-                    <BetInfoHero total={total} game={game} counterUp={true} />
+                    <BetInfoHero total={total} game={game} />
                     <Col xs={2} className="game-vertical-align">
                         <p className="game-item-score">0 - 4</p>
                     </Col>

@@ -26,7 +26,7 @@ function TotalBet(props: { total: BigNumber }) {
     );
 }
 
-function BetInfoHero(props: { total: BigNumber; game: Game; counterUp: boolean }) {
+function BetInfoHero(props: { total: BigNumber; game: Game }) {
     return (
         <Col xs={8}>
             <Container className="game-item-hero game-item-separator-right">
@@ -35,7 +35,7 @@ function BetInfoHero(props: { total: BigNumber; game: Game; counterUp: boolean }
                         <p className="game-item-title-left">{props.game.description ? props.game.description : "Match"}</p>
                     </Col>
                     <Col xs={4}>
-                        <Counter targetDate={props.game.startDate} isCountingUp={props.counterUp} />
+                        <Counter targetDate={props.game.startDate} />
                     </Col>
                     <Col xs={4}>
                         <DateSpan targetDate={props.game.startDate} />

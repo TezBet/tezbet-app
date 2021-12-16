@@ -14,16 +14,11 @@ function CurrentDateContextProvider(props: any) {
     return <CurrentDateContext.Provider value={date}>{props.children}</CurrentDateContext.Provider>;
 }
 
-function Counter(props: { targetDate: Date; isCountingUp: boolean }) {
+function Counter(props: { targetDate: Date }) {
     const date = useContext(CurrentDateContext);
     let text = "00:00:00";
     if (typeof date != "undefined") {
-        let distance;
-        if (props.isCountingUp) {
-            distance = date.getTime() - props.targetDate.getTime();
-        } else {
-            distance = props.targetDate.getTime() - date.getTime();
-        }
+        const distance = Math.abs(date.getTime() - props.targetDate.getTime());
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
