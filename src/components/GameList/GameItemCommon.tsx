@@ -99,7 +99,10 @@ function TooltippedBadge(props: { tooltipText: string; badgeText: string; classN
 function DateSpan(props: { targetDate: Date }) {
     return (
         <p className="date-span">
-            {`${props.targetDate.toLocaleDateString()}-${props.targetDate.getHours()}h${props.targetDate.getMinutes()}`}
+            {`${props.targetDate.toLocaleDateString()}-${props.targetDate
+                .getHours()
+                .toString()
+                .padStart(2, "0")}h${props.targetDate.getMinutes().toString().padStart(2, "0")}`}
         </p>
     );
 }
