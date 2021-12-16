@@ -125,10 +125,10 @@
 
 .btn-redeem {
     text-decoration: none;
-    line-height: 39px;
+    line-height: 33px;
     border: 0;
-    width: 110px;
-    height: 50px;
+    width: 105px;
+    height: 45px;
     background-color: #430069;
     border-radius: 12px;
     position: relative;
@@ -140,7 +140,7 @@
     /* box-shadow: 1px 1px 20px 10px #fdce32cc; */
     border: 0;
     background-color: #430069;
-    transform: scale(1.2, 1.2);
+    transform: scale(1.1, 1.1);
 }
 
 .btn-redeem:before {
