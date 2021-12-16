@@ -123,4 +123,12 @@ function CornerButton({ contractId }: any) {
     );
 }
 
-export { TotalBet, BetInfoHero, DateSpan, TooltippedBadge, Multiplier, CornerButton, BetButton };
+function RedeemButton() {
+    return (
+        <Button variant="light" as="span" className="btn-redeem" onClick={(e) => alert("redeem")}>
+            <span className="redeem-text">REDEEM</span>
+        </Button>
+    );
+}
+
+export { TotalBet, BetInfoHero, DateSpan, TooltippedBadge, Multiplier, CornerButton, BetButton, RedeemButton };
