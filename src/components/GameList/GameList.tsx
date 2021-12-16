@@ -37,7 +37,7 @@ function GameList(props: any) {
 
                         status: x.status.toNumber(),
 
-                        userbet: connected && x.bet_amount_by_user.valueMap.has('"' + account!.address + '"'),
+                        userbet: connected && x.bet_amount_by_user.keyMap.has('"' + account!.address + '"'),
                     });
                 });
 
