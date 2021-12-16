@@ -12,20 +12,18 @@ function WalletManagement() {
 
     if (connected) {
         return (
-            <div>
-                <Button className="blob-btn blob-colorwhitesecondary" onClick={disconnect}>
-                    {balance.decimalPlaces(3).toNumber()} XTZ
-                    <span className="blob-colorprimary"> ({shortenString(account!.address)})</span>
-                    <span className="blob-btn__inner blob-bgsecondary">
-                        <span className="blob-btn__blobs">
-                            <span className="blob-btn__blob blob-bgwhite"></span>
-                            <span className="blob-btn__blob blob-bgwhite"></span>
-                            <span className="blob-btn__blob blob-bgwhite"></span>
-                            <span className="blob-btn__blob blob-bgwhite"></span>
-                        </span>
+            <Button className="blob-btn blob-colorwhitesecondary" onClick={disconnect}>
+                {balance.decimalPlaces(3).toNumber()} XTZ
+                <span className="blob-colorprimary"> ({shortenString(account!.address)})</span>
+                <span className="blob-btn__inner blob-bgsecondary">
+                    <span className="blob-btn__blobs">
+                        <span className="blob-btn__blob blob-bgwhite"></span>
+                        <span className="blob-btn__blob blob-bgwhite"></span>
+                        <span className="blob-btn__blob blob-bgwhite"></span>
+                        <span className="blob-btn__blob blob-bgwhite"></span>
                     </span>
-                </Button>
-            </div>
+                </span>
+            </Button>
         );
     } else {
         return (
@@ -47,19 +45,16 @@ function WalletManagement() {
 function DashboardButton() {
     const { connected } = useContext(WalletContext)!;
 
-    if (connected) {
-        return (
-            <Fragment>
-                <Nav>
-                    <NavLink className="nav-link" to="/dashboard">
-                        My bets
-                    </NavLink>
-                </Nav>
-            </Fragment>
-        );
-    } else {
+    if (!connected) {
         return <Fragment />;
     }
+    return (
+        <Nav>
+            <NavLink className="nav-link" to="/dashboard">
+                My bets
+            </NavLink>
+        </Nav>
+    );
 }
 
 function Header(props: any) {
