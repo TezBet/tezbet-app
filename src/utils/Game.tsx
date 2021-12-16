@@ -17,6 +17,8 @@ type Game = {
     betCountTie: number;
 
     status: number;
+
+    userbet: boolean;
 };
 
 export default Game;

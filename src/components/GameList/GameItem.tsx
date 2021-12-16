@@ -1,7 +1,7 @@
 import { Col, Container, Placeholder, Row } from "react-bootstrap";
 import Game from "../../utils/Game";
-import './GameItem.css';
-import { BetButton, BetInfoHero, CornerButton, TotalBet } from './GameItemCommon';
+import "./GameItem.css";
+import { BetButton, BetInfoHero, CornerButton, TotalBet, RedeemButton } from "./GameItemCommon";
 
 function FutureGameItem({ game, onBetClick }: { game: Game; onBetClick: () => void }) {
     const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
@@ -13,14 +13,16 @@ function FutureGameItem({ game, onBetClick }: { game: Game; onBetClick: () => vo
                 <TotalBet total={total} />
                 <BetInfoHero total={total} game={game} />
                 <Col xs={2} className="game-vertical-align">
-                    <p><BetButton onBetClick={onBetClick} /></p>
+                    <p>
+                        <BetButton onBetClick={onBetClick} />
+                    </p>
                 </Col>
             </Row>
         </Container>
     );
 }
 
-function OngoingGameItem({ game, }: { game: Game }) {
+function OngoingGameItem({ game }: { game: Game }) {
     const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
 
     return (
@@ -35,6 +37,41 @@ function OngoingGameItem({ game, }: { game: Game }) {
             </Row>
         </Container>
     );
+}
+
+function PlayedGameItem({ game, onRedeem }: { game: Game; onRedeem: () => void }) {
+    const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
+
+    if (!game.userbet) {
+        // "negation" of "game.userbet" is temporary here to work on the redeem button
+        return (
+            <Container className="game-item">
+                <CornerButton contractId={game.id} />
+                <Row className="g-0">
+                    <TotalBet total={total} />
+                    <BetInfoHero total={total} game={game} />
+                    <Col xs={2} className="game-vertical-align">
+                        <p>
+                            <RedeemButton onRedeem={onRedeem} />
+                        </p>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    } else {
+        return (
+            <Container className="game-item">
+                <CornerButton contractId={game.id} />
+                <Row className="g-0">
+                    <TotalBet total={total} />
+                    <BetInfoHero total={total} game={game} />
+                    <Col xs={2} className="game-vertical-align">
+                        <p className="game-item-score">0 - 4</p>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
 }
 
 function GameItemPlaceholder() {
@@ -60,4 +97,4 @@ function GameItemPlaceholder() {
     );
 }
 
-export { FutureGameItem, OngoingGameItem, GameItemPlaceholder };
+export { FutureGameItem, OngoingGameItem, GameItemPlaceholder, PlayedGameItem };

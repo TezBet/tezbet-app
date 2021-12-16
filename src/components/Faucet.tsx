@@ -50,7 +50,7 @@ function Faucet() {
 
     return (
         <Fragment>
-            <Button onClick={() => setShow(true)} variant="dark" style={{ marginRight: "10px" }}>
+            <Button onClick={() => setShow(true)} variant="dark" className="faucet-button">
                 <BankIcon width="18px" height="18px" style={{ top: "-3px", position: "relative" }} /> FAUCET
             </Button>
 
