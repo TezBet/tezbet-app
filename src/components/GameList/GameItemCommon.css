@@ -125,11 +125,12 @@
 
 .btn-redeem {
     text-decoration: none;
-    line-height: 28px;
+    line-height: 39px;
     border: 0;
-    width: 100px;
-    height: 40px;
+    width: 110px;
+    height: 50px;
     background-color: #430069;
+    border-radius: 12px;
     position: relative;
     overflow: hidden;
     transition: all 0.2s ease-in-out;
