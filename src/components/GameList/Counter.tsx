@@ -18,17 +18,17 @@ function Counter(props: { targetDate: Date }) {
     const date = useContext(CurrentDateContext);
     let text = "00:00:00";
     if (typeof date != "undefined") {
-        const distance = Math.abs(date.getTime() - props.targetDate.getTime());
-        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const distance = Math.abs(date.getTime() - props.targetDate.getTime()) / 1000;
+        const hours = Math.floor(distance / (60 * 60));
+        const minutes = Math.floor((distance % (60 * 60)) / (60));
+        const seconds = Math.floor(distance % 60);
 
         text = `${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}:${seconds
             .toString()
             .padStart(2, "0")}`;
     }
 
-    return <Badge bg="dark">{text}</Badge>;
+    return <Badge className="game-item-counter" bg="dark">{text}</Badge>;
 }
 
 export { CurrentDateContextProvider, Counter };

@@ -16,8 +16,7 @@ type Game = {
     betCountTeamB: number;
     betCountTie: number;
 
-    status: number;
-
+    outcome: number;
     userbet: boolean;
 };
 
