@@ -6,6 +6,7 @@ import { BetModal } from "./BetModal";
 import { CurrentDateContextProvider } from "./Counter";
 import { FutureGameItem, GameItemPlaceholder, OngoingGameItem, PlayedGameItem } from "./GameItem";
 import "./GameList.css";
+import { compareGames } from '../../utils/utils';
 
 function GameList(props: any) {
     const { Tezos, connected, account, refreshBalance } = useContext(WalletContext)!;
@@ -19,9 +20,11 @@ function GameList(props: any) {
             .then((s: any) => {
                 const g = Array<Game>();
                 s.games.valueMap.forEach((x: any, i: any) => {
+                    const startTime = new Date(x.match_timestamp);
+
                     g.push({
                         id: s.games.keyMap.get(i),
-                        startDate: new Date(),
+                        startDate: startTime,
                         description: "test",
 
                         teamA: x.team_a,
@@ -35,8 +38,7 @@ function GameList(props: any) {
                         betCountTeamB: x.bets_by_choice.team_b.toNumber(),
                         betCountTie: x.bets_by_choice.tie.toNumber(),
 
-                        status: x.status.toNumber(),
-
+                        outcome: x.outcome.toNumber(),
                         userbet: connected && x.bet_amount_by_user.keyMap.has('"' + account!.address + '"'),
                     });
                 });
@@ -74,6 +76,8 @@ function GameList(props: any) {
         [Tezos.wallet, refreshBalance]
     );
 
+    const nowTime = new Date().getTime();
+
     return (
         <Fragment>
             {props.future && typeof currentGame != "undefined" && (
@@ -85,16 +89,18 @@ function GameList(props: any) {
                         {games.length <= 0 && <GameItemPlaceholder />}
                         {props.ongoing &&
                             games
-                                .filter((game) => game.status === 1)
-                                .map((game) => <OngoingGameItem game={game} key={game.id} />)}
+                                .filter((game) => game.startDate.getTime() <= nowTime)
+                                .sort((a, b) => compareGames(b, a))
+                                .map((game) => game.outcome === -1 ?
+                                    <OngoingGameItem game={game} key={game.id} />
+                                    :
+                                    <PlayedGameItem onRedeem={() => onRedeem(game)} game={game} key={game.id} />
+                                )}
                         {props.future &&
                             games
-                                .filter((game) => game.status === 0)
+                                .filter((game) => game.startDate.getTime() > nowTime)
+                                .sort((a, b) => compareGames(a, b))
                                 .map((game) => <FutureGameItem game={game} key={game.id} onBetClick={() => onBetClick(game)} />)}
-                        {props.played &&
-                            games
-                                .filter((game) => game.status === 2)
-                                .map((game) => <PlayedGameItem onRedeem={() => onRedeem(game)} game={game} key={game.id} />)}
                     </CurrentDateContextProvider>
                 </Row>
             </Container>

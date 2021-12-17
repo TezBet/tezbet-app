@@ -114,3 +114,7 @@
     font-weight: bold;
     color: gray;
 }
+
+.game-item-counter {
+    font-variant-numeric: tabular-nums;
+}

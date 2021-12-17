@@ -4,6 +4,7 @@ import { ReactComponent as ContractIcon } from "bootstrap-icons/icons/file-earma
 import { useMemo } from "react";
 import { Badge, Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Game from "../../utils/Game";
+import { shortenString } from '../../utils/utils';
 import TZLink from "../TZLink";
 import { Counter } from "./Counter";
 import "./GameItemCommon.css";
@@ -28,7 +29,7 @@ function TotalBet(props: { total: BigNumber }) {
     );
 }
 
-function BetInfoHero(props: { total: BigNumber; game: Game }) {
+function BetInfoHero(props: { total: BigNumber; game: Game, counter: boolean }) {
     return (
         <Col xs={8}>
             <Container className="game-item-hero game-item-separator-right">
@@ -37,31 +38,39 @@ function BetInfoHero(props: { total: BigNumber; game: Game }) {
                         <p className="game-item-title-left">{props.game.description ? props.game.description : "Match"}</p>
                     </Col>
                     <Col xs={4}>
-                        <Counter targetDate={props.game.startDate} />
+                        {props.counter ?
+                            <Counter targetDate={props.game.startDate} />
+                            :
+                            <Badge pill bg="success">Game Ended</Badge>
+                        }
                     </Col>
                     <Col xs={4}>
                         <DateSpan targetDate={props.game.startDate} />
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={4} className="game-vertical-align game-col-title">
-                        <p>{props.game.teamA}</p>
+                    <Col xs={5} className="game-vertical-align game-col-title">
+                        <OverlayTrigger placement="top" overlay={<Tooltip>{props.game.teamA}</Tooltip>}>
+                            <p>{shortenString(props.game.teamA, 20, 0)}</p>
+                        </OverlayTrigger>
                     </Col>
-                    <Col xs={4} className="game-vertical-align game-col-subtitle">
+                    <Col xs={2} className="game-vertical-align game-col-subtitle">
                         <p className="game-item-tie">TIE</p>
                     </Col>
-                    <Col xs={4} className="game-vertical-align game-col-title">
-                        <p>{props.game.teamB}</p>
+                    <Col xs={5} className="game-vertical-align game-col-title">
+                        <OverlayTrigger placement="top" overlay={<Tooltip>{props.game.teamB}</Tooltip>}>
+                            <p>{shortenString(props.game.teamB, 20, 0)}</p>
+                        </OverlayTrigger>
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={4} className="game-vertical-align">
+                    <Col xs={5} className="game-vertical-align">
                         <Multiplier total={props.total} betAmount={props.game.betAmountTeamA} />
                     </Col>
-                    <Col xs={4} className="game-vertical-align">
+                    <Col xs={2} className="game-vertical-align">
                         <Multiplier total={props.total} betAmount={props.game.betAmountTie} />
                     </Col>
-                    <Col xs={4} className="game-vertical-align">
+                    <Col xs={5} className="game-vertical-align">
                         <Multiplier total={props.total} betAmount={props.game.betAmountTeamB} />
                     </Col>
                 </Row>
