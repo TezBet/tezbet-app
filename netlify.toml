@@ -2,7 +2,7 @@
   from = "/api/*"
   to = "https://api.football-data.org/v2/:splat"
   status = 200
-  headers = {X-Auth-Token = "API_TOKEN"}
+  headers = {X-Auth-Token = ${API_KEY}}
 
 [[redirects]]
   from = "*"
