@@ -1,0 +1,21 @@
+#root {
+    background-color: #ffffff;
+    background-image: linear-gradient(-9deg, #430069, #fd7232 70%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: bottom;
+    padding-top: 100px;
+    min-height: 100vh;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+p {
+    margin: 0!important;
+}
+
+.main-container {
+    min-height: 100vh;
+}

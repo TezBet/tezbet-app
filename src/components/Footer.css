@@ -1,0 +1,14 @@
+.footer {
+    text-align: center;
+    position: relative;
+    margin-top: 25px;
+    color: white;
+}
+
+.footer p {
+    margin: 20px 20px !important;
+}
+
+.faucet-button {
+    margin: 5px 10px 5px 10px;
+}

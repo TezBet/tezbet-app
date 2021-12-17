@@ -1,0 +1,159 @@
+/* Used in BetButton */
+
+.bet-button {
+    display: inline-flex;
+    height: 50px;
+    width: 68px;
+    border: 0;
+    border-radius: 12px;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 0.8em;
+    letter-spacing: 1.5px;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    background: white;
+}
+
+.bet-button:hover {
+    background: white;
+    border: 0;
+}
+
+.arrow-icon {
+    width: 100%;
+    height: 100%;
+    left: 0px;
+    position: absolute;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.35s ease-Out;
+    bottom: 0;
+    text-decoration: none;
+    color: #430069;
+    background: white;
+}
+
+.bet-text {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    left: -200px;
+    bottom: 0;
+    transition: all 0.35s ease-Out;
+    text-decoration: none;
+    color: white;
+    background: #430069;
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
+.bet-button:hover .bet-text {
+    left: 0;
+}
+
+.bet-button:hover .arrow-icon {
+    left: 150px;
+}
+
+.bet-multiplier-purple {
+    background: #430069 !important;
+}
+
+/* Used in CornerButton */
+
+.corner-button {
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    padding: 3px;
+
+    text-align: center;
+    border: 2px;
+    border-style: hidden solid solid hidden;
+    border-right-color: #dadada;
+    border-bottom-color: #dadada;
+    border-bottom-right-radius: 5px;
+    border-top-left-radius: 10px;
+
+    background-color: transparent;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out,
+        box-shadow 0.15s ease-in-out;
+}
+
+.corner-button:hover {
+    background-color: #430069;
+    border-color: #430069;
+}
+
+.corner-button .icon {
+    transition: color 0.15s ease-in-out;
+    color: #9a9a9a;
+}
+
+.corner-button:hover .icon {
+    color: white;
+}
+
+/* Used in DateSpan */
+
+.date-span {
+    text-align: right;
+    margin: 0;
+    padding-right: 1.2em;
+    font-style: italic;
+    font-size: 0.88em;
+    color: grey;
+}
+
+/* Used in Redeem Button */
+
+.redeem-text {
+    color: white;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.btn-redeem {
+    text-decoration: none;
+    line-height: 33px;
+    border: 0;
+    width: 105px;
+    height: 45px;
+    background-color: #430069;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-redeem:hover {
+    /* box-shadow: 1px 1px 20px 10px #fdce32cc; */
+    border: 0;
+    background-color: #430069;
+    transform: scale(1.1, 1.1);
+}
+
+.btn-redeem:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -200%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, #f632fd77, transparent);
+    transition: all 500ms;
+}
+
+.btn-redeem:hover:before {
+    left: 100%;
+}

@@ -1,0 +1,120 @@
+.game-item {
+    text-align: center;
+    border-radius: 10px;
+    padding: 20px 10px;
+    margin: 15px 0px;
+    background-color: white;
+    position: relative;
+    transition: all 0.2s ease-in-out;
+    box-shadow: 4px 4px 5px 1px #430069;
+    height: 113px;
+}
+
+.game-item:hover {
+    box-shadow: 4px 4px 20px 5px #430069;
+    transform: scale(1.01, 1.01);
+}
+
+.game-item-hero {
+    border: solid 0px transparent;
+    border-left-color: black;
+    border-right-color: black;
+    position: relative;
+}
+
+.game-item-hero::before,
+.game-item-hero::after {
+    content: "";
+    border: solid 1px #e9e9e9;
+    position: absolute;
+    top: 5%;
+    height: 90%;
+    border-radius: 1px;
+}
+
+.game-item-hero::before {
+    right: 100%;
+}
+
+.game-item-hero::after {
+    left: 100%;
+}
+
+.game-item-score {
+    font-size: 2.5em;
+}
+
+.game-title {
+    font-size: 1.5em;
+}
+
+.game-col-title {
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.game-col-subtitle {
+    font-size: 1.1em;
+}
+
+.game-item-title {
+    margin: 0;
+    font-style: italic;
+    font-size: 0.88em;
+    color: grey;
+}
+
+.game-item-title-left {
+    margin: 0;
+    padding-left: 1.2em;
+    font-style: italic;
+    font-size: 0.88em;
+    color: grey;
+    text-align: left;
+}
+
+.game-item-hero h6 {
+    margin: 0;
+}
+
+.game-vertical-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.game-vertical-align-end {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.game-item-bet-icon {
+    color: white;
+}
+
+.game-item-colorprimary {
+    color: #fd7232;
+}
+
+.game-item-colorsecondary {
+    color: #430069;
+}
+
+.game-item-xtz {
+    font-size: 0.9em;
+}
+
+.game-title-bold {
+    font-weight: 900;
+}
+
+.game-item-tie {
+    font-size: 0.7em;
+    font-weight: bold;
+    color: gray;
+}
+
+.game-item-counter {
+    font-variant-numeric: tabular-nums;
+}
