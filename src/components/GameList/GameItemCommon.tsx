@@ -45,28 +45,28 @@ function BetInfoHero(props: { total: BigNumber; game: Game }) {
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={4} className="game-vertical-align game-col-title">
+                    <Col xs={5} className="game-vertical-align game-col-title">
                         <OverlayTrigger placement="top" overlay={<Tooltip>{props.game.teamA}</Tooltip>}>
-                            <p>{shortenString(props.game.teamA, 11)}</p>
+                            <p>{shortenString(props.game.teamA, 15)}</p>
                         </OverlayTrigger>
                     </Col>
-                    <Col xs={4} className="game-vertical-align game-col-subtitle">
+                    <Col xs={2} className="game-vertical-align game-col-subtitle">
                         <p className="game-item-tie">TIE</p>
                     </Col>
-                    <Col xs={4} className="game-vertical-align game-col-title">
+                    <Col xs={5} className="game-vertical-align game-col-title">
                         <OverlayTrigger placement="top" overlay={<Tooltip>{props.game.teamB}</Tooltip>}>
-                            <p>{shortenString(props.game.teamB, 11)}</p>
+                            <p>{shortenString(props.game.teamB, 15)}</p>
                         </OverlayTrigger>
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={4} className="game-vertical-align">
+                    <Col xs={5} className="game-vertical-align">
                         <Multiplier total={props.total} betAmount={props.game.betAmountTeamA} />
                     </Col>
-                    <Col xs={4} className="game-vertical-align">
+                    <Col xs={2} className="game-vertical-align">
                         <Multiplier total={props.total} betAmount={props.game.betAmountTie} />
                     </Col>
-                    <Col xs={4} className="game-vertical-align">
+                    <Col xs={5} className="game-vertical-align">
                         <Multiplier total={props.total} betAmount={props.game.betAmountTeamB} />
                     </Col>
                 </Row>
