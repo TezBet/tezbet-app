@@ -47,7 +47,7 @@ function BetInfoHero(props: { total: BigNumber; game: Game }) {
                 <Row>
                     <Col xs={5} className="game-vertical-align game-col-title">
                         <OverlayTrigger placement="top" overlay={<Tooltip>{props.game.teamA}</Tooltip>}>
-                            <p>{shortenString(props.game.teamA, 15)}</p>
+                            <p>{shortenString(props.game.teamA, 20, 0)}</p>
                         </OverlayTrigger>
                     </Col>
                     <Col xs={2} className="game-vertical-align game-col-subtitle">
@@ -55,7 +55,7 @@ function BetInfoHero(props: { total: BigNumber; game: Game }) {
                     </Col>
                     <Col xs={5} className="game-vertical-align game-col-title">
                         <OverlayTrigger placement="top" overlay={<Tooltip>{props.game.teamB}</Tooltip>}>
-                            <p>{shortenString(props.game.teamB, 15)}</p>
+                            <p>{shortenString(props.game.teamB, 20, 0)}</p>
                         </OverlayTrigger>
                     </Col>
                 </Row>
