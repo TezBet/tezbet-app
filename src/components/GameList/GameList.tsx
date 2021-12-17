@@ -76,6 +76,8 @@ function GameList(props: any) {
         [Tezos.wallet, refreshBalance]
     );
 
+    const nowTime = new Date().getTime();
+
     return (
         <Fragment>
             {props.future && typeof currentGame != "undefined" && (
@@ -87,7 +89,7 @@ function GameList(props: any) {
                         {games.length <= 0 && <GameItemPlaceholder />}
                         {props.ongoing &&
                             games
-                                .filter((game) => game.startDate.getTime() <= new Date().getTime())
+                                .filter((game) => game.startDate.getTime() <= nowTime)
                                 .sort((a, b) => compareGames(b, a))
                                 .map((game) => game.outcome === -1 ?
                                     <OngoingGameItem game={game} key={game.id} />
@@ -96,7 +98,7 @@ function GameList(props: any) {
                                 )}
                         {props.future &&
                             games
-                                .filter((game) => game.startDate.getTime() > new Date().getTime())
+                                .filter((game) => game.startDate.getTime() > nowTime)
                                 .sort((a, b) => compareGames(a, b))
                                 .map((game) => <FutureGameItem game={game} key={game.id} onBetClick={() => onBetClick(game)} />)}
                     </CurrentDateContextProvider>
