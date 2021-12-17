@@ -1,0 +1,11 @@
+[[redirects]]
+  from = "/api"
+  to = "https://api.football-data.org/v2"
+  status = 200
+  force = true
+  headers = {X-Auth-Token = "API_TOKEN"}
+
+[[redirects]]
+  from = "*"
+  to = "/index.html"
+  status = 200
