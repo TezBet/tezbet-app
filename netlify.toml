@@ -1,3 +1,6 @@
+[build]
+  command = "sed -i s/API_KEY/${API_KEY}/g netlify.toml && npm run build"
+
 [[redirects]]
   from = "/api/*"
   to = "https://api.football-data.org/v2/:splat"
