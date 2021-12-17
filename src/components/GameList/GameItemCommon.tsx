@@ -7,6 +7,7 @@ import Game from "../../utils/Game";
 import TZLink from "../TZLink";
 import { Counter } from "./Counter";
 import "./GameItemCommon.css";
+import { shortenString } from '../../utils/utils';
 
 function TotalBet(props: { total: BigNumber }) {
     return (
@@ -45,13 +46,17 @@ function BetInfoHero(props: { total: BigNumber; game: Game }) {
                 </Row>
                 <Row>
                     <Col xs={4} className="game-vertical-align game-col-title">
-                        <p>{props.game.teamA}</p>
+                        <OverlayTrigger placement="top" overlay={<Tooltip>{props.game.teamA}</Tooltip>}>
+                            <p>{shortenString(props.game.teamA, 11)}</p>
+                        </OverlayTrigger>
                     </Col>
                     <Col xs={4} className="game-vertical-align game-col-subtitle">
                         <p className="game-item-tie">TIE</p>
                     </Col>
                     <Col xs={4} className="game-vertical-align game-col-title">
-                        <p>{props.game.teamB}</p>
+                        <OverlayTrigger placement="top" overlay={<Tooltip>{props.game.teamB}</Tooltip>}>
+                            <p>{shortenString(props.game.teamB, 11)}</p>
+                        </OverlayTrigger>
                     </Col>
                 </Row>
                 <Row>
