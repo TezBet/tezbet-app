@@ -4,10 +4,10 @@ import { ReactComponent as ContractIcon } from "bootstrap-icons/icons/file-earma
 import { useMemo } from "react";
 import { Badge, Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import Game from "../../utils/Game";
+import { shortenString } from '../../utils/utils';
 import TZLink from "../TZLink";
 import { Counter } from "./Counter";
 import "./GameItemCommon.css";
-import { shortenString } from '../../utils/utils';
 
 function TotalBet(props: { total: BigNumber }) {
     return (
@@ -29,7 +29,7 @@ function TotalBet(props: { total: BigNumber }) {
     );
 }
 
-function BetInfoHero(props: { total: BigNumber; game: Game }) {
+function BetInfoHero(props: { total: BigNumber; game: Game, counter: boolean }) {
     return (
         <Col xs={8}>
             <Container className="game-item-hero game-item-separator-right">
@@ -38,7 +38,11 @@ function BetInfoHero(props: { total: BigNumber; game: Game }) {
                         <p className="game-item-title-left">{props.game.description ? props.game.description : "Match"}</p>
                     </Col>
                     <Col xs={4}>
-                        <Counter targetDate={props.game.startDate} />
+                        {props.counter ?
+                            <Counter targetDate={props.game.startDate} />
+                            :
+                            <Badge pill bg="success">Game Ended</Badge>
+                        }
                     </Col>
                     <Col xs={4}>
                         <DateSpan targetDate={props.game.startDate} />

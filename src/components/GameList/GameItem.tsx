@@ -11,7 +11,7 @@ function FutureGameItem({ game, onBetClick }: { game: Game; onBetClick: () => vo
             <CornerButton contractId={game.id} />
             <Row className="g-0">
                 <TotalBet total={total} />
-                <BetInfoHero total={total} game={game} />
+                <BetInfoHero total={total} game={game} counter />
                 <Col xs={2} className="game-vertical-align">
                     <p>
                         <BetButton onBetClick={onBetClick} />
@@ -30,7 +30,7 @@ function OngoingGameItem({ game }: { game: Game }) {
             <CornerButton contractId={game.id} />
             <Row className="g-0">
                 <TotalBet total={total} />
-                <BetInfoHero total={total} game={game} />
+                <BetInfoHero total={total} game={game} counter />
                 <Col xs={2} className="game-vertical-align">
                     <p className="game-item-score">0 - 4</p>
                 </Col>
@@ -42,14 +42,13 @@ function OngoingGameItem({ game }: { game: Game }) {
 function PlayedGameItem({ game, onRedeem }: { game: Game; onRedeem: () => void }) {
     const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
 
-    if (!game.userbet) {
-        // "negation" of "game.userbet" is temporary here to work on the redeem button
+    if (game.userbet) {
         return (
             <Container className="game-item">
                 <CornerButton contractId={game.id} />
                 <Row className="g-0">
                     <TotalBet total={total} />
-                    <BetInfoHero total={total} game={game} />
+                    <BetInfoHero total={total} game={game} counter={false} />
                     <Col xs={2} className="game-vertical-align">
                         <p>
                             <RedeemButton onRedeem={onRedeem} />
@@ -64,7 +63,7 @@ function PlayedGameItem({ game, onRedeem }: { game: Game; onRedeem: () => void }
                 <CornerButton contractId={game.id} />
                 <Row className="g-0">
                     <TotalBet total={total} />
-                    <BetInfoHero total={total} game={game} />
+                    <BetInfoHero total={total} game={game} counter={false} />
                     <Col xs={2} className="game-vertical-align">
                         <p className="game-item-score">0 - 4</p>
                     </Col>
