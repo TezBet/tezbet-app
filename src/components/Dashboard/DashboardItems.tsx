@@ -98,7 +98,7 @@ function ResultCard({ game, onRedeem }: { game: Game; onRedeem: (game: Game) => 
                             betB={game.userBetB}
                             betTie={game.userBetTie}
                             betCount={game.betCountTeamA + game.betCountTeamB + game.betCountTie}
-                            isLive={true}
+                            isLive={game.startDate.getTime() < new Date().getTime() && game.outcome === -1}
                         />
                     )}
                 </Row>
