@@ -71,8 +71,8 @@ function Header(props: any) {
                         <NavLink className="nav-link" to="/">
                             Home
                         </NavLink>
-                        <NavLink className="nav-link" to="/ongoing">
-                            Ongoing games
+                        <NavLink className="nav-link" to="/live">
+                            Live
                         </NavLink>
                         <Nav.Link href="https://github.com/TezBet/tezbet-whitepaper/blob/main/TezBet_whitepaper.pdf">
                             Whitepaper

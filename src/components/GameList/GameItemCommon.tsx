@@ -3,7 +3,7 @@ import { ReactComponent as ArrowIcon } from "bootstrap-icons/icons/arrow-right-c
 import { ReactComponent as ContractIcon } from "bootstrap-icons/icons/file-earmark-bar-graph.svg";
 import { useMemo } from "react";
 import { Badge, Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
-import Game from "../../utils/Game";
+import { Game } from "../../utils/Game";
 import { shortenString } from '../../utils/utils';
 import TZLink from "../TZLink";
 import { Counter } from "./Counter";
