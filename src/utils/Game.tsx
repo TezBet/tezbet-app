@@ -25,13 +25,29 @@ type Game = {
 type GamesLoaderReturnType = {
     games: Game[];
     refreshGames: () => void;
+    scores:any;
 }
 
 function GamesLoader(props: any) {
     const { Tezos, connected, account } = useContext(WalletContext)!;
     const [games, setGames] = useState<Array<Game>>([]);
+    const [scores, setScores] = useState<any>([]);
+
+    const refreshScores = useCallback(() => {
+        fetch("https://tezbet.netlify.app/api/matches?status=IN_PLAY,PAUSED,FINISHED,SUSPENDED")
+        .then((r) => r.json())
+        .then((result) => {
+            const newScores:{[id:number]: any} = {};
+            result.matches.forEach((m:any) => {
+                newScores[m.id] = m.score.fullTime;
+            });
+            setScores(newScores);
+            console.log(newScores);
+        }).catch(console.log);
+    }, []);
 
     const refreshGames = useCallback(() => {
+        refreshScores();
         Tezos.wallet
             .at(process.env.REACT_APP_TEZBET_CONTRACT!)
             .then((contract) => contract.storage())
@@ -67,11 +83,11 @@ function GamesLoader(props: any) {
 
     useEffect(() => refreshGames(), [refreshGames]);
     useEffect(() => {
-        const refreshTimer = setTimeout(() => refreshGames(), 10000);
+        const refreshTimer = setTimeout(() => refreshGames(), 30000);
         return () => clearTimeout(refreshTimer);
     });
 
-    const cprops: GamesLoaderReturnType = useMemo(() => ({ games, refreshGames }), [refreshGames, games]);
+    const cprops: GamesLoaderReturnType = useMemo(() => ({ games, refreshGames, scores }), [refreshGames, games]);
     return props.children(cprops);
 }
 
