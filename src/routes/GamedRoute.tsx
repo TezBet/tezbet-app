@@ -11,7 +11,7 @@ function GamedRoute(props: any) {
                 <Fragment>
                     {props.home && <GameList future gamesLoader={gamesLoader} />}
                     {props.live && <GameList gamesLoader={gamesLoader} />}
-                    {props.dashboard && <Dashboard />}
+                    {props.dashboard && <Dashboard gamesLoader={gamesLoader} />}
                     {props.howto && <HowTo />}
                 </Fragment>
             )}

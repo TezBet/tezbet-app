@@ -44,7 +44,7 @@ function OngoingGameItem({ game, score }: { game: Game, score?: any }) {
 function PlayedGameItem({ game, onRedeem }: { game: Game; onRedeem: () => void }) {
     const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
 
-    if (game.userbet) {
+    if (game.userBet) {
         return (
             <Container className="game-item">
                 <CornerButton contractId={game.id} />

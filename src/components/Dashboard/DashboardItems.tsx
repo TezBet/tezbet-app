@@ -1,60 +1,87 @@
 import BigNumber from "bignumber.js";
-import { Fragment } from "react";
-import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { ReactComponent as CheckedIcon } from "bootstrap-icons/icons/check-lg.svg";
 import { ReactComponent as UnCheckedIcon } from "bootstrap-icons/icons/x.svg";
+import { Fragment } from "react";
+import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
+import { Game } from '../../utils/Game';
+import { shortenString } from '../../utils/utils';
 import { RedeemButton } from "../GameList/GameItemCommon";
 import "./DashboardItems.css";
 
-function PlayingCard() {
+function PlayingCard({ game, onBetClick, onUnBetClick }: { game: Game, onBetClick: (game:Game) => void, onUnBetClick: (game:Game) => void }) {
     return (
-        <Container className="dashboard-redeem-card">
-            <Row>
-                <GameResult teamAName={"Malte"} teamBName={"Andorre"} scoreTeamA={0} scoreTeamB={1} date={new Date()} />
-            </Row>
-            <Row className="dashboard-card-content">
-                <PlayingHero
-                    totalBetValue={new BigNumber(4.025)}
-                    betA={new BigNumber(0.025)}
-                    betB={new BigNumber(4)}
-                    betTie={new BigNumber(0)}
-                    betClick={() => alert("New bet!")}
-                    unbetClick={() => alert("Unbet click")}
-                />
-            </Row>
-        </Container>
+        <Col>
+            <Container className="dashboard-redeem-card">
+                <Row>
+                    <GameResult teamAName={game.teamA} teamBName={game.teamB} scoreTeamA={-1} scoreTeamB={1} date={game.startDate} />
+                </Row>
+                <Row className="dashboard-card-content">
+                    <PlayingHero
+                        totalBetValue={game.userBetA.plus(game.userBetB).plus(game.userBetTie)}
+                        betA={game.userBetA}
+                        betB={game.userBetB}
+                        betTie={game.userBetTie}
+                        betClick={() => onBetClick(game)}
+                        unbetClick={() => onUnBetClick(game)}
+                    />
+                </Row>
+            </Container>
+        </Col>
     );
 }
 
-function ResultCard() {
+function ResultCard({ game, onRedeem }: { game: Game, onRedeem: (game:Game) => void }) {
+    const userTotal = game.userBetA.plus(game.userBetB).plus(game.userBetTie);
+    let redeemable = new BigNumber(0);
+
+    if (game.outcome === 10) {
+        redeemable = userTotal;
+    } else {
+        let pool = new BigNumber(0);
+        let user = new BigNumber(0);
+        if (game.outcome === 0) {
+            pool = game.userBetA;
+            user = game.betAmountTeamA;
+        } else if (game.outcome === 1) {
+            pool = game.userBetB;
+            user = game.betAmountTeamB;
+        } else if (game.outcome === 2) {
+            pool = game.userBetTie;
+            user = game.betAmountTie;
+        }
+        redeemable = user.multipliedBy(game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie).dividedBy(pool));
+    }
+
     return (
-        <Container className="dashboard-redeem-card">
-            <Row>
-                <GameResult teamAName={"Malte"} teamBName={"Andorre"} scoreTeamA={0} scoreTeamB={0} date={new Date()} />
-            </Row>
-            <Row className="dashboard-card-content">
-                {true ? (
-                    <RedeemContent
-                        redeemValue={new BigNumber(7.2)}
-                        totalBetValue={new BigNumber(4.025)}
-                        betA={new BigNumber(0.025)}
-                        betB={new BigNumber(4)}
-                        betTie={new BigNumber(0)}
-                        followRate={14}
-                        onRedeem={() => alert("Redeem!")}
-                    />
-                ) : (
-                    <NormalContent
-                        redeemValue={new BigNumber(0)} // This must be 0 if the bet is lost
-                        totalBetValue={new BigNumber(4.025)}
-                        betA={new BigNumber(0.025)}
-                        betB={new BigNumber(4)}
-                        betTie={new BigNumber(0)}
-                        followRate={14}
-                    />
-                )}
-            </Row>
-        </Container>
+        <Col>
+            <Container className="dashboard-redeem-card">
+                <Row>
+                    <GameResult teamAName={game.teamA} teamBName={game.teamB} scoreTeamA={-1} scoreTeamB={1} date={game.startDate} />
+                </Row>
+                <Row className="dashboard-card-content">
+                    {redeemable.comparedTo(new BigNumber(0)) > 0 ? (
+                        <RedeemContent
+                            redeemValue={redeemable}
+                            totalBetValue={userTotal}
+                            betA={game.userBetA}
+                            betB={game.userBetB}
+                            betTie={game.userBetTie}
+                            betCount={game.betCountTeamA + game.betCountTeamB + game.betCountTie}
+                            onRedeem={() => onRedeem(game)}
+                        />
+                    ) : (
+                        <NormalContent
+                            redeemValue={new BigNumber(0)} // This must be 0 if the bet is lost
+                            totalBetValue={userTotal}
+                            betA={game.userBetA}
+                            betB={game.userBetB}
+                            betTie={game.userBetTie}
+                            betCount={game.betCountTeamA + game.betCountTeamB + game.betCountTie}
+                        />
+                    )}
+                </Row>
+            </Container>
+        </Col>
     );
 }
 
@@ -70,7 +97,7 @@ function RedeemContent(props: any) {
                     betA={props.betA}
                     betB={props.betB}
                     betTie={props.betTie}
-                    followRate={props.followRate}
+                    betCount={props.betCount}
                 />
             </Col>
             <Col xs={4} className="dashboard-vertical-align">
@@ -92,7 +119,7 @@ function NormalContent(props: any) {
                     betA={props.betA}
                     betB={props.betB}
                     betTie={props.betTie}
-                    followRate={props.followRate}
+                    betCount={props.betCount}
                 />
             </Col>
         </Fragment>
@@ -116,13 +143,13 @@ function GameResult(props: any) {
             <Container className="dashboard-item-team">
                 <Row>
                     <Col xs={5} className="dashboard-item-team-name">
-                        {props.teamAName}
+                        {shortenString(props.teamAName, 13, 0)}
                     </Col>
                     <Col xs={2} className="dashboard-item-team-score">
                         {props.scoreTeamA === 0 && props.scoreTeamB === 0 ? "•" : props.scoreTeamA + " - " + props.scoreTeamB}
                     </Col>
                     <Col xs={5} className="dashboard-item-team-name">
-                        {props.teamBName}
+                        {shortenString(props.teamBName, 13, 0)}
                     </Col>
                 </Row>
             </Container>
@@ -157,7 +184,7 @@ function BetGainInfo(props: any) {
                 </BetValueOverlayTrigger>{" "}
                 XTZ
             </div>
-            <div>They were {props.followRate}% on your side.</div>
+            <div>{props.betCount} people bet on this game.</div>
         </Container>
     );
 }
@@ -177,7 +204,7 @@ function BetNormalInfo(props: any) {
                 </BetValueOverlayTrigger>
                 <span className="dashboard-bet-normal-xtz"> XTZ</span>
             </div>
-            <div className="dashboard-bet-normal-comment">They were {props.followRate}% on your side.</div>
+            <div className="dashboard-bet-normal-comment">{props.betCount} people bet on this game.</div>
         </Container>
     );
 }
