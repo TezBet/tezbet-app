@@ -5,10 +5,28 @@
     color: white;
 }
 
-.footer p {
+.footer .footer-text {
     margin: 20px 20px !important;
 }
 
 .faucet-button {
     margin: 5px 10px 5px 10px;
+}
+
+.footer span {
+    margin: 0 10px;
+    position: relative;
+    color: #fd7232;
+}
+
+.footer span a {
+    text-decoration: none;
+    color: #fd7232;
+}
+
+.footer span:not(:first-child):before {
+    content: '|';
+    position: absolute;
+    left: -11px;
+    color: white;
 }

@@ -7,7 +7,13 @@ function Footer() {
             <Row>
                 <Col></Col>
                 <Col>
-                    <p>Copyright TezBet</p>
+                    <div className="footer-text">
+                        <span><a target="_blank" rel="noreferrer"
+                            href="https://github.com/TezBet/tezbet-whitepaper/blob/main/TezBet_whitepaper.pdf">Whitepaper</a>
+                        </span>
+                        <span><a target="_blank" rel="noreferrer" href="https://github.com/TezBet">Github</a></span>
+                        <span>Copyright TezBet {new Date().getFullYear()}</span>
+                    </div>
                 </Col>
                 <Col></Col>
             </Row>
