@@ -3,7 +3,7 @@
 }
 
 .dashboard-title {
-    margin-bottom: 1em;
+    margin-bottom: 2em;
     text-shadow: 2px 2px 4px #430069;
 }
 
@@ -24,4 +24,10 @@
     font-weight: bold;
     font-size: x-large;
     padding-top: 1em;
+}
+
+.dashboard-placeholder {
+    color: white;
+    font-style: italic;
+    text-shadow: 2px 2px 4px #430069;
 }
