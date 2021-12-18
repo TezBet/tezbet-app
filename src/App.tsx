@@ -10,7 +10,7 @@ import { WalletContextProvider } from './utils/WalletContextProvider';
 
 function App() {
     return (
-        <WalletContextProvider network={NetworkType.HANGZHOUNET} rpc={process.env.REACT_APP_TEZOS_RPC!} name="TezBet" >
+        <WalletContextProvider network={NetworkType.CUSTOM} rpc={process.env.REACT_APP_TEZOS_RPC!} name="TezBet" >
             <Balls />
             <Header />
             <Container className="main-container">

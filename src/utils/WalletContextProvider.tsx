@@ -35,7 +35,8 @@ function WalletContextProvider(props: WalletProviderProps) {
     const options = useMemo(() => ({
         name: props.name,
         preferredNetwork: props.network,
-    }), [props.network, props.name]);
+        rpc: props.rpc,
+    }), [props.network, props.name, props.rpc]);
     useEffect(() => { if (typeof wallet == 'undefined') setWallet(new BeaconWallet(options)) }, [wallet, options]);
 
     const refreshAccount = useCallback(() => {
@@ -51,10 +52,10 @@ function WalletContextProvider(props: WalletProviderProps) {
     const connect = useCallback(() => {
         if (connecting) return;
         setConnecting(true);
-        wallet!.requestPermissions({ network: { type: props.network } })
+        wallet!.requestPermissions({ network: { type: props.network, name: "CUSTOM", rpcUrl: props.rpc } })
             .then((_) => refreshAccount())
             .catch((err) => {console.log(JSON.stringify(err, null, 2)); setConnecting(false);});
-    }, [wallet, refreshAccount, props.network, connecting]);
+    }, [wallet, refreshAccount, props.network, connecting, props.rpc]);
 
     const disconnect = useCallback(() => {
         wallet!.clearActiveAccount();
