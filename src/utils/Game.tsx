@@ -79,7 +79,7 @@ function GamesLoader(props: any) {
 
                 setGames(g);
             });
-    }, [Tezos, connected, account]);
+    }, [Tezos, connected, account, refreshScores]);
 
     useEffect(() => refreshGames(), [refreshGames]);
     useEffect(() => {
@@ -87,7 +87,7 @@ function GamesLoader(props: any) {
         return () => clearTimeout(refreshTimer);
     });
 
-    const cprops: GamesLoaderReturnType = useMemo(() => ({ games, refreshGames, scores }), [refreshGames, games]);
+    const cprops: GamesLoaderReturnType = useMemo(() => ({ games, refreshGames, scores }), [refreshGames, games, scores]);
     return props.children(cprops);
 }
 
