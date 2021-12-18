@@ -65,6 +65,10 @@
     left: 150px;
 }
 
+.bet-button:focus {
+    box-shadow: none!important;
+}
+
 .bet-multiplier-purple {
     background: #430069 !important;
 }
