@@ -1,5 +1,5 @@
 import { Col, Container, Placeholder, Row } from "react-bootstrap";
-import Game from "../../utils/Game";
+import { Game } from "../../utils/Game";
 import "./GameItem.css";
 import { BetButton, BetInfoHero, CornerButton, TotalBet, RedeemButton } from "./GameItemCommon";
 
