@@ -13,6 +13,7 @@ ReactDOM.render(
                     <Route index element={<GamedRoutes home />} />
                     <Route path="live" element={<GamedRoutes live />} />
                     <Route path="dashboard" element={<GamedRoutes dashboard />} />
+                    <Route path="howto" element={<GamedRoutes howto />} />
 
                     <Route path="*" element={<NotFound />} />
                 </Route>
