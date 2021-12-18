@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { ReactComponent as CheckedIcon } from "bootstrap-icons/icons/check-lg.svg";
 import { ReactComponent as UnCheckedIcon } from "bootstrap-icons/icons/x.svg";
+import { ReactComponent as PendingIcon } from "bootstrap-icons/icons/arrow-repeat.svg";
 import { RedeemButton } from "../GameList/GameItemCommon";
 import "./DashboardItems.css";
 
@@ -30,10 +31,10 @@ function ResultCard() {
     return (
         <Container className="dashboard-redeem-card">
             <Row>
-                <GameResult teamAName={"Malte"} teamBName={"Andorre"} scoreTeamA={0} scoreTeamB={0} date={new Date()} />
+                <GameResult teamAName={"Malte"} teamBName={"Andorre"} scoreTeamA={-1} scoreTeamB={-1} date={new Date()} />
             </Row>
             <Row className="dashboard-card-content">
-                {true ? (
+                {false ? ( // game.toRedeem
                     <RedeemContent
                         redeemValue={new BigNumber(7.2)}
                         totalBetValue={new BigNumber(4.025)}
@@ -51,6 +52,7 @@ function ResultCard() {
                         betB={new BigNumber(4)}
                         betTie={new BigNumber(0)}
                         followRate={14}
+                        isLive={true}
                     />
                 )}
             </Row>
@@ -84,7 +86,7 @@ function NormalContent(props: any) {
     return (
         <Fragment>
             <Col xs={6} className="dashboard-vertical-align">
-                <GameResultButton value={props.redeemValue} />
+                <GameResultButton value={props.redeemValue} isLive={props.isLive} />
             </Col>
             <Col xs={6} className="dashboard-vertical-align dashboard-no-padding">
                 <BetNormalInfo
@@ -119,7 +121,7 @@ function GameResult(props: any) {
                         {props.teamAName}
                     </Col>
                     <Col xs={2} className="dashboard-item-team-score">
-                        {props.scoreTeamA === 0 && props.scoreTeamB === 0 ? "•" : props.scoreTeamA + " - " + props.scoreTeamB}
+                        {props.scoreTeamA < 0 || props.scoreTeamB < 0 ? "•" : props.scoreTeamA + " - " + props.scoreTeamB}
                     </Col>
                     <Col xs={5} className="dashboard-item-team-name">
                         {props.teamBName}
@@ -183,6 +185,22 @@ function BetNormalInfo(props: any) {
 }
 
 function GameResultButton(props: any) {
+    if (props.isLive) {
+        return (
+            <OverlayTrigger overlay={<Tooltip>This match is still in live or not yet processed</Tooltip>}>
+                <Container className={"g-0 dashboard-game-result-status dashboard-pending-primary"}>
+                    <div className="dashboard-game-result-status-content">
+                        ...
+                        <span className="dashboard-game-result-status-text">
+                            <span className="dashboard-game-result-status-text-value">LIVE</span>
+                        </span>
+                        ...
+                    </div>
+                    <PendingIcon className="dashboard-game-result-status-icon dashboard-pending-secondary" />
+                </Container>
+            </OverlayTrigger>
+        );
+    }
     const iswon = props.value > 0;
     return (
         <Container className={"g-0 dashboard-game-result-status " + (iswon ? "dashboard-won-primary" : "dashboard-lost-primary")}>

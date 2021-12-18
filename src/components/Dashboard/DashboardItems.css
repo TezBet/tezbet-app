@@ -201,6 +201,16 @@
     color: #7a1919;
 }
 
+.dashboard-pending-primary {
+    background: #949494;
+    color: white;
+}
+
+.dashboard-pending-secondary {
+    background: #585858;
+    color: white;
+}
+
 /* Used in PlayingHero */
 .dashboard-playinghero-central {
     position: relative;
