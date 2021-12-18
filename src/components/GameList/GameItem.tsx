@@ -22,7 +22,7 @@ function FutureGameItem({ game, onBetClick }: { game: Game; onBetClick: () => vo
     );
 }
 
-function OngoingGameItem({ game }: { game: Game }) {
+function OngoingGameItem({ game, score }: { game: Game, score?: any }) {
     const total = game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie);
 
     return (
@@ -32,7 +32,9 @@ function OngoingGameItem({ game }: { game: Game }) {
                 <TotalBet total={total} />
                 <BetInfoHero total={total} game={game} counter />
                 <Col xs={2} className="game-vertical-align">
-                    <p className="game-item-score">0 - 4</p>
+                    {typeof score != 'undefined' && (
+                        <p className="game-item-score">{score?.homeTeam} - {score?.awayTeam}</p>
+                    )}
                 </Col>
             </Row>
         </Container>
