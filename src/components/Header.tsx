@@ -1,4 +1,4 @@
-import { Fragment, useContext } from "react";
+import { useContext } from "react";
 import { Button, Container, Nav, Navbar } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 import TezBetLogo from "../img/icon.svg";
@@ -42,21 +42,6 @@ function WalletManagement() {
     }
 }
 
-function DashboardButton() {
-    const { connected } = useContext(WalletContext)!;
-
-    if (!connected) {
-        return <Fragment />;
-    }
-    return (
-        <Nav>
-            <NavLink className="nav-link" to="/dashboard">
-                My bets
-            </NavLink>
-        </Nav>
-    );
-}
-
 function Header(props: any) {
     return (
         <Navbar expand="lg" variant="dark" fixed="top">
@@ -74,13 +59,15 @@ function Header(props: any) {
                         <NavLink className="nav-link" to="/live">
                             Live
                         </NavLink>
-                        <Nav.Link href="https://github.com/TezBet/tezbet-whitepaper/blob/main/TezBet_whitepaper.pdf">
-                            Whitepaper
-                        </Nav.Link>
+                        <NavLink className="nav-link" to="/dashboard">
+                            Dashboard
+                        </NavLink>
+                        <NavLink className="nav-link nav-link-howto" to="/howto">
+                            How to TezBet
+                        </NavLink>
                     </Nav>
                 </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end basic-navbar-nav">
-                    <DashboardButton />
                     <Faucet />
                     <WalletManagement />
                 </Navbar.Collapse>
