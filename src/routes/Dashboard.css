@@ -1,0 +1,29 @@
+.dashboard {
+    position: relative;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 4px 4px 5px 1px #430069;
+    padding-bottom: 20px;
+}
+
+.dashboard-title {
+    margin-bottom: 1em;
+}
+
+.dashboard-title::after {
+    content: "";
+    position: relative;
+    top: 100%;
+    left: 0.5em;
+    width: 20em;
+    height: 4px;
+    border-radius: 1px;
+    background-color: #430069;
+}
+
+.dashboard-title-bold {
+    color: #430069;
+    font-weight: bold;
+    font-size: x-large;
+    padding-top: 1em;
+}
