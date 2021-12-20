@@ -91,17 +91,18 @@ function GamesLoader(props: any) {
                         game.userCanRedeem = (game.outcome === 10 || (game.outcome === 0 && bet_by_user.team_a > 0)
                             || (game.outcome === 1 && bet_by_user.team_b > 0) || (game.outcome === 2 && bet_by_user.tie > 0));
 
-                        game.userBetA = bet_by_user.team_a;
-                        game.userBetB = bet_by_user.team_b;
-                        game.userBetTie = bet_by_user.tie;
+                        game.userBetA = bet_by_user.team_a.dividedBy(1000000);
+                        game.userBetB = bet_by_user.team_b.dividedBy(1000000);
+                        game.userBetTie = bet_by_user.tie.dividedBy(1000000);
                     }
 
                     g.push(game);
                 });
+                console.log("refreshgames");
 
                 setGames(g);
             });
-    }, [Tezos, connected, account, refreshScores]);
+    }, [Tezos.wallet, connected, account, refreshScores]);
 
     useEffect(refreshGames, [refreshGames]);
     useEffect(() => {

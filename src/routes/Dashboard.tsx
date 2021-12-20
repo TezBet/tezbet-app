@@ -54,7 +54,6 @@ function Dashboard({ gamesLoader }: { gamesLoader: GamesLoaderReturnType }) {
             })
             .catch(console.log);
     }, [Tezos, account, connected]);
-
     useEffect(refreshArchive, [refreshArchive]);
 
     const onBetClick = useCallback((game: Game) => setCurrentGame(game), [setCurrentGame]);
@@ -98,9 +97,11 @@ function Dashboard({ gamesLoader }: { gamesLoader: GamesLoaderReturnType }) {
         return <p>Please connect with your wallet</p>;
     }
 
-    const currentFiltered = gamesLoader.games.filter((game) => game.userBet && game.outcome === -1);
-    const redeemableFiltered = gamesLoader.games.filter((game) => game.userBet && game.outcome !== -1);
-    const archiveFiltered = typeof archive != "undefined" ? archive.filter((game) => game.userBet) : Array<Game>();
+    const userGames = gamesLoader.games.filter((game) => game.userBet);
+
+    const currentFiltered = userGames.filter((game) => game.outcome === -1);
+    const redeemableFiltered = userGames.filter((game) => game.outcome !== -1);
+    const archiveFiltered = typeof archive != "undefined" ? archive.slice().filter((game) => game.userBet) : Array<Game>();
 
     return (
         <Fragment>
@@ -114,10 +115,10 @@ function Dashboard({ gamesLoader }: { gamesLoader: GamesLoaderReturnType }) {
                         <Row xs={1} className="g-4">
                             {currentFiltered.length <= 0 && <Col className="dashboard-placeholder">No bet currently open</Col>}
 
-                            {currentFiltered
+                            {currentFiltered.slice()
                                 .sort((a, b) => compareGames(a, b))
                                 .map((game) => (
-                                    <PlayingCard game={game} onBetClick={onBetClick} onUnBetClick={onUnBetClick} />
+                                    <PlayingCard key={game.id} game={game} onBetClick={onBetClick} onUnBetClick={onUnBetClick} />
                                 ))}
                         </Row>
                     </Col>
@@ -128,10 +129,10 @@ function Dashboard({ gamesLoader }: { gamesLoader: GamesLoaderReturnType }) {
                         <Row xs={1} className="g-4">
                             {redeemableFiltered.length <= 0 && <Col className="dashboard-placeholder">No bet to redeem</Col>}
 
-                            {redeemableFiltered
+                            {redeemableFiltered.slice()
                                 .sort((a, b) => compareGames(a, b))
                                 .map((game) => (
-                                    <ResultCard game={game} onRedeem={onRedeem} />
+                                    <ResultCard key={game.id} game={game} onRedeem={onRedeem} />
                                 ))}
                         </Row>
                     </Col>
@@ -142,10 +143,10 @@ function Dashboard({ gamesLoader }: { gamesLoader: GamesLoaderReturnType }) {
                 <Row xs={1} md={2} className="g-4">
                     {archiveFiltered.length <= 0 && <Col className="dashboard-placeholder">No bet history</Col>}
 
-                    {archiveFiltered
+                    {archiveFiltered.slice()
                         .sort((a, b) => compareGames(a, b))
                         .map((game) => (
-                            <ResultCard game={game} onRedeem={onRedeem} />
+                            <ResultCard key={game.id} game={game} onRedeem={onRedeem} />
                         ))}
                 </Row>
             </Container>
