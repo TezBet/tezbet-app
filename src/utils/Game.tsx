@@ -3,7 +3,7 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { WalletContext } from './WalletContextProvider';
 
 type Game = {
-    id: string;
+    id: number;
     startDate: Date;
     description?: string;
 
@@ -31,11 +31,15 @@ type GamesLoaderReturnType = {
     games: Game[];
     refreshGames: () => void;
     scores: any;
+    archive: Game[];
 }
 
+const zero = new BigNumber(0);
+
 function GamesLoader(props: any) {
-    const { Tezos, connected, account } = useContext(WalletContext)!;
+    const { Tezos, connected, account, loaded } = useContext(WalletContext)!;
     const [games, setGames] = useState<Array<Game>>([]);
+    const [archive, setArchive] = useState<Array<Game>>([]);
     const [scores, setScores] = useState<any>([]);
 
     const refreshScores = useCallback(() => {
@@ -51,58 +55,25 @@ function GamesLoader(props: any) {
     }, []);
 
     const refreshGames = useCallback(() => {
+        if (!loaded) return;
         refreshScores();
+
         Tezos.wallet
             .at(process.env.REACT_APP_TEZBET_CONTRACT!)
             .then((contract) => contract.storage())
             .then((s: any) => {
                 const g = Array<Game>();
-                const zero = new BigNumber(0);
+                const arch = Array<Game>();
 
-                s.games.valueMap.forEach((x: any, i: any) => {
-                    const game:Game = {
-                        id: s.games.keyMap.get(i),
-                        startDate: new Date(x.match_timestamp),
-                        description: "",
+                s.archived_games.valueMap.forEach((x: any, i: any) =>
+                    arch.push(loadGame(x, s.archived_games.keyMap.get(i), account, connected, true))
+                );
+                s.games.valueMap.forEach((x: any, i: any) => g.push(loadGame(x, s.games.keyMap.get(i), account, connected)));
 
-                        teamA: x.team_a,
-                        teamB: x.team_b,
-
-                        betAmountTeamA: x.bet_amount_on.team_a.dividedBy(1000000),
-                        betAmountTeamB: x.bet_amount_on.team_b.dividedBy(1000000),
-                        betAmountTie: x.bet_amount_on.tie.dividedBy(1000000),
-
-                        betCountTeamA: x.bets_by_choice.team_a.toNumber(),
-                        betCountTeamB: x.bets_by_choice.team_b.toNumber(),
-                        betCountTie: x.bets_by_choice.tie.toNumber(),
-
-                        outcome: x.outcome.toNumber(),
-                        userCanRedeem: false,
-                        userBet: connected && x.bet_amount_by_user.keyMap.has('"' + account!.address + '"'),
-
-                        userBetA: zero,
-                        userBetB: zero,
-                        userBetTie: zero,
-                    };
-
-                    if (game.userBet) {
-                        const bet_by_user = x.bet_amount_by_user.valueMap.get('"' + account!.address + '"');
-
-                        game.userCanRedeem = (game.outcome === 10 || (game.outcome === 0 && bet_by_user.team_a > 0)
-                            || (game.outcome === 1 && bet_by_user.team_b > 0) || (game.outcome === 2 && bet_by_user.tie > 0));
-
-                        game.userBetA = bet_by_user.team_a.dividedBy(1000000);
-                        game.userBetB = bet_by_user.team_b.dividedBy(1000000);
-                        game.userBetTie = bet_by_user.tie.dividedBy(1000000);
-                    }
-
-                    g.push(game);
-                });
-                console.log("refreshgames");
-
+                setArchive(arch);
                 setGames(g);
             });
-    }, [Tezos.wallet, connected, account, refreshScores]);
+    }, [connected, loaded, account, Tezos.wallet, refreshScores]);
 
     useEffect(refreshGames, [refreshGames]);
     useEffect(() => {
@@ -110,8 +81,48 @@ function GamesLoader(props: any) {
         return () => clearTimeout(refreshTimer);
     });
 
-    const cprops: GamesLoaderReturnType = useMemo(() => ({ games, refreshGames, scores }), [refreshGames, games, scores]);
+    const cprops: GamesLoaderReturnType = useMemo(() => ({ games, refreshGames, scores, archive }), [refreshGames, games, scores, archive]);
     return props.children(cprops);
+}
+
+function loadGame(x: any, id: number, account: any, connected: boolean, archive: boolean = false) {
+    const game: Game = {
+        id: id,
+        startDate: new Date(x.match_timestamp),
+        description: "",
+
+        teamA: x.team_a,
+        teamB: x.team_b,
+
+        betAmountTeamA: x.bet_amount_on.team_a.dividedBy(1000000),
+        betAmountTeamB: x.bet_amount_on.team_b.dividedBy(1000000),
+        betAmountTie: x.bet_amount_on.tie.dividedBy(1000000),
+
+        betCountTeamA: x.bets_by_choice.team_a.toNumber(),
+        betCountTeamB: x.bets_by_choice.team_b.toNumber(),
+        betCountTie: x.bets_by_choice.tie.toNumber(),
+
+        outcome: x.outcome.toNumber(),
+        userCanRedeem: false,
+        userBet: connected && x.bet_amount_by_user.keyMap.has('"' + account.address + '"'),
+
+        userBetA: zero,
+        userBetB: zero,
+        userBetTie: zero,
+    };
+
+    if (game.userBet) {
+        const bet_by_user = x.bet_amount_by_user.valueMap.get('"' + account.address + '"');
+
+        game.userCanRedeem = !archive && (game.outcome === 10 || (game.outcome === 0 && bet_by_user.team_a > 0)
+            || (game.outcome === 1 && bet_by_user.team_b > 0) || (game.outcome === 2 && bet_by_user.tie > 0));
+
+        game.userBetA = bet_by_user.team_a.dividedBy(1000000);
+        game.userBetB = bet_by_user.team_b.dividedBy(1000000);
+        game.userBetTie = bet_by_user.tie.dividedBy(1000000);
+    }
+
+    return game;
 }
 
 export { GamesLoader };

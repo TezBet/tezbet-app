@@ -1,5 +1,4 @@
-import BigNumber from "bignumber.js";
-import { Fragment, useCallback, useContext, useEffect, useState } from "react";
+import { Fragment, useCallback, useContext, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { PlayingCard, ResultCard } from "../components/Dashboard/DashboardItems";
 import { BetModal } from "../components/GameList/BetModal";
@@ -9,70 +8,31 @@ import { WalletContext } from "../utils/WalletContextProvider";
 import "./Dashboard.css";
 
 function Dashboard({ gamesLoader }: { gamesLoader: GamesLoaderReturnType }) {
-    const { connected, Tezos, account, refreshBalance } = useContext(WalletContext)!;
-    const [archive, setArchive] = useState<Array<Game>>();
+    const { connected, Tezos, refreshBalance } = useContext(WalletContext)!;
     const [currentGame, setCurrentGame] = useState<Game | undefined>();
 
-    const refreshArchive = useCallback(() => {
-        Tezos.wallet
-            .at(process.env.REACT_APP_TEZBET_CONTRACT!)
-            .then((contract) => contract.storage())
-            .then((s: any) => {
-                const g = Array<Game>();
-                s.games.valueMap.forEach((x: any, i: any) => {
-                    const startTime = new Date(x.match_timestamp);
-                    const hasBet = connected && x.bet_amount_by_user.keyMap.has('"' + account!.address + '"');
-                    const zero = new BigNumber(0);
-
-                    g.push({
-                        id: s.games.keyMap.get(i),
-                        startDate: startTime,
-                        description: "",
-
-                        teamA: x.team_a,
-                        teamB: x.team_b,
-
-                        betAmountTeamA: x.bet_amount_on.team_a.dividedBy(1000000),
-                        betAmountTeamB: x.bet_amount_on.team_b.dividedBy(1000000),
-                        betAmountTie: x.bet_amount_on.tie.dividedBy(1000000),
-
-                        betCountTeamA: x.bets_by_choice.team_a.toNumber(),
-                        betCountTeamB: x.bets_by_choice.team_b.toNumber(),
-                        betCountTie: x.bets_by_choice.tie.toNumber(),
-
-                        outcome: x.outcome.toNumber(),
-                        userBet: hasBet,
-                        userCanRedeem: false,
-
-                        userBetA: zero,
-                        userBetB: zero,
-                        userBetTie: zero,
-                    });
-                });
-
-                setArchive(g);
-            })
-            .catch(console.log);
-    }, [Tezos, account, connected]);
-    useEffect(refreshArchive, [refreshArchive]);
-
     const onBetClick = useCallback((game: Game) => setCurrentGame(game), [setCurrentGame]);
-    const onBetClose = useCallback(() => setCurrentGame(undefined), [setCurrentGame]);
+    const onBetClose = useCallback(() => {
+        setCurrentGame(undefined);
+        gamesLoader.refreshGames();
+    }, [setCurrentGame, gamesLoader]);
+
     const onUnBetClick = useCallback(
         (game: Game) => {
             Tezos.wallet
                 .at(process.env.REACT_APP_TEZBET_CONTRACT!)
-                .then((contract) => contract.methods.unbet_all(game.id).send())
+                .then((contract) => contract.methodsObject.unbet_all(game.id).send())
                 .then((op) => op.confirmation())
                 .then((result) => {
                     if (result.completed) {
                         refreshBalance();
+                        gamesLoader.refreshGames();
                     } else {
-                        alert("Failed");
+                        alert("Failed to unbet");
                     }
                 });
         },
-        [Tezos, refreshBalance]
+        [Tezos, refreshBalance, gamesLoader]
     );
 
     const onRedeem = useCallback(
@@ -101,7 +61,9 @@ function Dashboard({ gamesLoader }: { gamesLoader: GamesLoaderReturnType }) {
 
     const currentFiltered = userGames.filter((game) => game.outcome === -1);
     const redeemableFiltered = userGames.filter((game) => game.outcome !== -1);
-    const archiveFiltered = typeof archive != "undefined" ? archive.slice().filter((game) => game.userBet) : Array<Game>();
+    const archiveFiltered = typeof gamesLoader.archive != "undefined" ?
+        gamesLoader.archive.slice().filter((game) => game.userBet)
+        : Array<Game>();
 
     return (
         <Fragment>

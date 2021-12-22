@@ -1,7 +1,7 @@
 import BigNumber from "bignumber.js";
+import { ReactComponent as PendingIcon } from "bootstrap-icons/icons/arrow-repeat.svg";
 import { ReactComponent as CheckedIcon } from "bootstrap-icons/icons/check-lg.svg";
 import { ReactComponent as UnCheckedIcon } from "bootstrap-icons/icons/x.svg";
-import { ReactComponent as PendingIcon } from "bootstrap-icons/icons/arrow-repeat.svg";
 import { Fragment } from "react";
 import { Button, Col, Container, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 import { Game } from "../../utils/Game";
@@ -47,7 +47,7 @@ function PlayingCard({
 
 function ResultCard({ game, onRedeem }: { game: Game; onRedeem: (game: Game) => void }) {
     const userTotal = game.userBetA.plus(game.userBetB).plus(game.userBetTie);
-    let redeemable = new BigNumber(0);
+    let redeemable;
 
     if (game.outcome === 10) {
         redeemable = userTotal;
@@ -55,14 +55,14 @@ function ResultCard({ game, onRedeem }: { game: Game; onRedeem: (game: Game) => 
         let pool = new BigNumber(0);
         let user = new BigNumber(0);
         if (game.outcome === 0) {
-            pool = game.userBetA;
-            user = game.betAmountTeamA;
+            user = game.userBetA;
+            pool = game.betAmountTeamA;
         } else if (game.outcome === 1) {
-            pool = game.userBetB;
-            user = game.betAmountTeamB;
+            user = game.userBetB;
+            pool = game.betAmountTeamB;
         } else if (game.outcome === 2) {
-            pool = game.userBetTie;
-            user = game.betAmountTie;
+            user = game.userBetTie;
+            pool = game.betAmountTie;
         }
         redeemable = user.multipliedBy(game.betAmountTeamA.plus(game.betAmountTeamB).plus(game.betAmountTie).dividedBy(pool));
     }
@@ -80,7 +80,7 @@ function ResultCard({ game, onRedeem }: { game: Game; onRedeem: (game: Game) => 
                     />
                 </Row>
                 <Row className="dashboard-card-content">
-                    {redeemable.comparedTo(new BigNumber(0)) > 0 ? (
+                    {redeemable.comparedTo(new BigNumber(0)) > 0 && game.userCanRedeem ? (
                         <RedeemContent
                             redeemValue={redeemable}
                             totalBetValue={userTotal}
@@ -154,11 +154,10 @@ function GameResult(props: any) {
             placement="top"
             overlay={
                 <Tooltip>
-                    Played{" "}
-                    {`${props.date.toLocaleDateString()}-${props.date.getHours().toString().padStart(2, "0")}h${props.date
+                    {`${props.teamAName} | ${props.date.toLocaleDateString()} ${props.date.getHours().toString().padStart(2, "0")}h${props.date
                         .getMinutes()
                         .toString()
-                        .padStart(2, "0")}`}
+                        .padStart(2, "0")} | ${props.teamBName}`}
                 </Tooltip>
             }
         >
@@ -206,7 +205,7 @@ function BetGainInfo(props: any) {
                 </BetValueOverlayTrigger>{" "}
                 XTZ
             </div>
-            <div>{props.betCount} people bet on this game.</div>
+            <div>{props.betCount} bets were made on this game.</div>
         </Container>
     );
 }
@@ -226,7 +225,7 @@ function BetNormalInfo(props: any) {
                 </BetValueOverlayTrigger>
                 <span className="dashboard-bet-normal-xtz"> XTZ</span>
             </div>
-            <div className="dashboard-bet-normal-comment">{props.betCount} people bet on this game.</div>
+            <div className="dashboard-bet-normal-comment">{props.betCount} bets were made on this game.</div>
         </Container>
     );
 }
@@ -264,7 +263,7 @@ function GameResultButton(props: any) {
                     <CheckedIcon className="dashboard-game-result-status-icon dashboard-won-secondary" />
                 </OverlayTrigger>
             ) : (
-                <OverlayTrigger overlay={<Tooltip>Ooops, you lost this one!</Tooltip>}>
+                <OverlayTrigger overlay={<Tooltip>Nothing to redeem for this game</Tooltip>}>
                     <UnCheckedIcon className="dashboard-game-result-status-icon dashboard-lost-secondary" />
                 </OverlayTrigger>
             )}

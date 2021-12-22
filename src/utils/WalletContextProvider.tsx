@@ -16,6 +16,7 @@ type WalletContextType = {
     balance: BigNumber,
     refreshBalance: () => void,
     connecting: boolean,
+    loaded: boolean,
 };
 
 interface WalletProviderProps {
@@ -31,6 +32,7 @@ function WalletContextProvider(props: WalletProviderProps) {
     const [connected, setConnected] = useState(false);
     const [balance, setBalance] = useState(new BigNumber(0));
     const [connecting, setConnecting] = useState(false);
+    const [loaded, setLoaded] = useState(false);
 
     const options = useMemo(() => ({
         name: props.name,
@@ -45,6 +47,7 @@ function WalletContextProvider(props: WalletProviderProps) {
                 setAccount(a);
                 setConnected(typeof a != 'undefined');
                 setConnecting(false);
+                setLoaded(true);
             });
     }, [wallet]);
     useEffect(() => refreshAccount(), [refreshAccount, wallet]);
@@ -54,7 +57,7 @@ function WalletContextProvider(props: WalletProviderProps) {
         setConnecting(true);
         wallet!.requestPermissions({ network: { type: props.network, name: "CUSTOM", rpcUrl: props.rpc } })
             .then((_) => refreshAccount())
-            .catch((err) => {console.log(JSON.stringify(err, null, 2)); setConnecting(false);});
+            .catch((err) => { console.log(JSON.stringify(err, null, 2)); setConnecting(false); });
     }, [wallet, refreshAccount, props.network, connecting, props.rpc]);
 
     const disconnect = useCallback(() => {
@@ -85,7 +88,8 @@ function WalletContextProvider(props: WalletProviderProps) {
         balance,
         refreshBalance,
         connecting,
-    }), [account, wallet, connected, connect, disconnect, Tezos, balance, refreshBalance, connecting]);
+        loaded
+    }), [account, wallet, connected, connect, disconnect, Tezos, balance, refreshBalance, connecting, loaded]);
 
     return <WalletContext.Provider value={value} >
         {props.children}
