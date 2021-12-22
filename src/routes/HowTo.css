@@ -1,0 +1,31 @@
+.howto-container .row {
+    position: relative;
+    border-radius: 10px;
+    box-shadow: 4px 4px 5px 1px #430069;
+    padding: 40px 30px;
+    background-color: white;
+    color: #430069;
+    margin-bottom: 30px;
+}
+
+.howto-container h2 {
+    margin-bottom: 15px;
+    color: #fd7232;
+}
+
+.howto-container p {
+    padding-left: 40px;
+    text-align: justify;
+}
+
+.howto-container p sup {
+    color: #fd7232;
+}
+
+.howto-container ol {
+    font-size: 0.9em;
+    font-style: italic;
+    margin-top: 15px;
+    padding-left: 60px;
+    margin-bottom: 0;
+}

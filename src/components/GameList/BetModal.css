@@ -3,3 +3,50 @@
     text-align: center;
     margin: 40px 0px!important;
 }
+
+.betmodal-choice {
+    display: flex;
+    justify-content: center;
+
+    border-color: #430069!important;
+    background-color: transparent!important;
+    color: #430069!important;
+}
+
+.btn-check:checked+.betmodal-choice, .betmodal-choice:hover, .betmodal-choice:active, .btn-check:focus+.betmodal-choice {
+    background-color: #430069!important;
+    color: white!important;
+    border-color: #430069!important;
+    box-shadow: none!important;
+}
+
+.betmodal-submit {
+    background-color: #430069!important;
+    border-color: #430069!important;
+    opacity: 0.9;
+    transition: opacity .15s ease-in-out;
+}
+
+.betmodal-submit:hover {
+    opacity: 1;
+}
+
+.betmodal-max-button {
+    border-color: #fd7232;
+    color: #fd7232;
+}
+
+.betmodal-max-button:hover, .betmodal-max-button:active {
+    background-color: #fd7232;
+    border-color: #fd7232;
+}
+
+.betmodal-max-button:focus {
+    box-shadow: none!important;
+}
+
+.betmodal-info {
+    border-color: #fd7232;
+    background-color: #fd7232;
+    color: white;
+}

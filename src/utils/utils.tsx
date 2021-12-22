@@ -1,4 +1,4 @@
-import Game from './Game';
+import { Game } from './Game';
 
 function shortenString(str: string, begin: number = 4, end: number = 4) {
     if (str.length <= begin + end + 3) return str;

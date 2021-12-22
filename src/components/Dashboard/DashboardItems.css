@@ -1,0 +1,287 @@
+/* Used in *Card */
+
+.dashboard-redeem-card {
+    background-color: white;
+    width: 100%;
+    height: 7em;
+    box-shadow: 3px 3px 4px 1px #43006988;
+    border-radius: 1em;
+}
+
+.dashboard-redeem-card:hover {
+    transform: scale(1.05, 1.05);
+    transition: all 0.2s ease-in-out;
+    box-shadow: 3px 3px 4px 1px #430069ff;
+}
+
+.dashboard-vertical-align {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dashboard-text-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Used in *Content */
+
+.dashboard-card-content {
+    position: relative;
+    height: 5em;
+}
+
+.dashboard-no-padding {
+    padding: 0;
+}
+
+/* Used GameResult */
+
+.dashboard-item-team {
+    position: relative;
+    margin: 0.1em 0 0.2em 0;
+    color: #430069;
+}
+
+.dashboard-item-team::before {
+    position: absolute;
+    content: "";
+    text-align: center;
+    width: 90%;
+    left: 5%;
+    top: 100%;
+    height: 2px;
+    background-color: #e9e9e9;
+}
+
+.dashboard-item-team-name {
+    text-align: center;
+    font-weight: bold;
+}
+
+.dashboard-item-team-score {
+    text-align: center;
+}
+
+/* Used BetGain */
+
+.dashboard-gain-value {
+    color: #fd7232;
+    font-size: 2.3em;
+    font-weight: bold;
+}
+
+.dashboard-gain-xtz {
+    color: #430069;
+    font-size: 0.8em;
+}
+
+.dashboard-gain {
+    text-align: center;
+    padding: 0;
+}
+
+/* Used in BetGainInfo */
+
+.dashboard-bet-gain-info {
+    color: gray;
+    font-size: x-small;
+    width: 100%;
+    padding: 0;
+    padding-left: 4px;
+}
+
+.dashboard-bet-gain-info::before {
+    position: absolute;
+    display: inline-block;
+    content: "";
+    top: 20%;
+    height: 60%;
+    left: 35%;
+    width: 1px;
+    background-color: #e9e9e9;
+}
+
+.dashboard-bet-gain-info-bold {
+    font-weight: bold;
+}
+
+/* Used in BetNormalInfo */
+
+.dashboard-bet-normal-info {
+    position: relative;
+    width: 100%;
+}
+
+.dashboard-bet-normal-info::before {
+    position: absolute;
+    content: "";
+    top: 5%;
+    height: 90%;
+    left: 0;
+    width: 1px;
+    background-color: #e9e9e9;
+}
+
+.dashboard-bet-normal-comment {
+    position: relative;
+    color: gray;
+    font-size: x-small;
+    width: 100%;
+    padding: 0;
+    top: -0.8em;
+}
+
+.dashboard-bet-normal-xtz {
+    color: #430069;
+    font-size: xx-small;
+}
+
+.dashboard-bet-normal-value {
+    color: #fd7232;
+    font-weight: bold;
+    font-size: 2em;
+}
+
+/* Used in GameResultButton */
+
+.dashboard-game-result-status {
+    width: 10em;
+    height: 2.5em;
+    text-align: center;
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: #156815;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.dashboard-game-result-status-content {
+    width: 7.5em;
+}
+
+.dashboard-game-result-status-text {
+    text-align: center;
+    color: white;
+    font-size: xx-small;
+}
+
+.dashboard-game-result-status-text-value {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.dashboard-game-result-status-icon {
+    align-items: center;
+    width: 2.5em;
+    height: 2.5em;
+    padding: 0.3em;
+}
+
+.dashboard-won-primary {
+    background-color: #156815;
+}
+
+.dashboard-won-secondary {
+    background-color: #003a00;
+    color: #156815;
+}
+
+.dashboard-lost-primary {
+    background-color: #7a1919;
+}
+
+.dashboard-lost-secondary {
+    background-color: #3a0000;
+    color: #7a1919;
+}
+
+.dashboard-pending-primary {
+    background: #949494;
+    color: white;
+}
+
+.dashboard-pending-secondary {
+    background: #585858;
+    color: white;
+}
+
+/* Used in PlayingHero */
+.dashboard-playinghero-central {
+    position: relative;
+}
+
+.dashboard-playinghero-central::before,
+.dashboard-playinghero-central::after {
+    position: absolute;
+    content: "";
+    width: 1px;
+    top: 20%;
+    height: 60%;
+    background-color: #e9e9e9;
+}
+
+.dashboard-playinghero-central::before {
+    right: 100%;
+}
+
+.dashboard-playinghero-central::after {
+    left: 100%;
+}
+
+/* Used in RebetButton and UnbetButton */
+
+.dashboard-text-rebet {
+    font-weight: bold;
+}
+
+.dashboard-text-unbet {
+    font-weight: bold;
+}
+
+.dashboard-rebet-button {
+    text-decoration: none;
+    line-height: 33px;
+    border: 0;
+    width: 80px;
+    height: 45px;
+    background-color: #430069;
+    color: white;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+}
+
+.dashboard-rebet-button:hover,
+.dashboard-rebet-button:focus {
+    color: #430069;
+    background-color: white;
+    border: 2px solid #430069;
+}
+
+.dashboard-unbet-button {
+    text-decoration: none;
+    line-height: 33px;
+    border: 0;
+    width: 80px;
+    height: 45px;
+    background-color: #430069;
+    color: white;
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.2s ease-in-out;
+}
+
+.dashboard-unbet-button:hover,
+.dashboard-unbet-button:focus {
+    color: #430069;
+    background-color: white;
+    border: 2px solid #430069;
+}

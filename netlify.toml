@@ -1,0 +1,13 @@
+[build]
+  command = "sed -i s/API_KEY/${API_KEY}/g netlify.toml && npm run build"
+
+[[redirects]]
+  from = "/api/*"
+  to = "https://api.football-data.org/v2/:splat"
+  status = 200
+  headers = {X-Auth-Token = "API_KEY"}
+
+[[redirects]]
+  from = "*"
+  to = "/index.html"
+  status = 200

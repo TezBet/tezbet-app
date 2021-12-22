@@ -1,0 +1,33 @@
+.dashboard {
+    position: relative;
+}
+
+.dashboard-title {
+    margin-bottom: 2em;
+    text-shadow: 2px 2px 4px #430069;
+}
+
+.dashboard-title::after {
+    content: "";
+    position: relative;
+    top: 100%;
+    left: 0.5em;
+    width: 20em;
+    height: 4px;
+    border-radius: 1px;
+    background-color: #ffffff;
+    box-shadow: 2px 2px 4px #430069;
+}
+
+.dashboard-title-bold {
+    color: #ffffff;
+    font-weight: bold;
+    font-size: x-large;
+    padding-top: 1em;
+}
+
+.dashboard-placeholder {
+    color: white;
+    font-style: italic;
+    text-shadow: 2px 2px 4px #430069;
+}

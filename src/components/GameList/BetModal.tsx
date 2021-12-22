@@ -2,7 +2,7 @@ import { ContractMethod, Wallet } from '@taquito/taquito';
 import BigNumber from 'bignumber.js';
 import { useCallback, useContext, useMemo, useState } from 'react';
 import { Button, Form, InputGroup, Modal, OverlayTrigger, ToggleButton, ToggleButtonGroup, Tooltip } from 'react-bootstrap';
-import Game from '../../utils/Game';
+import { Game } from '../../utils/Game';
 import { WalletContext } from '../../utils/WalletContextProvider';
 import './BetModal.css';
 import { Multiplier, TooltippedBadge } from './GameItemCommon';
@@ -64,25 +64,30 @@ function BetModal({ show, currentGame, onBetClose }: { show: boolean, currentGam
             });
     }, [onBetClose, Tezos, currentGame, amount, refreshBalance, choice, setError, isValid]);
 
+    const amountBN = useMemo(() => {
+        const bn = new BigNumber(amount);
+        return bn.isPositive() ? bn : new BigNumber(0);
+    }, [amount]);
+
     if (!connected) connect();
 
     return (
         <Modal show={show} onHide={onBetClose}>
             <Modal.Header closeButton>
                 <Modal.Title>
-                    Bet on {currentGame?.description}: {currentGame.teamA} - {currentGame.teamB}
+                    Bet on {currentGame?.description}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
                 <Form>
                     <Form.Group>
-                        <ToggleButtonGroup className="w-100" onChange={onChangeChoice}
+                        <ToggleButtonGroup className="w-100" vertical onChange={onChangeChoice}
                             size="lg" type="radio" name="options" value={choice}>
-                            <ToggleButton disabled={submitLoading} variant="outline-dark"
+                            <ToggleButton disabled={submitLoading} className="betmodal-choice"
                                 id="toggle-1" value={1}>{currentGame.teamA}</ToggleButton>
-                            <ToggleButton disabled={submitLoading} variant="outline-dark"
+                            <ToggleButton disabled={submitLoading} className="betmodal-choice"
                                 id="toggle-2" value={2}>Tie</ToggleButton>
-                            <ToggleButton disabled={submitLoading} variant="outline-dark"
+                            <ToggleButton disabled={submitLoading} className="betmodal-choice"
                                 id="toggle-3" value={3}>{currentGame.teamB}</ToggleButton>
                         </ToggleButtonGroup>
                     </Form.Group>
@@ -90,17 +95,17 @@ function BetModal({ show, currentGame, onBetClose }: { show: boolean, currentGam
                     {choice === 0 ?
                         <TooltippedBadge className="betmodal-odds" badgeText="?" tooltipText="Please make a choice" />
                         :
-                        <Multiplier className="betmodal-odds" total={total.plus(new BigNumber(amount))} betAmount={choiceAmout.plus(new BigNumber(amount))} />
+                        <Multiplier className="betmodal-odds" total={total.plus(amountBN)} betAmount={choiceAmout.plus(amountBN)} />
                     }
 
                     <Form.Group>
                         <InputGroup size="lg">
-                            <InputGroup.Text>Bet amount</InputGroup.Text>
+                            <InputGroup.Text className="betmodal-info">Bet amount</InputGroup.Text>
                             <OverlayTrigger placement="bottom" overlay={<Tooltip>Minimum amount is 0.1 XTZ</Tooltip>}>
                                 <Form.Control type="number" value={amount} onChange={onChangeAmount} />
                             </OverlayTrigger>
-                            <InputGroup.Text>XTZ</InputGroup.Text>
-                            <Button variant="success" onClick={setMax}>MAX</Button>
+                            <InputGroup.Text className="betmodal-info">XTZ</InputGroup.Text>
+                            <Button variant="outline-success" className="betmodal-max-button" onClick={setMax}>MAX</Button>
                         </InputGroup>
                     </Form.Group>
                 </Form>
@@ -109,7 +114,7 @@ function BetModal({ show, currentGame, onBetClose }: { show: boolean, currentGam
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={onBetClose}>Cancel</Button>
-                <Button variant="primary" onClick={sendBet} disabled={!isValid || submitLoading}>
+                <Button className="betmodal-submit" onClick={sendBet} disabled={!isValid || submitLoading}>
                     {submitLoading ? "Loading..." : "Send to Wallet"}
                 </Button>
             </Modal.Footer>
