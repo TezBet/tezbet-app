@@ -31,3 +31,17 @@
     font-style: italic;
     text-shadow: 2px 2px 4px #430069;
 }
+
+.dashboard-container {
+    height: 200px;
+    position: relative;
+}
+
+.center {
+    margin: 0;
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

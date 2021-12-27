@@ -54,7 +54,12 @@ function Dashboard({ gamesLoader }: { gamesLoader: GamesLoaderReturnType }) {
     );
 
     if (!connected) {
-        return <p>Please connect with your wallet</p>;
+        return (
+        <div className="dashboard-container center">
+            <div className="dashboard-title-bold">
+                You need to connect your wallet first!
+            </div>
+        </div>);
     }
 
     const userGames = gamesLoader.games.filter((game) => game.userBet);
